@@ -1,0 +1,31 @@
+[Unit]
+Description=Void Reavers SSH Reader Server
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=voidreader
+Group=voidreader
+WorkingDirectory=/opt/void-reader
+ExecStart=/opt/void-reader/void-reader
+Restart=always
+RestartSec=5
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/void-reader/.void_reader_data
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=void-reader
+
+[Install]
+WantedBy=multi-user.target

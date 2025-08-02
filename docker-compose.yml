@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  void-reader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "23234:23234"
+    volumes:
+      - ./book1_void_reavers:/app/book1_void_reavers:ro
+      - void_reader_data:/app/.void_reader_data
+      - ssh_keys:/app/.ssh
+    restart: unless-stopped
+    environment:
+      - GO_ENV=production
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "23234"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  void_reader_data:
+    driver: local
+  ssh_keys:
+    driver: local
