@@ -1,0 +1,172 @@
+/* Void Reavers Book Styles */
+
+body {
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.8;
+    color: #333;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 0.5em;
+    page-break-before: always;
+}
+
+h1:first-of-type {
+    page-break-before: avoid;
+    text-align: center;
+    font-size: 3em;
+}
+
+h2 {
+    font-size: 2em;
+    color: #34495e;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.5em;
+    color: #7f8c8d;
+    margin-top: 1em;
+}
+
+p {
+    text-align: justify;
+    margin-bottom: 1em;
+    text-indent: 1.5em;
+}
+
+p:first-of-type {
+    text-indent: 0;
+}
+
+hr {
+    border: none;
+    text-align: center;
+    margin: 2em 0;
+}
+
+hr::before {
+    content: "* * *";
+    color: #bdc3c7;
+    font-size: 1.2em;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+.toc {
+    background-color: #ecf0f1;
+    padding: 20px;
+    margin: 2em 0;
+    border-radius: 5px;
+}
+
+.toc h2 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+.toc ol {
+    counter-reset: chapter;
+    list-style: none;
+    padding-left: 0;
+}
+
+.toc li {
+    counter-increment: chapter;
+    margin-bottom: 0.5em;
+}
+
+.toc li::before {
+    content: counter(chapter) ". ";
+    font-weight: bold;
+    margin-right: 0.5em;
+}
+
+.toc a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.toc a:hover {
+    text-decoration: underline;
+}
+
+.print-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.print-button:hover {
+    background-color: #2980b9;
+}
+
+/* Print styles */
+@media print {
+    body {
+        background-color: white;
+        padding: 0;
+    }
+    
+    .container {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .print-button {
+        display: none;
+    }
+    
+    h1 {
+        page-break-before: always;
+        page-break-after: avoid;
+    }
+    
+    h1:first-of-type {
+        page-break-before: avoid;
+    }
+    
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+    
+    .toc {
+        page-break-after: always;
+    }
+}
+
+@page {
+    margin: 1in;
+}
