@@ -1,0 +1,38 @@
+# Binary executables
+void-reader
+*.exe
+
+# SSH keys (generated)
+.ssh/
+
+# User data
+.void_reader_data/
+
+# Go build artifacts
+*.test
+*.out
+vendor/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Docker volumes (if using named volumes locally)
+docker-volumes/
+
+# Coverage reports
+coverage.txt
+coverage.html
+*.coverprofile
