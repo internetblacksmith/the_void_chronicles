@@ -2,6 +2,25 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## CRITICAL: Commit and Documentation Policy
+
+**📝 Documentation-First Commit Policy:**
+
+You MAY commit changes autonomously, but ONLY after:
+1. **Documentation is FULLY updated** to reflect all code changes
+2. **README files** match the current implementation exactly
+3. **Deployment guides** reflect current configuration
+4. **File paths in docs** are verified and correct
+5. **CLAUDE.md** is updated if architecture or commands changed
+
+**The workflow MUST be:**
+1. Make code changes
+2. Update ALL relevant documentation
+3. Verify docs match code state
+4. Then commit with a clear message
+
+Documentation drift is unacceptable - docs must ALWAYS match the code state before any commit.
+
 ## Project Overview
 
 This repository contains **two main components**:
@@ -27,15 +46,14 @@ Each book's source is written in Markdown format:
 The Markdown source is the canonical version. All other formats are generated from it.
 
 ### SSH Reader Application Structure
-The Go application consists of:
-- `main.go` (546 lines) - SSH server, TUI interface, user interaction
-- `book.go` (242 lines) - Book loading, parsing, format conversion
-- `progress.go` (152 lines) - User progress tracking, bookmarks, statistics
-- `go.mod/go.sum` - Dependencies (Bubbletea, Lipgloss, Wish, etc.)
-- Build and deployment scripts (`build.sh`, `run.sh`, `deploy.sh`)
-- Docker configuration (`Dockerfile`, `docker-compose.yml`)
-- Systemd service configuration (`systemd/void-reader.service`)
-- Comprehensive documentation in `docs/` directory
+The application is located in the `ssh-reader/` directory and consists of:
+- `main.go` (~950 lines) - Dual HTTP/SSH servers, split-view TUI, 10-book series menu
+- `book.go` (~250 lines) - Book loading from Markdown source
+- `progress.go` (~150 lines) - User progress tracking and bookmarks
+- `go.mod/go.sum` - Dependencies (Bubbletea, Lipgloss, Wish, Gorilla WebSocket)
+- Railway deployment configs (`railway.toml`, `nixpacks.toml`, `Procfile`)
+- Docker configuration (`docker-compose.yml`)
+- Build and deployment scripts in root directory
 
 ## Essential Commands
 
@@ -46,11 +64,15 @@ The Go application consists of:
 # Build the SSH reader application
 ./build.sh
 
-# Start the SSH server (localhost:23234)
+# Start both HTTP (8080) and SSH (23234) servers
 ./run.sh
+
+# View the 90s homepage
+open http://localhost:8080
 
 # Connect to read the book
 ssh localhost -p 23234
+# Password: Amigos4Life!
 ```
 
 #### Production Deployment
@@ -64,14 +86,28 @@ sudo systemctl status void-reader
 sudo journalctl -u void-reader -f
 ```
 
+#### Railway Deployment
+```bash
+# Deploy to Railway
+railway up
+
+# Set environment variables in Railway dashboard:
+# HTTP_PORT=8080
+# SSH_PORT=2222
+# SSH_PASSWORD=Amigos4Life!
+
+# Configure TCP Proxy in Railway dashboard to port 2222
+# Connect via: ssh trolley.proxy.rlwy.net -p 10120
+```
+
 #### Container Deployment
 ```bash
 # Docker Compose (recommended)
-docker-compose up -d
+cd ssh-reader && docker-compose up -d
 
 # Or direct Docker
-docker build -t void-reader .
-docker run -d -p 23234:23234 void-reader
+docker build -t void-reader ssh-reader/
+docker run -d -p 8080:8080 -p 23234:23234 void-reader
 ```
 
 #### Development
@@ -105,28 +141,30 @@ DEBUG=1 go run .
 ## SSH Reader Application Details
 
 ### Architecture
-- **SSH Server**: Uses Charm's Wish library for SSH handling
-- **TUI Interface**: Built with Bubbletea for responsive terminal UI
-- **Styling**: Lipgloss for colors, borders, and layout
-- **Book Loading**: Supports both Markdown and LaTeX sources
+- **Dual Servers**: HTTP on port 8080 (90s homepage), SSH on port 2222/23234
+- **SSH Server**: Uses Charm's Wish library with password authentication
+- **TUI Interface**: Split-view design showing all 10 books with summaries
+- **Book Loading**: Loads from `book1_void_reavers_source/chapters/` Markdown files
 - **Progress System**: JSON-based user progress persistence
-- **Multi-User**: Individual progress tracking per SSH user
+- **Railway Support**: TCP proxy compatible with environment-based port configuration
 
 ### Key Features
+- Split-view menu showing all 10 Void Chronicles books
+- Spoiler-free book summaries to intrigue readers
+- 90s-style homepage disguise for public deployments
 - Beautiful terminal interface with emojis and colors
 - Chapter navigation with keyboard shortcuts (h/l, ←/→)
 - Progress tracking with auto-save on chapter change
 - Bookmark system (press 'b' while reading)
-- Multi-user support with separate progress files
-- Responsive design adapting to terminal size
-- Production-ready with systemd service integration
+- Railway deployment with TCP proxy support
 
 ### User Interface States
-1. **Main Menu** - Continue reading, chapter list, progress, about, exit
+1. **Main Menu** - Split-view with book library on left, details on right
 2. **Chapter List** - Browse all chapters with completion indicators
 3. **Reading View** - Main reading interface with scrolling
 4. **Progress View** - Statistics, completion percentage, bookmarks
-5. **About View** - Book and application information
+5. **About View** - Book and series information
+6. **HTTP Homepage** - 90s-style "Bob's Personal Homepage" disguise
 
 ### File Locations
 - **User Progress**: `.void_reader_data/username.json`
@@ -160,11 +198,12 @@ The Ruby conversion scripts handle:
 ## Working with the Project
 
 ### SSH Reader Development
-1. Make changes to Go source files (`main.go`, `book.go`, `progress.go`)
-2. Test with `go run .` for development
-3. Build with `./build.sh` for testing
-4. Deploy with `./deploy.sh` for production
-5. Check logs with `sudo journalctl -u void-reader -f`
+1. Make changes to Go source files in `ssh-reader/` directory
+2. Test with `./run.sh` for local development (HTTP on 8080, SSH on 23234)
+3. Build with `./build.sh` for binary generation
+4. Deploy to Railway with `railway up`
+5. Configure Railway TCP proxy for SSH access
+6. Check logs with `railway logs` or local console output
 
 ### Book Content Editing
 1. Edit the Markdown source files in `book1_void_reavers_source/chapters/`
@@ -189,7 +228,8 @@ The book follows a 50-year timeline chronicling humanity's evolution from chaoti
 - **Bubbletea** - Terminal user interface framework
 - **Lipgloss** - Styling and layout for TUI
 - **Wish** - SSH server middleware
-- **LaTeX** - Book source format
-- **Ruby** - Conversion scripts
-- **Docker** - Containerization
-- **Systemd** - Linux service management
+- **Keygen** - Go-native SSH key generation
+- **Markdown** - Book source format (migrated from LaTeX)
+- **Ruby** - Conversion scripts for PDF/EPUB
+- **Railway** - Cloud deployment platform with TCP proxy
+- **Docker** - Containerization support
