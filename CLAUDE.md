@@ -14,17 +14,17 @@ This repository contains **two main components**:
 
 ### Book Content Structure
 The series is organized with each book in its own directory:
-- `book1_void_reavers/` - Contains the first complete book
+- `book1_void_reavers_source/` - Contains the complete Markdown source
 - `void_chronicles_series_bible.md` - Master document with series overview and future book plans
 - Book conversion scripts in root directory for processing any book
 
-Each book exists in multiple formats through a conversion pipeline:
+Each book's source is written in Markdown format:
 
-1. **Source**: LaTeX files (`book.tex` + `chapter01.tex` through `chapter20.tex`)
-2. **Intermediate**: Markdown files (in `markdown/` directory within each book folder)
-3. **Output**: HTML files (in `html/` directory within each book folder) for web viewing and PDF generation
+1. **Source**: Markdown files in `book1_void_reavers_source/chapters/`
+2. **Output**: PDF (via Pandoc) and EPUB for publishing
+3. **Reading**: SSH reader loads Markdown directly
 
-The LaTeX source is the canonical version. All other formats are generated from it.
+The Markdown source is the canonical version. All other formats are generated from it.
 
 ### SSH Reader Application Structure
 The Go application consists of:
@@ -88,38 +88,19 @@ DEBUG=1 go run .
 
 ### Book Content Management Commands
 
-#### Generate Markdown from LaTeX
+
+#### Generate PDF for Amazon KDP
 ```bash
-ruby convert_to_md.rb
-# Script will detect book directories and prompt for which book to convert
-# Choose 'all' to convert all books, or specify a book name/number
+./markdown_to_kdp_pdf.rb book1_void_reavers_source void_reavers.pdf
+# Creates print-ready PDF with proper formatting
 ```
 
-#### Generate HTML for PDF Creation
+#### Generate EPUB for E-readers
 ```bash
-ruby markdown_to_html.rb
-# Will work with the current directory structure
+./markdown_to_epub.rb book1_void_reavers_source void_reavers.epub
+# Creates EPUB file for Kindle and other e-readers
 ```
 
-#### Generate PDF (requires pandoc)
-```bash
-ruby convert_to_pdf.rb
-# For books with pandoc available
-```
-
-#### Generate EPUB for Kindle
-```bash
-ruby convert_to_epub.rb
-# Or use the shell script:
-./convert_to_epub.sh
-
-# Creates an EPUB file ready for Kindle
-# Located at: book1_void_reavers/void_reavers.epub
-```
-
-#### View a Book
-Navigate to the book directory and open `html/void_reavers_complete.html` in a web browser.
-Use the browser's print function to create PDF.
 
 ## SSH Reader Application Details
 
@@ -150,31 +131,31 @@ Use the browser's print function to create PDF.
 ### File Locations
 - **User Progress**: `.void_reader_data/username.json`
 - **SSH Host Keys**: `.ssh/id_ed25519`
-- **Book Content**: `book1_void_reavers/` (markdown preferred, LaTeX fallback)
+- **Book Content**: `book1_void_reavers_source/` (Markdown source)
 - **Logs**: systemd journal or console output
 
 ## Book Content Structure
 
 ### Book Files
-- **Main book file**: `book.tex` - Contains document structure and chapter includes
-- **Chapters**: `chapter01.tex` through `chapter20.tex` - Individual chapter content
-- **Conversion scripts**: Ruby-based converters that handle LaTeX → Markdown → HTML transformation
+- **Main book file**: `book.md` - Contains book metadata and structure
+- **Chapters**: `chapters/chapter-01.md` through `chapters/chapter-20.md` - Individual chapter content
+- **Metadata**: `metadata.yaml` - Book information for publishing
+- **Conversion scripts**: Ruby scripts for PDF and EPUB generation
 
-### LaTeX Formatting Conventions
-- Chapter titles use `\chapter{Title}`
-- Italics use `\textit{text}`
-- Bold uses `\textbf{text}`
-- Ship names are italicized: `\textit{Ship Name}`
-- Em-dashes use `---`
-- Quotes use `` ` ` text ' ' `` for double quotes and `` ` text ' `` for single quotes
+### Markdown Formatting Conventions
+- Chapter titles use `# Chapter Title`
+- Italics use `*text*`
+- Bold uses `**text**`
+- Ship names are italicized: `*Ship Name*`
+- Scene breaks use `* * *`
+- Quotes use standard double quotes
 
 ### Conversion Pipeline Details
 The Ruby conversion scripts handle:
-- LaTeX markup → Markdown syntax transformation
-- Character encoding and special character handling
-- Automatic chapter detection from `book.tex` or filesystem
-- Generation of complete book files and individual chapters
-- HTML output with print-optimized CSS
+- Markdown → PDF via Pandoc with custom LaTeX templates
+- Markdown → EPUB with proper metadata
+- Multiple trim sizes for print publishing
+- Professional typography and formatting
 
 ## Working with the Project
 
@@ -186,10 +167,10 @@ The Ruby conversion scripts handle:
 5. Check logs with `sudo journalctl -u void-reader -f`
 
 ### Book Content Editing
-1. Edit the LaTeX source files directly
-2. Run conversion scripts to update other formats
-3. Review HTML output for formatting issues
-4. The markdown versions are generated - don't edit them directly
+1. Edit the Markdown source files in `book1_void_reavers_source/chapters/`
+2. Follow the style guide in `MARKDOWN_STYLE_GUIDE.md`
+3. Generate PDF/EPUB to review formatting
+4. Use any text editor - no special tools required
 
 ### Documentation
 Complete documentation is available in the `docs/` directory:
