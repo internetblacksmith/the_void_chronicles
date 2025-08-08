@@ -1,0 +1,1 @@
+web: cd ssh-reader && ./void-reader

@@ -8,7 +8,7 @@ services:
     ports:
       - "23234:23234"
     volumes:
-      - ./book1_void_reavers:/app/book1_void_reavers:ro
+      - ./book1_void_reavers_source:/app/book1_void_reavers_source:ro
       - void_reader_data:/app/.void_reader_data
       - ssh_keys:/app/.ssh
     restart: unless-stopped

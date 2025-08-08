@@ -1,0 +1,19 @@
+# Railway deployment configuration
+
+[build]
+builder = "NIXPACKS"
+buildCommand = "cd ssh-reader && go mod download && go build -o void-reader ."
+
+[deploy]
+startCommand = "cd ssh-reader && ./void-reader"
+# No HTTP healthcheck for SSH service
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+# Environment variables (can be overridden in Railway dashboard)
+[variables]
+SSH_HOST = "0.0.0.0"
+SSH_PORT = "2222"  # SSH server port
+HTTP_PORT = "8080"  # HTTP server port (if PORT not set by Railway)
+# PORT is provided by Railway automatically
+# SSH_PASSWORD can be set in Railway dashboard for security
