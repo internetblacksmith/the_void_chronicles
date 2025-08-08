@@ -30,7 +30,7 @@ type ProgressManager struct {
 }
 
 func NewProgressManager() *ProgressManager {
-	dataDir := ".void_reader_data"
+	dataDir := "../.void_reader_data"
 	os.MkdirAll(dataDir, 0755)
 	return &ProgressManager{dataDir: dataDir}
 }

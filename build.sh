@@ -5,18 +5,21 @@ set -e
 echo "🚀 Building Void Reavers SSH Reader..."
 echo "=================================="
 
+# Change to ssh-reader directory
+cd ssh-reader
+
 # Create .ssh directory if it doesn't exist
-mkdir -p .ssh
+mkdir -p ../.ssh
 
 # Generate SSH host key if it doesn't exist
-if [ ! -f .ssh/id_ed25519 ]; then
+if [ ! -f ../.ssh/id_ed25519 ]; then
     echo "🔑 Generating SSH host key..."
-    ssh-keygen -t ed25519 -f .ssh/id_ed25519 -N "" -C "void-reader-host-key"
+    ssh-keygen -t ed25519 -f ../.ssh/id_ed25519 -N "" -C "void-reader-host-key"
     echo "✅ SSH host key generated"
 fi
 
 # Create data directory
-mkdir -p .void_reader_data
+mkdir -p ../.void_reader_data
 echo "📁 Created data directory for user progress"
 
 # Download dependencies
@@ -39,13 +42,13 @@ chmod +x void-reader
 echo ""
 echo "✅ Build complete!"
 echo ""
-echo "📚 Book content location: $(pwd)/book1_void_reavers/"
-echo "🔑 SSH host key: $(pwd)/.ssh/id_ed25519"
-echo "💾 User data: $(pwd)/.void_reader_data/"
+echo "📚 Book content location: $(dirname $(pwd))/book1_void_reavers/"
+echo "🔑 SSH host key: $(dirname $(pwd))/.ssh/id_ed25519"
+echo "💾 User data: $(dirname $(pwd))/.void_reader_data/"
 echo "🚀 Binary: $(pwd)/void-reader"
 echo ""
 echo "To start the server, run:"
-echo "  ./void-reader"
+echo "  ./run.sh"
 echo ""
 echo "To connect, run:"
 echo "  ssh localhost -p 23234"

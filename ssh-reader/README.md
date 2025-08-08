@@ -1,0 +1,53 @@
+# SSH Reader for Void Reavers
+
+A beautiful terminal-based book reader accessible via SSH, built with Go and the Charm libraries.
+
+## Components
+
+- `main.go` - SSH server and main application entry point
+- `book.go` - Book loading and parsing logic
+- `progress.go` - User progress tracking and bookmarks
+- `void-reader` - Compiled binary (after building)
+
+## Building
+
+From the project root directory:
+```bash
+./build.sh
+```
+
+## Running
+
+From the project root directory:
+```bash
+./run.sh
+```
+
+Then connect with password authentication:
+```bash
+ssh localhost -p 23234
+# Password: Amigos4Life!
+```
+
+Or set a custom password via environment variable:
+```bash
+SSH_PASSWORD="YourCustomPassword" ./run.sh
+```
+
+## Docker Support
+
+The application includes Docker configuration for easy deployment:
+- `Dockerfile` - Multi-stage build for minimal image
+- `docker-compose.yml` - Complete service configuration
+
+## Systemd Deployment
+
+For production deployment as a system service:
+- `systemd/void-reader.service` - Service definition
+
+## Note
+
+This SSH reader must be run from the parent directory to access:
+- Book content in `../book1_void_reavers_source/`
+- SSH keys in `../.ssh/`
+- User data in `../.void_reader_data/`

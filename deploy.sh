@@ -4,7 +4,7 @@ set -e
 
 INSTALL_DIR="/opt/void-reader"
 SERVICE_USER="voidreader"
-SERVICE_FILE="systemd/void-reader.service"
+SERVICE_FILE="ssh-reader/systemd/void-reader.service"
 
 echo "🚀 Deploying Void Reavers SSH Reader..."
 echo "======================================"
@@ -33,7 +33,7 @@ mkdir -p $INSTALL_DIR/.void_reader_data
 
 # Copy application files
 echo "📋 Copying application files..."
-cp void-reader $INSTALL_DIR/
+cp ssh-reader/void-reader $INSTALL_DIR/
 cp -r book1_void_reavers $INSTALL_DIR/
 
 # Copy or generate SSH key

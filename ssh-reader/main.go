@@ -23,10 +23,23 @@ const (
 	port = "23234"
 )
 
+// passwordHandler validates the password for SSH connections
+func passwordHandler(ctx ssh.Context, password string) bool {
+	// Get password from environment variable, or use default
+	requiredPassword := os.Getenv("SSH_PASSWORD")
+	if requiredPassword == "" {
+		requiredPassword = "Amigos4Life!"
+	}
+	
+	// Check if the password matches
+	return password == requiredPassword
+}
+
 func main() {
 	s, err := wish.NewServer(
 		wish.WithAddress(net.JoinHostPort(host, port)),
-		wish.WithHostKeyPath(".ssh/id_ed25519"),
+		wish.WithHostKeyPath("../.ssh/id_ed25519"),
+		wish.WithPasswordAuth(passwordHandler),
 		wish.WithMiddleware(
 			bubbletea.Middleware(teaHandler),
 			logging.Middleware(),
@@ -39,6 +52,7 @@ func main() {
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	log.Printf("Starting SSH server on %s", net.JoinHostPort(host, port))
+	log.Printf("Password authentication enabled")
 	go func() {
 		if err = s.ListenAndServe(); err != nil && err != ssh.ErrServerClosed {
 			log.Fatalln(err)
@@ -61,7 +75,13 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		return nil, nil
 	}
 	
-	m := initialModel(pty.Window.Width, pty.Window.Height)
+	// Get username from SSH session
+	username := s.User()
+	if username == "" {
+		username = "reader"
+	}
+	
+	m := initialModelWithUser(pty.Window.Width, pty.Window.Height, username)
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
 }
 
@@ -92,7 +112,7 @@ type model struct {
 }
 
 func initialModelWithUser(width, height int, username string) model {
-	book, err := LoadBook("book1_void_reavers")
+	book, err := LoadBook("../book1_void_reavers")
 	if err != nil {
 		log.Printf("Error loading book: %v", err)
 		book = &Book{
