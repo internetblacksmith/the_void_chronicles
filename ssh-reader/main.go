@@ -7,6 +7,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -139,7 +140,19 @@ func initialModelWithUser(width, height int, username string) model {
 		book:            book,
 		width:           width,
 		height:          height,
-		menuItems:       []string{"📖 Continue Reading", "📚 Chapter List", "📊 Progress", "ℹ️  About", "🚪 Exit"},
+		menuItems:       []string{
+			"📖 Continue Reading", 
+			"📚 Chapter List", 
+			"📊 Progress", 
+			"ℹ️  About", 
+			"",  // Separator
+			"📚 Book 2: Shadow Dancers (Coming Soon)",
+			"📚 Book 3: The Quantum Academy (Coming Soon)",
+			"📚 Book 4: Empire of Stars (Coming Soon)",
+			"📚 Book 5: The Hegemony War (Coming Soon)",
+			"",  // Separator
+			"🚪 Exit",
+		},
 		progress:        progress,
 		progressManager: pm,
 		username:        username,
@@ -187,34 +200,48 @@ func (m model) updateMenu(msg tea.KeyMsg) (model, tea.Cmd) {
 		m.quitting = true
 		return m, tea.Quit
 	case "up", "k":
-		if m.menuCursor > 0 {
+		// Move cursor up, skipping separators and disabled items
+		for m.menuCursor > 0 {
 			m.menuCursor--
+			item := m.menuItems[m.menuCursor]
+			if item != "" && !strings.Contains(item, "Coming Soon") {
+				break
+			}
 		}
 	case "down", "j":
-		if m.menuCursor < len(m.menuItems)-1 {
+		// Move cursor down, skipping separators and disabled items
+		for m.menuCursor < len(m.menuItems)-1 {
 			m.menuCursor++
+			item := m.menuItems[m.menuCursor]
+			if item != "" && !strings.Contains(item, "Coming Soon") {
+				break
+			}
 		}
 	case "enter", " ":
-		switch m.menuCursor {
-		case 0: // Continue Reading
-			m.state = readingView
-			// Use saved progress
-			m.currentChapter = m.progress.CurrentChapter
-			m.scrollOffset = m.progress.ScrollOffset
-		case 1: // Chapter List
-			m.state = chapterListView
-			m.chapterCursor = 0
-		case 2: // Progress
-			m.state = progressView
-		case 3: // About
-			m.state = aboutView
-		case 4: // Exit
-			// Save progress before quitting
-			m.progress.CurrentChapter = m.currentChapter
-			m.progress.ScrollOffset = m.scrollOffset
-			m.progressManager.SaveProgress(m.progress)
-			m.quitting = true
-			return m, tea.Quit
+		item := m.menuItems[m.menuCursor]
+		// Only process if not a separator or disabled item
+		if item != "" && !strings.Contains(item, "Coming Soon") {
+			switch item {
+			case "📖 Continue Reading":
+				m.state = readingView
+				// Use saved progress
+				m.currentChapter = m.progress.CurrentChapter
+				m.scrollOffset = m.progress.ScrollOffset
+			case "📚 Chapter List":
+				m.state = chapterListView
+				m.chapterCursor = 0
+			case "📊 Progress":
+				m.state = progressView
+			case "ℹ️  About":
+				m.state = aboutView
+			case "🚪 Exit":
+				// Save progress before quitting
+				m.progress.CurrentChapter = m.currentChapter
+				m.progress.ScrollOffset = m.scrollOffset
+				m.progressManager.SaveProgress(m.progress)
+				m.quitting = true
+				return m, tea.Quit
+			}
 		}
 	}
 	return m, nil
@@ -383,10 +410,25 @@ func (m model) viewMenu() string {
 		Align(lipgloss.Center).
 		Width(m.width).
 		Render("A Tale of Space Pirates and Cosmic Plunder")
+	
+	// Welcome message
+	welcomeStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("86")).
+		Align(lipgloss.Center).
+		Width(m.width).
+		Margin(1, 0)
+	welcome := welcomeStyle.Render("Welcome to the SSH Reader for AI-Generated Fiction\nBook 1 of The Void Chronicles Series")
 
 	var menuItems []string
 	for i, item := range m.menuItems {
-		if i == m.menuCursor {
+		if item == "" {
+			// Empty line separator
+			menuItems = append(menuItems, "")
+		} else if strings.Contains(item, "Coming Soon") {
+			// Disabled/grayed out items
+			disabledStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("240"))
+			menuItems = append(menuItems, disabledStyle.Render("  "+item))
+		} else if i == m.menuCursor {
 			menuItems = append(menuItems, selectedStyle.Render("▶ "+item))
 		} else {
 			menuItems = append(menuItems, normalStyle.Render("  "+item))
@@ -397,6 +439,7 @@ func (m model) viewMenu() string {
 		lipgloss.Center,
 		title,
 		subtitle,
+		welcome,
 		"",
 		lipgloss.JoinVertical(lipgloss.Left, menuItems...),
 	)
