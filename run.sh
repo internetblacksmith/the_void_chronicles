@@ -6,7 +6,7 @@ echo "🚀 Starting Void Reavers SSH Reader..."
 echo "====================================="
 
 # Check if binary exists
-if [ ! -f "./void-reader" ]; then
+if [ ! -f "./ssh-reader/void-reader" ]; then
     echo "❌ Binary not found. Building first..."
     ./build.sh
 fi
@@ -34,5 +34,5 @@ echo ""
 echo "Starting server..."
 echo ""
 
-# Start the server
-./void-reader
+# Start the server from the project root so it can find book files
+cd ssh-reader && ./void-reader
