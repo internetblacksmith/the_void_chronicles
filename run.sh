@@ -12,8 +12,8 @@ if [ ! -f "./ssh-reader/void-reader" ]; then
 fi
 
 # Check if book content exists
-if [ ! -d "./book1_void_reavers" ]; then
-    echo "❌ Book content not found at ./book1_void_reavers/"
+if [ ! -d "./book1_void_reavers_source" ]; then
+    echo "❌ Book content not found at ./book1_void_reavers_source/"
     echo "Please ensure the book directory exists and contains chapter files."
     exit 1
 fi
@@ -25,13 +25,21 @@ if [ ! -f "./.ssh/id_ed25519" ]; then
 fi
 
 echo "📚 Book: Void Reavers"
-echo "🌐 Server: localhost:23234"  
 echo "🔑 SSH Key: .ssh/id_ed25519"
 echo "💾 Data Dir: .void_reader_data/"
 echo ""
-echo "🎯 To connect: ssh localhost -p 23234"
+
+# Set ports for local development
+export PORT=8080  # HTTP port for local dev (can't use 80 without sudo)
+export SSH_PORT=23234
+
+echo "🌐 HTTP Server: http://localhost:8080"
+echo "🚀 SSH Server: localhost:23234"
 echo ""
-echo "Starting server..."
+echo "🎯 To connect: ssh localhost -p 23234"
+echo "🔑 Password: Amigos4Life!"
+echo ""
+echo "Starting servers..."
 echo ""
 
 # Start the server from the project root so it can find book files

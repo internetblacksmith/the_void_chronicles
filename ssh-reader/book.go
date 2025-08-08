@@ -36,17 +36,22 @@ func LoadBook(bookDir string) (*Book, error) {
 }
 
 func loadFromMarkdown(bookDir string) (*Book, error) {
-	markdownDir := filepath.Join(bookDir, "markdown")
-	
-	// Try to find chapter files
+	// Try both "markdown" and "chapters" subdirectories
+	markdownDir := filepath.Join(bookDir, "chapters")
 	files, err := ioutil.ReadDir(markdownDir)
 	if err != nil {
-		return nil, fmt.Errorf("could not read markdown directory: %v", err)
+		// Try the old "markdown" directory as fallback
+		markdownDir = filepath.Join(bookDir, "markdown")
+		files, err = ioutil.ReadDir(markdownDir)
+		if err != nil {
+			return nil, fmt.Errorf("could not read markdown/chapters directory: %v", err)
+		}
 	}
 
 	var chapterFiles []string
 	for _, file := range files {
-		if strings.HasPrefix(file.Name(), "chapter") && strings.HasSuffix(file.Name(), ".md") {
+		// Support both "chapter" and "chapter-" prefixes
+		if (strings.HasPrefix(file.Name(), "chapter") || strings.HasPrefix(file.Name(), "chapter-")) && strings.HasSuffix(file.Name(), ".md") {
 			chapterFiles = append(chapterFiles, file.Name())
 		}
 	}
