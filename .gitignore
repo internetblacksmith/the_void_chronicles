@@ -35,4 +35,4 @@ docker-volumes/
 # Coverage reports
 coverage.txt
 coverage.html
-*.coverprofile
+*.coverprofile*.pdf
