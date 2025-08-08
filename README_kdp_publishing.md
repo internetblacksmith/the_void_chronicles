@@ -241,6 +241,9 @@ Using the specifications in `cover_specs.txt`:
 
 **"LaTeX not found"**
 ```bash
+# Arch Linux
+sudo pacman -S texlive-most texlive-fontsextra
+
 # Ubuntu/Debian
 sudo apt install texlive-full
 
