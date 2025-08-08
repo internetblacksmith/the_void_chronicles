@@ -1,0 +1,73 @@
+# Book Metadata
+title: "Void Reavers"
+author: "By Captain J. Starwind"
+language: en-GB
+rights: © 2024 By Captain J. Starwind
+
+# Publishing metadata
+isbn: "YOUR-ISBN-HERE"
+publisher: "Self Published"
+publication_date: "2024"
+
+# Book configuration
+chapters:
+  - number: 1
+    title: "The Void Between Stars"
+    file: "chapters/chapter-01.md"
+  - number: 2
+    title: "The Crimson Nebula"
+    file: "chapters/chapter-02.md"
+  - number: 3
+    title: "First Blood"
+    file: "chapters/chapter-03.md"
+  - number: 4
+    title: "The Space Trucker's Lament"
+    file: "chapters/chapter-04.md"
+  - number: 5
+    title: "Pirates of the Solar Winds"
+    file: "chapters/chapter-05.md"
+  - number: 6
+    title: "The Heist at Titan Station"
+    file: "chapters/chapter-06.md"
+  - number: 7
+    title: "Mutiny Among Thieves"
+    file: "chapters/chapter-07.md"
+  - number: 8
+    title: "The Quantum Drive Gambit"
+    file: "chapters/chapter-08.md"
+  - number: 9
+    title: "Shadows of the Asteroid Belt"
+    file: "chapters/chapter-09.md"
+  - number: 10
+    title: "The Corporate Armada"
+    file: "chapters/chapter-10.md"
+  - number: 11
+    title: "Blood and Vacuum"
+    file: "chapters/chapter-11.md"
+  - number: 12
+    title: "The Last Stand at Neptune's Edge"
+    file: "chapters/chapter-12.md"
+  - number: 13
+    title: "The Ambassador's Gambit"
+    file: "chapters/chapter-13.md"
+  - number: 14
+    title: "Echoes of the Past"
+    file: "chapters/chapter-14.md"
+  - number: 15
+    title: "The Quantum Academy"
+    file: "chapters/chapter-15.md"
+  - number: 16
+    title: "Pirates' Honor"
+    file: "chapters/chapter-16.md"
+  - number: 17
+    title: "The Colonial Uprising"
+    file: "chapters/chapter-17.md"
+  - number: 18
+    title: "Shadows Return"
+    file: "chapters/chapter-18.md"
+  - number: 19
+    title: "The Price of Freedom"
+    file: "chapters/chapter-19.md"
+  - number: 20
+    title: "New Horizons"
+    file: "chapters/chapter-20.md"
