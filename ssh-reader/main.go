@@ -63,17 +63,13 @@ func init() {
 		log.Printf("No Railway PORT found, using 8080 for local development")
 	}
 	
-	// SSH must use a different port than HTTP for Railway's dual proxy setup
+	// SSH always uses port 2222
+	// Railway's TCP proxy handles the external routing to a different URL
+	sshPort = "2222"
 	if railwayTcpPort != "" {
-		sshPort = railwayTcpPort
-		log.Printf("Using Railway TCP application port for SSH: %s", sshPort)
-	} else if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
-		// On Railway, use port 2223 for SSH if no TCP port is configured
-		sshPort = "2223"
-		log.Printf("Railway environment: using port 2223 for SSH")
+		log.Printf("Railway TCP proxy configured for port %s, but SSH stays on 2222", railwayTcpPort)
 	} else {
-		sshPort = "2222"
-		log.Printf("Local development: using port 2222 for SSH")
+		log.Printf("SSH server using standard port: 2222")
 	}
 	
 	log.Printf("Port resolution: PORT=%s, HTTP_PORT=%s, SSH_PORT=%s, RAILWAY_TCP=%s -> Using HTTP=%s, SSH=%s",
@@ -124,15 +120,16 @@ func main() {
 		}
 	}
 	
-	// Ensure ports are different to avoid conflicts
+	// Handle port conflicts - Railway will provide different external URLs
 	if httpPort == sshPort {
-		log.Printf("ERROR: HTTP and SSH ports conflict (%s), adjusting SSH port", httpPort)
+		log.Printf("Port conflict detected: both HTTP and SSH want port %s", httpPort)
 		if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
-			sshPort = "2223"  // Use 2223 on Railway
+			log.Printf("On Railway: HTTP gets domain access, SSH gets TCP proxy URL - no conflict")
 		} else {
-			sshPort = "2224"  // Use 2224 locally
+			// Local development conflict - adjust SSH port
+			sshPort = "2223"
+			log.Printf("Local development: moving SSH to port 2223 to avoid conflict")
 		}
-		log.Printf("SSH port adjusted to: %s", sshPort)
 	}
 	
 	// Start both HTTP and SSH servers
