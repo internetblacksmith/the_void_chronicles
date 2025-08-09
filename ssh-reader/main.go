@@ -50,30 +50,34 @@ func init() {
 	sshPortEnv := os.Getenv("SSH_PORT")
 	railwayTcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT")
 	
-	// CRITICAL: Railway automatically provides PORT for HTTP services
-	// We MUST use whatever PORT Railway provides
-	if portEnv != "" {
+	// HTTP port configuration
+	// Railway typically provides PORT for HTTP, but it might be misconfigured
+	if portEnv != "" && portEnv != "2222" {
+		// Use Railway's PORT if it's not 2222 (which should be for SSH)
 		httpPort = portEnv
 		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
+	} else if portEnv == "2222" {
+		// Railway is incorrectly giving us 2222 for HTTP, use 80 instead
+		httpPort = "80"
+		log.Printf("Railway PORT is 2222 (SSH port), using port 80 for HTTP instead")
 	} else {
-		// For local development only
-		httpPort = "8080"
-		log.Printf("No PORT env var found, using default 8080 (local dev mode)")
+		// No PORT from Railway, use 80 for production, 8080 for local
+		if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
+			httpPort = "80"
+			log.Printf("Railway environment detected, using port 80 for HTTP")
+		} else {
+			httpPort = "8080"
+			log.Printf("Local development mode, using port 8080 for HTTP")
+		}
 	}
 	
-	// SSH port: prefer RAILWAY_TCP_APPLICATION_PORT if set
-	if railwayTcpPort != "" {
+	// SSH port: always use 2222
+	sshPort = "2222"
+	if railwayTcpPort != "" && railwayTcpPort != "2222" {
 		sshPort = railwayTcpPort
-	} else if sshPortEnv != "" {
-		sshPort = sshPortEnv
+		log.Printf("Using Railway TCP port for SSH: %s", sshPort)
 	} else {
-		sshPort = "2222"
-	}
-	
-	// Ensure ports are different
-	if httpPort == sshPort {
-		log.Printf("WARNING: HTTP and SSH ports are the same (%s), adjusting SSH to 2222", httpPort)
-		sshPort = "2222"
+		log.Printf("Using standard SSH port: 2222")
 	}
 	
 	log.Printf("Port resolution: PORT=%s, HTTP_PORT=%s, SSH_PORT=%s, RAILWAY_TCP=%s -> Using HTTP=%s, SSH=%s",
@@ -111,9 +115,15 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 }
 
 func main() {
-	// Ensure ports are different
+	// Log final port configuration
+	log.Printf("Starting servers - HTTP on port %s, SSH on port %s", httpPort, sshPort)
+	
+	// Safety check - ports must be different
 	if httpPort == sshPort {
-		log.Fatalf("ERROR: HTTP and SSH cannot use the same port! HTTP=%s, SSH=%s", httpPort, sshPort)
+		log.Printf("ERROR: Port conflict detected! HTTP=%s, SSH=%s", httpPort, sshPort)
+		log.Printf("Forcing HTTP to port 80 and SSH to port 2222")
+		httpPort = "80"
+		sshPort = "2222"
 	}
 	
 	// Ensure SSH key exists
