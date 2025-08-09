@@ -120,16 +120,12 @@ func main() {
 		}
 	}
 	
-	// Handle port conflicts - Railway will provide different external URLs
+	// Handle port conflicts - we MUST use different internal ports
 	if httpPort == sshPort {
-		log.Printf("Port conflict detected: both HTTP and SSH want port %s", httpPort)
-		if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
-			log.Printf("On Railway: HTTP gets domain access, SSH gets TCP proxy URL - no conflict")
-		} else {
-			// Local development conflict - adjust SSH port
-			sshPort = "2223"
-			log.Printf("Local development: moving SSH to port 2223 to avoid conflict")
-		}
+		log.Printf("Port conflict detected: both servers cannot bind to port %s", httpPort)
+		// Always fix the conflict by moving SSH to 2223
+		sshPort = "2223"
+		log.Printf("Moving SSH to port 2223 to resolve conflict")
 	}
 	
 	// Start both HTTP and SSH servers
