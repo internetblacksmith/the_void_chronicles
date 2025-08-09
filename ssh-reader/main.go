@@ -50,24 +50,30 @@ func init() {
 	sshPortEnv := os.Getenv("SSH_PORT")
 	railwayTcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT")
 	
-	// Railway provides PORT automatically - we MUST use it for HTTP
-	// This is the critical fix based on Railway documentation
+	// Railway dual port configuration:
+	// - PORT: for HTTP domain (web traffic)
+	// - RAILWAY_TCP_APPLICATION_PORT: for TCP proxy (SSH traffic)
+	// These MUST be different ports for Railway to work correctly
+	
 	if portEnv != "" {
 		httpPort = portEnv
 		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
 	} else {
-		// Local development fallback
 		httpPort = "8080"
 		log.Printf("No Railway PORT found, using 8080 for local development")
 	}
 	
-	// SSH port: use TCP application port or fallback to 2222
+	// SSH must use a different port than HTTP for Railway's dual proxy setup
 	if railwayTcpPort != "" {
 		sshPort = railwayTcpPort
 		log.Printf("Using Railway TCP application port for SSH: %s", sshPort)
+	} else if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
+		// On Railway, use port 2223 for SSH if no TCP port is configured
+		sshPort = "2223"
+		log.Printf("Railway environment: using port 2223 for SSH")
 	} else {
 		sshPort = "2222"
-		log.Printf("Using default SSH port: 2222")
+		log.Printf("Local development: using port 2222 for SSH")
 	}
 	
 	log.Printf("Port resolution: PORT=%s, HTTP_PORT=%s, SSH_PORT=%s, RAILWAY_TCP=%s -> Using HTTP=%s, SSH=%s",
@@ -118,15 +124,18 @@ func main() {
 		}
 	}
 	
-	// For Railway deployment, only run HTTP server
-	// SSH will be disabled until we can get TCP proxy working
-	if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
-		log.Printf("Railway environment detected - running HTTP server only")
-		startHTTPServer() // Don't use goroutine - this blocks
-		return
+	// Ensure ports are different to avoid conflicts
+	if httpPort == sshPort {
+		log.Printf("ERROR: HTTP and SSH ports conflict (%s), adjusting SSH port", httpPort)
+		if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
+			sshPort = "2223"  // Use 2223 on Railway
+		} else {
+			sshPort = "2224"  // Use 2224 locally
+		}
+		log.Printf("SSH port adjusted to: %s", sshPort)
 	}
 	
-	// Local development: run both HTTP and SSH servers
+	// Start both HTTP and SSH servers
 	go startHTTPServer()
 	
 	s, err := wish.NewServer(
