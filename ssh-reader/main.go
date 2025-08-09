@@ -50,34 +50,24 @@ func init() {
 	sshPortEnv := os.Getenv("SSH_PORT")
 	railwayTcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT")
 	
-	// HTTP port configuration
-	// Railway typically provides PORT for HTTP, but it might be misconfigured
-	if portEnv != "" && portEnv != "2222" {
-		// Use Railway's PORT if it's not 2222 (which should be for SSH)
+	// Railway provides PORT automatically - we MUST use it for HTTP
+	// This is the critical fix based on Railway documentation
+	if portEnv != "" {
 		httpPort = portEnv
 		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
-	} else if portEnv == "2222" {
-		// Railway is incorrectly giving us 2222 for HTTP, use 80 instead
-		httpPort = "80"
-		log.Printf("Railway PORT is 2222 (SSH port), using port 80 for HTTP instead")
 	} else {
-		// No PORT from Railway, use 80 for production, 8080 for local
-		if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
-			httpPort = "80"
-			log.Printf("Railway environment detected, using port 80 for HTTP")
-		} else {
-			httpPort = "8080"
-			log.Printf("Local development mode, using port 8080 for HTTP")
-		}
+		// Local development fallback
+		httpPort = "8080"
+		log.Printf("No Railway PORT found, using 8080 for local development")
 	}
 	
-	// SSH port: always use 2222
-	sshPort = "2222"
-	if railwayTcpPort != "" && railwayTcpPort != "2222" {
+	// SSH port: use TCP application port or fallback to 2222
+	if railwayTcpPort != "" {
 		sshPort = railwayTcpPort
-		log.Printf("Using Railway TCP port for SSH: %s", sshPort)
+		log.Printf("Using Railway TCP application port for SSH: %s", sshPort)
 	} else {
-		log.Printf("Using standard SSH port: 2222")
+		sshPort = "2222"
+		log.Printf("Using default SSH port: 2222")
 	}
 	
 	log.Printf("Port resolution: PORT=%s, HTTP_PORT=%s, SSH_PORT=%s, RAILWAY_TCP=%s -> Using HTTP=%s, SSH=%s",
@@ -116,15 +106,7 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 
 func main() {
 	// Log final port configuration
-	log.Printf("Starting servers - HTTP on port %s, SSH on port %s", httpPort, sshPort)
-	
-	// Safety check - ports must be different
-	if httpPort == sshPort {
-		log.Printf("ERROR: Port conflict detected! HTTP=%s, SSH=%s", httpPort, sshPort)
-		log.Printf("Forcing HTTP to port 80 and SSH to port 2222")
-		httpPort = "80"
-		sshPort = "2222"
-	}
+	log.Printf("Starting servers - HTTP on 0.0.0.0:%s, SSH on %s:%s", httpPort, host, sshPort)
 	
 	// Ensure SSH key exists
 	sshKeyPath := "../.ssh/id_ed25519"
@@ -274,8 +256,8 @@ func startHTTPServer() {
 		fmt.Fprint(w, "OK")
 	})
 	
-	log.Printf("Starting HTTP server on port %s", httpPort)
-	if err := http.ListenAndServe(":"+httpPort, nil); err != nil {
+	log.Printf("Starting HTTP server on 0.0.0.0:%s", httpPort)
+	if err := http.ListenAndServe("0.0.0.0:"+httpPort, nil); err != nil {
 		log.Printf("HTTP server error: %v", err)
 	}
 }
