@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Void Chronicles - SSH Book Reader</title>
+    <meta name="description" content="Experience science fiction through your terminal. An innovative SSH-based book reader for The Void Chronicles series.">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">📚 The Void Chronicles</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#install">Install</a>
+                <a href="https://github.com/yourusername/void-chronicles">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-button red"></span>
+                    <span class="terminal-button yellow"></span>
+                    <span class="terminal-button green"></span>
+                    <span class="terminal-title">ssh demo.voidchronicles.space</span>
+                </div>
+                <div class="terminal-content">
+                    <pre><code>$ ssh demo.voidchronicles.space -p 2222
+Password: <span class="blink">_</span>
+
+<span class="green">╔══════════════════════════════════════════════════════════════╗
+║          📚 THE VOID CHRONICLES - BOOK SELECTION 📚          ║
+╚══════════════════════════════════════════════════════════════╝</span>
+
+<span class="cyan">📖 Book 1: Void Reavers</span>
+   A Tale of Space Pirates and Cosmic Plunder
+   <span class="yellow">★ AVAILABLE NOW ★</span>
+
+<span class="dim">📖 Book 2: Shadow Dancers (Coming 2025)
+📖 Book 3: The Quantum Academy (Coming 2025)</span>
+
+Use ↑/↓ to navigate, Enter to select, q to quit</code></pre>
+                </div>
+            </div>
+            <h1>Experience Books Through SSH</h1>
+            <p class="subtitle">An innovative terminal-based reader for The Void Chronicles science fiction series</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="btn btn-primary">Try Demo</a>
+                <a href="https://github.com/yourusername/void-chronicles" class="btn btn-secondary">View on GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <span class="feature-icon">🖥️</span>
+                    <h3>Beautiful TUI</h3>
+                    <p>Split-view interface with all 10 planned books, chapter navigation, and reading progress tracking.</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🔐</span>
+                    <h3>Multi-User Support</h3>
+                    <p>Individual progress tracking for each SSH user with automatic bookmarking.</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🕹️</span>
+                    <h3>90s Web Disguise</h3>
+                    <p>Serves a convincing retro homepage for discrete public deployment.</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🚀</span>
+                    <h3>Easy Deployment</h3>
+                    <p>One-click deploy to Railway, Docker support, and systemd integration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2>Try It Now</h2>
+            <div class="demo-box">
+                <h3>Public Demo Server</h3>
+                <div class="code-block">
+                    <code>ssh demo.voidchronicles.space -p 2222</code>
+                    <button class="copy-btn" onclick="copyToClipboard('ssh demo.voidchronicles.space -p 2222')">Copy</button>
+                </div>
+                <p>Password: <code>ReadTheVoid</code></p>
+            </div>
+            <div class="demo-box">
+                <h3>Run Locally</h3>
+                <div class="code-block">
+                    <code>git clone https://github.com/yourusername/void-chronicles.git
+cd void-chronicles && ./run.sh</code>
+                    <button class="copy-btn" onclick="copyToClipboard('git clone https://github.com/yourusername/void-chronicles.git\ncd void-chronicles && ./run.sh')">Copy</button>
+                </div>
+                <p>Then connect: <code>ssh localhost -p 23234</code></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="install" class="install">
+        <div class="container">
+            <h2>Installation</h2>
+            <div class="install-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="showTab('source')">From Source</button>
+                    <button class="tab-btn" onclick="showTab('docker')">Docker</button>
+                    <button class="tab-btn" onclick="showTab('railway')">Railway</button>
+                </div>
+                <div class="tab-content">
+                    <div id="source" class="tab-pane active">
+                        <pre><code># Clone repository
+git clone https://github.com/yourusername/void-chronicles.git
+cd void-chronicles
+
+# Build and run
+./build.sh
+./run.sh
+
+# Connect via SSH
+ssh localhost -p 23234
+# Password: Amigos4Life!</code></pre>
+                    </div>
+                    <div id="docker" class="tab-pane">
+                        <pre><code># Using Docker Compose
+cd ssh-reader
+docker-compose up -d
+
+# Or with Docker directly
+docker build -t void-reader .
+docker run -d -p 8080:8080 -p 23234:23234 void-reader</code></pre>
+                    </div>
+                    <div id="railway" class="tab-pane">
+                        <pre><code># Deploy with Railway CLI
+railway up
+
+# Set environment variables in dashboard:
+HTTP_PORT=8080
+SSH_PORT=2222
+SSH_PASSWORD=YourSecurePassword
+
+# Configure TCP Proxy to port 2222
+# Connect via: ssh your-app.proxy.rlwy.net -p PROXY_PORT</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="book-preview">
+        <div class="container">
+            <h2>📖 Book 1: Void Reavers</h2>
+            <p class="book-subtitle">A Tale of Space Pirates and Cosmic Plunder</p>
+            <blockquote>
+                "The void between solar systems wasn't just empty space—it was a lawless frontier where only the strongest survived. Captain Zara 'Bloodhawk' Vega knew this better than most..."
+            </blockquote>
+            <p>Follow Captain Bloodhawk and her crew through 20 chapters of space opera adventure as humanity faces its greatest test: proving worthy of citizenship in a galactic community watched over by ancient alien Architects.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <a href="https://github.com/yourusername/void-chronicles">GitHub</a>
+                    <a href="https://github.com/yourusername/void-chronicles/issues">Issues</a>
+                    <a href="CONTRIBUTING.html">Contributing</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <a href="deployment-guide.html">Deployment</a>
+                    <a href="api-reference.html">API Reference</a>
+                    <a href="development.html">Development</a>
+                </div>
+                <div class="footer-section">
+                    <h4>License</h4>
+                    <p>AGPL-3.0 for code</p>
+                    <p>CC-BY-SA 4.0 for content</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ and ☕ by terminal enthusiasts</p>
+                <p>Experience books the way hackers do - through SSH!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
