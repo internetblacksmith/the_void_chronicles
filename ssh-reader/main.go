@@ -118,7 +118,15 @@ func main() {
 		}
 	}
 	
-	// Start HTTP server on Railway's PORT or HTTP_PORT
+	// For Railway deployment, only run HTTP server
+	// SSH will be disabled until we can get TCP proxy working
+	if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
+		log.Printf("Railway environment detected - running HTTP server only")
+		startHTTPServer() // Don't use goroutine - this blocks
+		return
+	}
+	
+	// Local development: run both HTTP and SSH servers
 	go startHTTPServer()
 	
 	s, err := wish.NewServer(
