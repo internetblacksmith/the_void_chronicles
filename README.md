@@ -1,6 +1,31 @@
-# Void Reavers - Space Pirate Novel Project
+# 📚 The Void Chronicles: Space Pirates SSH Reader
 
-A complete 20-chapter science fiction novel with multiple reading formats and an SSH-based terminal reader.
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Go Version](https://img.shields.io/badge/Go-1.21%2B-00ADD8?logo=go)](https://go.dev/)
+[![Railway Deploy](https://img.shields.io/badge/Deploy-Railway-0B0D0E?logo=railway)](https://railway.app/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://www.docker.com/)
+
+An innovative SSH-based book reader that lets you experience "The Void Chronicles" science fiction series through your terminal. Features a beautiful TUI interface, progress tracking, and a clever 90s-style web disguise.
+
+**🚀 Try it now:** `ssh demo.voidchronicles.space -p 2222` (Password: `ReadTheVoid`)
+
+## 🌟 Features
+
+### 📖 Interactive SSH Book Reader
+- **Beautiful TUI**: Split-view interface showing all 10 planned books in the series
+- **Progress Tracking**: Automatic bookmarking and reading statistics per user
+- **Keyboard Navigation**: Intuitive controls (h/l for chapters, arrows for scrolling)
+- **Multi-User Support**: Individual progress tracking for each SSH connection
+
+### 🕹️ 90s Web Disguise
+- Serves a convincing "Bob's Personal Homepage" from 1998
+- Perfect for discrete deployment on public servers
+- Complete with marquee tags, "Under Construction" notices, and broken links
+
+### 🚀 Modern Deployment
+- **Railway Ready**: One-click deployment with TCP proxy support
+- **Docker Support**: Full containerization with docker-compose
+- **Systemd Integration**: Production-ready Linux service configuration
 
 ## Project Structure
 
@@ -26,72 +51,170 @@ A complete 20-chapter science fiction novel with multiple reading formats and an
 
 ```
 
-## Quick Start
+## 🎯 Quick Start
 
-### 1. Read the Book via SSH
+### Local Development
+
 ```bash
-./run.sh                    # Start SSH server
-ssh localhost -p 23234      # Connect (password: Amigos4Life!)
+# Clone the repository
+git clone https://github.com/yourusername/void-chronicles.git
+cd void-chronicles
+
+# Build and run
+./build.sh
+./run.sh
+
+# In another terminal, connect via SSH
+ssh localhost -p 23234
+# Password: Amigos4Life!
+
+# View the 90s homepage disguise
+open http://localhost:8080
 ```
 
-### 2. Edit the Book
+### 🚢 Deploy to Railway
+
 ```bash
-# Edit in your favorite editor
-vim book1_void_reavers_source/chapters/chapter-01.md
+# Install Railway CLI
+curl -fsSL https://railway.app/install.sh | sh
+
+# Deploy
+railway up
+
+# Configure TCP Proxy in Railway dashboard for port 2222
+# Connect via: ssh your-app.proxy.rlwy.net -p PROXY_PORT
 ```
 
-### 3. Generate Publishing Formats
-```bash
-# PDF for print/Amazon KDP
-./markdown_to_kdp_pdf.rb book1_void_reavers_source void_reavers.pdf
+## 📖 The Void Chronicles Series
 
-# EPUB for e-readers
-./markdown_to_epub.rb book1_void_reavers_source void_reavers.epub
+### Book 1: Void Reavers (Available Now!)
+*A Tale of Space Pirates and Cosmic Plunder*
+
+Captain Zara "Bloodhawk" Vega leads her crew through the lawless void between solar systems. When humanity attracts the attention of ancient alien Architects, pirates become unlikely diplomats in a test that will determine if humans deserve a place among the stars.
+
+**20 chapters** of space opera adventure featuring:
+- Epic space battles and heists
+- First contact with alien civilizations
+- Pirates as humanity's unlikely saviors
+- A 50-year saga of transformation
+
+### Upcoming Books (Planned)
+- Book 2: Shadow Dancers - The rise of void-born humans
+- Book 3: The Quantum Academy - Training the next generation
+- Book 4: Empire of Stars - Consolidating human space
+- Book 5-10: The complete saga through 2127
+
+## 🎮 Controls
+
+| Key | Action |
+|-----|--------|
+| `↑/↓` or `j/k` | Navigate menu/scroll text |
+| `←/→` or `h/l` | Previous/Next chapter |
+| `Enter` | Select |
+| `b` | Set bookmark |
+| `q` | Back/Quit |
+| `?` | Show help |
+
+## 📚 Documentation
+
+- [Deployment Guide](DEPLOYMENT_GUIDE.md) - Deploy to 12+ platforms
+- [Railway Setup](RAILWAY_TCP_SETUP.md) - Railway-specific configuration
+- [Style Guide](MARKDOWN_STYLE_GUIDE.md) - Markdown formatting conventions
+- [Series Bible](void_chronicles_series_bible.md) - Complete series planning
+- [Contributing](CONTRIBUTING.md) - How to contribute
+- [API Reference](docs/api-reference.md) - Technical documentation
+
+## 🛠️ Installation
+
+### Prerequisites
+- Go 1.21 or higher
+- Git
+- SSH client
+
+### From Source
+
+```bash
+# Install dependencies
+cd ssh-reader
+go mod download
+
+# Build
+go build -o void-reader .
+
+# Run
+./void-reader
 ```
 
-## Key Features
+### Using Docker
 
-- **Complete Novel**: 20 chapters of space pirate adventure
-- **SSH Terminal Reader**: Beautiful TUI with progress tracking
-- **Multiple Formats**: PDF, EPUB, and terminal-readable
-- **British English**: Properly formatted for UK spelling
-- **Docker Support**: Easy deployment anywhere
-
-## Documentation
-
-- `MARKDOWN_STYLE_GUIDE.md` - Formatting guidelines for editing
-- `README_kdp_publishing.md` - Amazon self-publishing guide
-- `DEPLOYMENT.md` - Complete deployment guide for SSH reader
-- `void_chronicles_series_bible.md` - Series planning and world-building
-- `CLAUDE.md` - AI assistant guidance for this project
-
-## Deployment
-
-### Quick Start (Local)
 ```bash
 cd ssh-reader
-./run.sh
-# Connect: ssh localhost -p 23234
+docker-compose up -d
 ```
 
-### Cloud Deployment Options
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed guides on:
-- **Free hosting** (Fly.io, Railway, Google Cloud Run)
-- **VPS hosting** ($5-10/month on DigitalOcean, Linode, Vultr)
-- **Self-hosting** (Raspberry Pi, home server with Cloudflare)
-- **Container deployment** (Docker, Kubernetes)
+### Deploy to Production
 
-Popular options:
-- **Fly.io** - Best free tier, global deployment
-- **DigitalOcean** - $6/month, reliable and simple
-- **Railway** - Easy deployment with free tier
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed guides on:
+- **Railway** (Recommended) - TCP proxy support for SSH
+- **DigitalOcean** - $6/month VPS with full control
+- **Fly.io** - Global edge deployment
+- **Self-hosting** - Raspberry Pi or home server
 
-## Requirements
+## 🤝 Contributing
 
-- **SSH Reader**: Go 1.21+
-- **PDF Generation**: Pandoc and LaTeX (or use HTML fallback)
-- **EPUB Generation**: Pandoc
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-## License
+### Development Workflow
 
-© 2024 Captain J. Starwind. All rights reserved.
+```bash
+# Fork and clone
+git clone https://github.com/yourusername/void-chronicles.git
+
+# Create feature branch
+git checkout -b feature/amazing-feature
+
+# Make changes and test
+./run.sh
+
+# Commit with conventional commits
+git commit -m "feat: add amazing feature"
+
+# Push and create PR
+git push origin feature/amazing-feature
+```
+
+## 🔒 Security
+
+- SSH connections use password authentication (configurable)
+- No telemetry or data collection
+- User progress stored locally in `.void_reader_data/`
+- Report security issues to: security@voidchronicles.space
+
+## 📄 License
+
+This project is licensed under the **GNU Affero General Public License v3.0** - see [LICENSE](LICENSE) for details.
+
+### Additional Terms
+- The Void Chronicles narrative content is also available under **CC-BY-SA 4.0**
+- Contributions are welcome under the same license terms
+
+## 🙏 Acknowledgments
+
+- Built with [Bubble Tea](https://github.com/charmbracelet/bubbletea) TUI framework
+- SSH server powered by [Wish](https://github.com/charmbracelet/wish)
+- Styling with [Lip Gloss](https://github.com/charmbracelet/lipgloss)
+- Inspired by classic BBS systems and terminal adventures
+
+## 📮 Contact
+
+- **Author**: Paolo Fabbri
+- **Project**: [github.com/yourusername/void-chronicles](https://github.com/yourusername/void-chronicles)
+- **Issues**: [Bug reports and feature requests](https://github.com/yourusername/void-chronicles/issues)
+
+---
+
+<p align="center">
+  Made with ❤️ and lots of ☕ by terminal enthusiasts
+  <br>
+  <i>Experience books the way hackers do - through SSH!</i>
+</p>
