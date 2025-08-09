@@ -50,27 +50,29 @@ func init() {
 	sshPortEnv := os.Getenv("SSH_PORT")
 	railwayTcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT")
 	
-	// HTTP port: use PORT if set, else HTTP_PORT, else 8080
-	// But make sure it's different from the TCP port
+	// CRITICAL: Railway provides PORT for HTTP services
+	// If PORT is set, that MUST be used for HTTP
 	if portEnv != "" {
 		httpPort = portEnv
-	} else if httpPortEnv != "" && httpPortEnv != railwayTcpPort {
+		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
+	} else if httpPortEnv != "" {
 		httpPort = httpPortEnv
 	} else {
 		httpPort = "8080"
 	}
 	
-	// SSH port: prefer RAILWAY_TCP_APPLICATION_PORT if set (Railway's TCP proxy target)
-	// Otherwise use SSH_PORT if set, else 2222
+	// SSH port: prefer RAILWAY_TCP_APPLICATION_PORT if set
 	if railwayTcpPort != "" {
 		sshPort = railwayTcpPort
-		// Make sure HTTP uses a different port
-		if httpPort == sshPort {
-			httpPort = "8080"
-		}
 	} else if sshPortEnv != "" {
 		sshPort = sshPortEnv
 	} else {
+		sshPort = "2222"
+	}
+	
+	// Ensure ports are different
+	if httpPort == sshPort {
+		log.Printf("WARNING: HTTP and SSH ports are the same (%s), adjusting SSH to 2222", httpPort)
 		sshPort = "2222"
 	}
 	

@@ -14,6 +14,6 @@ restartPolicyMaxRetries = 10
 [variables]
 SSH_HOST = "0.0.0.0"
 SSH_PORT = "2222"  # SSH server port
-HTTP_PORT = "8080"  # HTTP server port (if PORT not set by Railway)
-# PORT is provided by Railway automatically
+# PORT should be provided by Railway automatically for HTTP
+# If not, set PORT manually in Railway dashboard
 # SSH_PASSWORD can be set in Railway dashboard for security
