@@ -50,15 +50,15 @@ func init() {
 	sshPortEnv := os.Getenv("SSH_PORT")
 	railwayTcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT")
 	
-	// CRITICAL: Railway provides PORT for HTTP services
-	// If PORT is set, that MUST be used for HTTP
+	// CRITICAL: Railway automatically provides PORT for HTTP services
+	// We MUST use whatever PORT Railway provides
 	if portEnv != "" {
 		httpPort = portEnv
 		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
-	} else if httpPortEnv != "" {
-		httpPort = httpPortEnv
 	} else {
+		// For local development only
 		httpPort = "8080"
+		log.Printf("No PORT env var found, using default 8080 (local dev mode)")
 	}
 	
 	// SSH port: prefer RAILWAY_TCP_APPLICATION_PORT if set
