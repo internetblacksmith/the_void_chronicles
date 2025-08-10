@@ -294,6 +294,14 @@ func startHTTPServer() {
 		fmt.Fprint(w, "OK")
 	})
 	
+	// Storage monitoring endpoints
+	pm := NewProgressManager()
+	http.HandleFunc("/api/storage/stats", pm.StorageStatsHandler)
+	http.HandleFunc("/api/storage/cleanup", pm.CleanupHandler)
+	
+	// Start cleanup scheduler
+	pm.StartCleanupScheduler()
+	
 	log.Printf("Starting HTTP server on 0.0.0.0:%s", httpPort)
 	if err := http.ListenAndServe("0.0.0.0:"+httpPort, nil); err != nil {
 		log.Fatalf("FATAL: HTTP server failed to start: %v", err)
