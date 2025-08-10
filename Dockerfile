@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 RUN apk add --no-cache git openssh-keygen
 
@@ -23,9 +23,8 @@ COPY --from=builder /app/void-reader .
 # Copy the actual book content
 COPY book1_void_reavers_source ./book1_void_reavers_source
 
-# Create necessary directories
-RUN mkdir -p .ssh .void_reader_data && \
-    ssh-keygen -t ed25519 -f .ssh/id_ed25519 -N "" -C "void-chronicles-host"
+# Create necessary directories (but don't generate SSH key - it will be stored in persistent volume)
+RUN mkdir -p .ssh .void_reader_data
 
 # Create non-root user
 RUN addgroup -g 1001 -S voidreader && \

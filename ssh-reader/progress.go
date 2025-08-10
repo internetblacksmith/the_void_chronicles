@@ -44,7 +44,12 @@ type ProgressManager struct {
 }
 
 func NewProgressManager() *ProgressManager {
-	dataDir := "../.void_reader_data"
+	// Use persistent volume in production, local dir in development
+	dataDir := "/data/void_reader_data"
+	if _, err := os.Stat("/data"); os.IsNotExist(err) {
+		// Fallback for local development
+		dataDir = "../.void_reader_data"
+	}
 	os.MkdirAll(dataDir, 0755)
 	return &ProgressManager{dataDir: dataDir}
 }
@@ -97,6 +102,11 @@ func (pm *ProgressManager) SaveProgress(progress *UserProgress) error {
 	}
 
 	progress.LastRead = time.Now()
+
+	// Validate and trim data to prevent storage abuse
+	if err := pm.ValidateAndTrimProgress(progress); err != nil {
+		return err
+	}
 
 	filename := filepath.Join(pm.dataDir, progress.Username+".json")
 	
