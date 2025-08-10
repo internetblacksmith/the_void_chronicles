@@ -1,0 +1,68 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22'
+
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Install dependencies
+      working-directory: ./ssh-reader
+      run: go mod download
+
+    - name: Run tests
+      working-directory: ./ssh-reader
+      run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+    - name: Check test coverage
+      working-directory: ./ssh-reader
+      run: |
+        go tool cover -func=coverage.txt
+        coverage=$(go tool cover -func=coverage.txt | grep total | awk '{print $3}' | sed 's/%//')
+        echo "Total coverage: $coverage%"
+        # Fail if coverage is below 30% (adjust as needed)
+        if (( $(echo "$coverage < 30" | bc -l) )); then
+          echo "Coverage is below 30%"
+          exit 1
+        fi
+
+    - name: Build application
+      working-directory: ./ssh-reader
+      run: go build -v ./...
+
+    - name: Verify Docker build
+      run: docker build -t test-build .
+
+    - name: Run security scan
+      working-directory: ./ssh-reader
+      run: |
+        go install github.com/securego/gosec/v2/cmd/gosec@latest
+        gosec -fmt json -out gosec-report.json ./... || true
+        
+    - name: Upload coverage reports
+      if: github.event_name == 'push'
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./ssh-reader/coverage.txt
+        flags: unittests
+        name: codecov-umbrella
