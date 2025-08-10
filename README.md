@@ -2,7 +2,7 @@
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Go Version](https://img.shields.io/badge/Go-1.21%2B-00ADD8?logo=go)](https://go.dev/)
-[![Railway Deploy](https://img.shields.io/badge/Deploy-Railway-0B0D0E?logo=railway)](https://railway.app/)
+[![Fly.io Deploy](https://img.shields.io/badge/Deploy-Fly.io-783EF9?logo=fly.io)](https://fly.io/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://www.docker.com/)
 
 An innovative SSH-based book reader that lets you experience "The Void Chronicles" science fiction series through your terminal. Features a beautiful TUI interface, progress tracking, and a clever 90s-style web disguise.
@@ -51,14 +51,34 @@ An innovative SSH-based book reader that lets you experience "The Void Chronicle
 
 ```
 
+## ⚙️ Configuration
+
+The application uses environment variables for configuration. Copy `.env.example` to `.env` and customize:
+
+```bash
+# HTTP Server
+HTTP_PORT=8080         # HTTP server port
+
+# SSH Server  
+SSH_PORT=23234        # SSH server port
+SSH_HOST=0.0.0.0      # Bind address
+SSH_PASSWORD=Amigos4Life!  # Authentication password
+```
+
+For Railway deployment, set these in the Railway dashboard instead of using a `.env` file.
+
 ## 🎯 Quick Start
 
 ### Local Development
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/void-chronicles.git
-cd void-chronicles
+git clone https://github.com/yourusername/the-void-chronicles.git
+cd the-void-chronicles
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env to customize ports and password
 
 # Build and run
 ./build.sh
@@ -66,23 +86,31 @@ cd void-chronicles
 
 # In another terminal, connect via SSH
 ssh localhost -p 23234
-# Password: Amigos4Life!
+# Password: Amigos4Life! (or your custom password from .env)
 
 # View the 90s homepage disguise
 open http://localhost:8080
 ```
 
-### 🚢 Deploy to Railway
+### 🚢 Deploy to Fly.io
 
 ```bash
-# Install Railway CLI
-curl -fsSL https://railway.app/install.sh | sh
+# Install Fly CLI
+curl -L https://fly.io/install.sh | sh
 
-# Deploy
-railway up
+# Sign up and authenticate
+fly auth signup
+fly auth login
 
-# Configure TCP Proxy in Railway dashboard for port 2222
-# Connect via: ssh your-app.proxy.rlwy.net -p PROXY_PORT
+# Launch the app (first time only)
+fly launch
+
+# Deploy updates
+fly deploy
+
+# Connect via SSH (standard port 22!)
+ssh void-chronicles.fly.dev
+# Password: Amigos4Life!
 ```
 
 ## 📖 The Void Chronicles Series
