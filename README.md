@@ -51,6 +51,22 @@ An innovative SSH-based book reader that lets you experience "The Void Chronicle
 
 ```
 
+## ⚙️ Configuration
+
+The application uses environment variables for configuration. Copy `.env.example` to `.env` and customize:
+
+```bash
+# HTTP Server
+HTTP_PORT=8080         # HTTP server port
+
+# SSH Server  
+SSH_PORT=23234        # SSH server port
+SSH_HOST=0.0.0.0      # Bind address
+SSH_PASSWORD=Amigos4Life!  # Authentication password
+```
+
+For Railway deployment, set these in the Railway dashboard instead of using a `.env` file.
+
 ## 🎯 Quick Start
 
 ### Local Development
@@ -60,13 +76,17 @@ An innovative SSH-based book reader that lets you experience "The Void Chronicle
 git clone https://github.com/yourusername/void-chronicles.git
 cd void-chronicles
 
+# Set up environment variables
+cp .env.example .env
+# Edit .env to customize ports and password
+
 # Build and run
 ./build.sh
 ./run.sh
 
 # In another terminal, connect via SSH
 ssh localhost -p 23234
-# Password: Amigos4Life!
+# Password: Amigos4Life! (or your custom password from .env)
 
 # View the 90s homepage disguise
 open http://localhost:8080

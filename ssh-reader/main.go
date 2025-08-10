@@ -33,6 +33,7 @@ import (
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -82,6 +83,21 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 }
 
 func main() {
+	// Load .env file if it exists (for local development)
+	// Try multiple locations to find .env file
+	envPaths := []string{
+		".env",           // In ssh-reader directory
+		"../.env",        // In parent directory
+		".env.local",     // Local overrides
+	}
+	
+	for _, path := range envPaths {
+		if err := godotenv.Load(path); err == nil {
+			log.Printf("Loaded environment from %s", path)
+			break
+		}
+	}
+	
 	// Configure ports
 	host = getEnv("SSH_HOST", "0.0.0.0")
 	
