@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+LICENSE
+
+# Local development
+.env
+.env.local
+*.log
+
+# Generated files
+*.pdf
+*.epub
+
+# SSH keys and data (will be generated in container)
+.ssh/
+.void_reader_data/
+
+# Build artifacts
+ssh-reader/void-reader
+
+# Scripts
+*.sh
+*.rb
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,59 @@
+# Fly.io configuration for The Void Chronicles
+app = "the-void-chronicles"
+primary_region = "sjc"  # San Jose, change to your preferred region
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  SSH_HOST = "0.0.0.0"
+  HTTP_PORT = "8080"
+  SSH_PORT = "2222"
+
+# HTTP service on port 80/443
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+  
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [[services.http_checks]]
+    interval = "30s"
+    grace_period = "5s"
+    method = "get"
+    path = "/health"
+    protocol = "http"
+    timeout = "2s"
+
+# SSH service on port 22
+# Note: Internal port must be 2222 because Fly machines already use port 22
+[[services]]
+  internal_port = 2222
+  protocol = "tcp"
+  auto_stop_machines = true
+  auto_start_machines = true
+  
+  [[services.ports]]
+    port = 22  # External SSH port (standard)
+
+# VM configuration
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
+
+# Persistent storage for user data and SSH keys
+[mounts]
+  source = "void_data"
+  destination = "/data"
+  initial_size = "1gb"
