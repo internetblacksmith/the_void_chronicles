@@ -52,6 +52,17 @@ Based on the UserProgress structure:
 - **Maximum users**: ~500,000 users
 - With heavy usage (10KB per user): ~100,000 users
 
+## What Gets Stored in Persistent Volume
+
+1. **User Progress Files** (`/data/void_reader_data/`)
+   - Each user's reading progress, bookmarks, and notes
+   - ~2KB per user file
+
+2. **SSH Host Key** (`/data/ssh/id_ed25519`)
+   - Prevents "host key changed" warnings
+   - Generated once, persists across deployments
+   - ~400 bytes
+
 ## Solutions
 
 ### Option 1: Add Persistent Volume (Recommended)
