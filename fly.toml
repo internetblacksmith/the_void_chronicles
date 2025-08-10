@@ -29,7 +29,7 @@ primary_region = 'lhr'
   auto_start_machines = true
 
   [[services.ports]]
-    port = 10022
+    port = 22
 
 [[vm]]
   memory = '256mb'
