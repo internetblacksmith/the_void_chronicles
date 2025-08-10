@@ -16,7 +16,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -48,7 +48,7 @@ func LoadBook(bookDir string) (*Book, error) {
 func loadFromMarkdown(bookDir string) (*Book, error) {
 	// Read chapters from the chapters subdirectory
 	chaptersDir := filepath.Join(bookDir, "chapters")
-	files, err := ioutil.ReadDir(chaptersDir)
+	files, err := os.ReadDir(chaptersDir)
 	if err != nil {
 		return nil, fmt.Errorf("could not read chapters directory: %v", err)
 	}
@@ -69,7 +69,7 @@ func loadFromMarkdown(bookDir string) (*Book, error) {
 
 	var chapters []Chapter
 	for _, filename := range chapterFiles {
-		content, err := ioutil.ReadFile(filepath.Join(chaptersDir, filename))
+		content, err := os.ReadFile(filepath.Join(chaptersDir, filename))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read %s: %v", filename, err)
 		}

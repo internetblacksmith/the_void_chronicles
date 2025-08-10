@@ -177,15 +177,12 @@ func (pm *ProgressManager) StartCleanupScheduler() {
 		ticker := time.NewTicker(24 * time.Hour)
 		defer ticker.Stop()
 		
-		for {
-			select {
-			case <-ticker.C:
-				cleaned, err := pm.CleanupOldFiles()
-				if err != nil {
-					log.Printf("Cleanup error: %v", err)
-				} else {
-					log.Printf("Daily cleanup: removed %d old files", cleaned)
-				}
+		for range ticker.C {
+			cleaned, err := pm.CleanupOldFiles()
+			if err != nil {
+				log.Printf("Cleanup error: %v", err)
+			} else {
+				log.Printf("Daily cleanup: removed %d old files", cleaned)
 			}
 		}
 	}()
