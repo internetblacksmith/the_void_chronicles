@@ -1,8 +1,8 @@
 # Alternative Deployment Options
 
-## Fly.io Deployment (Recommended)
+## Fly.io Deployment (Recommended - Currently Used)
 
-Fly.io handles multiple ports naturally and has a generous free tier.
+Fly.io handles multiple ports naturally and has a generous free tier. **This is the current deployment method.**
 
 ### Setup
 
@@ -17,15 +17,13 @@ fly auth signup
 fly auth login
 ```
 
-3. Launch the app:
-```bash
-fly launch  # Uses fly.toml config
-fly deploy
-```
+3. Deploy via GitHub Actions (recommended):
+- Add `FLY_API_TOKEN` to GitHub secrets
+- Push to main branch
 
 4. Access your app:
-- HTTP: `https://void-reader.fly.dev`
-- SSH: `ssh void-reader.fly.dev` (port 22)
+- HTTP: `https://the-void-chronicles.fly.dev` or custom domain
+- SSH: `ssh the-void-chronicles.fly.dev` (port 22)
 
 ### Advantages
 - No port conflicts

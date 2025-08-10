@@ -25,7 +25,7 @@ An innovative SSH-based book reader that lets you experience "The Void Chronicle
 - Complete with marquee tags, "Under Construction" notices, and broken links
 
 ### 🚀 Modern Deployment
-- **Railway Ready**: One-click deployment with TCP proxy support
+- **Fly.io Deployed**: Automatic deployment via GitHub Actions
 - **Docker Support**: Full containerization with docker-compose
 - **Systemd Integration**: Production-ready Linux service configuration
 
@@ -67,7 +67,7 @@ SSH_HOST=0.0.0.0      # Bind address
 SSH_PASSWORD=Amigos4Life!  # Authentication password
 ```
 
-For Railway deployment, set these in the Railway dashboard instead of using a `.env` file.
+For Fly.io deployment, use `fly secrets set` instead of a `.env` file.
 
 ## 🎯 Quick Start
 
@@ -148,7 +148,7 @@ Captain Zara "Bloodhawk" Vega leads her crew through the lawless void between so
 ## 📚 Documentation
 
 - [Deployment Guide](DEPLOYMENT_GUIDE.md) - Deploy to 12+ platforms
-- [Railway Setup](RAILWAY_TCP_SETUP.md) - Railway-specific configuration
+- [Fly.io Deployment](docs/fly-deployment.md) - Production deployment guide
 - [Style Guide](MARKDOWN_STYLE_GUIDE.md) - Markdown formatting conventions
 - [Series Bible](void_chronicles_series_bible.md) - Complete series planning
 - [Contributing](CONTRIBUTING.md) - How to contribute
@@ -185,7 +185,7 @@ docker-compose up -d
 ### Deploy to Production
 
 See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed guides on:
-- **Railway** (Recommended) - TCP proxy support for SSH
+- **Fly.io** (Currently deployed) - Native SSH and HTTP support
 - **DigitalOcean** - $6/month VPS with full control
 - **Fly.io** - Global edge deployment
 - **Self-hosting** - Raspberry Pi or home server
