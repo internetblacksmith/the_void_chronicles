@@ -29,15 +29,24 @@ echo "🔑 SSH Key: .ssh/id_ed25519"
 echo "💾 Data Dir: .void_reader_data/"
 echo ""
 
-# Set ports for local development
-export PORT=8080  # HTTP port for local dev (can't use 80 without sudo)
-export SSH_PORT=23234
+# Load environment variables from .env if it exists
+if [ -f ".env" ]; then
+    echo "📋 Loading configuration from .env"
+    export $(grep -v '^#' .env | xargs)
+else
+    echo "⚠️  No .env file found, using defaults"
+    echo "   (Copy .env.example to .env to customize)"
+fi
 
-echo "🌐 HTTP Server: http://localhost:8080"
-echo "🚀 SSH Server: localhost:23234"
+# Display connection info (read from env or defaults)
+HTTP_PORT=${HTTP_PORT:-8080}
+SSH_PORT=${SSH_PORT:-2222}
+
+echo "🌐 HTTP Server: http://localhost:${HTTP_PORT}"
+echo "🚀 SSH Server: localhost:${SSH_PORT}"
 echo ""
-echo "🎯 To connect: ssh localhost -p 23234"
-echo "🔑 Password: Amigos4Life!"
+echo "🎯 To connect: ssh localhost -p ${SSH_PORT}"
+echo "🔑 Password: ${SSH_PASSWORD:-Amigos4Life!}"
 echo ""
 echo "Starting servers..."
 echo ""

@@ -27,6 +27,9 @@ WORKDIR /app
 # Copy binary from builder
 COPY --from=builder /app/void-reader .
 
+# Copy book content (will be added via build context)
+COPY book1_void_reavers_source ./book1_void_reavers_source
+
 # Create necessary directories
 RUN mkdir -p .ssh .void_reader_data
 
@@ -43,12 +46,12 @@ RUN chown -R voidreader:voidreader /app
 # Switch to non-root user
 USER voidreader
 
-# Expose SSH port
-EXPOSE 23234
+# Expose ports
+EXPOSE 8080 2222
 
-# Health check
+# Health check for HTTP
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD nc -z localhost 23234 || exit 1
+  CMD nc -z localhost 8080 || exit 1
 
 # Start the application
 CMD ["./void-reader"]
