@@ -97,7 +97,7 @@ func TestHTTPServer(t *testing.T) {
 	})
 }
 
-func TestPasswordHandler(t *testing.T) {
+func TestValidatePassword(t *testing.T) {
 	tests := []struct {
 		name         string
 		envPassword  string
@@ -137,9 +137,9 @@ func TestPasswordHandler(t *testing.T) {
 				defer os.Unsetenv("SSH_PASSWORD")
 			}
 
-			result := passwordHandler(nil, tt.inputPassword)
+			result := validatePassword(tt.inputPassword)
 			if result != tt.expected {
-				t.Errorf("passwordHandler() = %v, want %v", result, tt.expected)
+				t.Errorf("validatePassword() = %v, want %v", result, tt.expected)
 			}
 		})
 	}
