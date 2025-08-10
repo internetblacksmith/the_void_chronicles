@@ -1,58 +1,43 @@
-# fly.toml app configuration file generated for the-void-chronicles-withered-morning-1565 on 2025-08-10T11:56:25+01:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = 'the-void-chronicles-withered-morning-1565'
-primary_region = 'lhr'
+# fly.toml for The Void Chronicles SSH Reader
+# App name will be set during deployment
 
 [build]
-  dockerfile = 'Dockerfile'
+  dockerfile = "Dockerfile"
 
 [env]
-  HTTP_PORT = '8080'
-  SSH_HOST = '0.0.0.0'
-  SSH_PORT = '2222'
+  HTTP_PORT = "8080"
+  SSH_HOST = "0.0.0.0"
+  SSH_PORT = "2222"
 
 [[mounts]]
-  source = 'void_data'
-  destination = '/data'
-  initial_size = '1gb'
+  source = "void_data"
+  destination = "/data"
+  initial_size = "1gb"
 
-[[services]]
-  protocol = 'tcp'
+[http_service]
   internal_port = 8080
-  auto_stop_machines = 'stop'
+  force_https = true
+  auto_stop_machines = "stop"
   auto_start_machines = true
   min_machines_running = 0
 
-  [[services.ports]]
-    port = 80
-    handlers = ['http']
-    force_https = true
-
-  [[services.ports]]
-    port = 443
-    handlers = ['tls', 'http']
-
-  [[services.http_checks]]
-    interval = '30s'
-    timeout = '2s'
-    grace_period = '5s'
-    method = 'get'
-    path = '/health'
-    protocol = 'http'
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "2s"
+    grace_period = "5s"
+    method = "get"
+    path = "/health"
 
 [[services]]
-  protocol = 'tcp'
+  protocol = "tcp"
   internal_port = 2222
-  auto_stop_machines = 'stop'
+  auto_stop_machines = "stop"
   auto_start_machines = true
 
   [[services.ports]]
     port = 22
 
 [[vm]]
-  memory = '256mb'
-  cpu_kind = 'shared'
+  memory = "256mb"
+  cpu_kind = "shared"
   cpus = 1
