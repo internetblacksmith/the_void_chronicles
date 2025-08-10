@@ -7,7 +7,9 @@
 
 An innovative SSH-based book reader that lets you experience "The Void Chronicles" science fiction series through your terminal. Features a beautiful TUI interface, progress tracking, and a clever 90s-style web disguise.
 
-**🚀 Try it now:** `ssh demo.voidchronicles.space -p 2222` (Password: `ReadTheVoid`)
+**🚀 Try it now:** 
+- SSH: `ssh vc.internetblacksmith.dev` (Password: `Amigos4Life!`)
+- Web: https://vc.internetblacksmith.dev
 
 ## 🌟 Features
 
