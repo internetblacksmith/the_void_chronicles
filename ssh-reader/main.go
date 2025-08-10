@@ -16,7 +16,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -350,12 +352,17 @@ const (
 )
 
 type BookInfo struct {
-	Number    int
-	Title     string
-	Subtitle  string
-	Status    string
-	Summary   string
-	Available bool
+	Number    int    `json:"number"`
+	Title     string `json:"title"`
+	Subtitle  string `json:"subtitle"`
+	Status    string `json:"status"`
+	Summary   string `json:"summary"`
+	Available bool   `json:"available"`
+}
+
+type SeriesInfo struct {
+	Series string     `json:"series"`
+	Books  []BookInfo `json:"books"`
 }
 
 type model struct {
@@ -377,114 +384,56 @@ type model struct {
 }
 
 func getSeriesBooks() []BookInfo {
-	return []BookInfo{
-		{
+	// Try to load series info from JSON file
+	data, err := ioutil.ReadFile("series.json")
+	if err != nil {
+		// If file doesn't exist, try alternate paths
+		data, err = ioutil.ReadFile("ssh-reader/series.json")
+		if err != nil {
+			data, err = ioutil.ReadFile("../series.json")
+			if err != nil {
+				log.Printf("Warning: Could not load series.json: %v", err)
+				// Return a minimal fallback
+				return []BookInfo{{
+					Number:    1,
+					Title:     "Void Reavers",
+					Subtitle:  "A Tale of Space Pirates and Cosmic Plunder",
+					Status:    "✓ Available",
+					Available: true,
+					Summary:   "Captain Zara leads her pirate crew through the lawless void.",
+				}}
+			}
+		}
+	}
+	
+	var series SeriesInfo
+	if err := json.Unmarshal(data, &series); err != nil {
+		log.Printf("Error parsing series.json: %v", err)
+		return []BookInfo{{
 			Number:    1,
 			Title:     "Void Reavers",
 			Subtitle:  "A Tale of Space Pirates and Cosmic Plunder",
 			Status:    "✓ Available",
 			Available: true,
-			Summary: `Captain Zara "Bloodhawk" Vega leads her pirate crew through the lawless void between solar systems. When humanity attracts the attention of ancient alien Architects, pirates become unlikely diplomats in a test that will determine if humans deserve a place among the stars. A thrilling space adventure where rogues and outlaws must save civilization itself.`,
-		},
-		{
-			Number:    2,
-			Title:     "Shadow Dancers",
-			Subtitle:  "Echoes from Beyond",
-			Status:    "Coming 2025",
-			Available: false,
-			Summary: `Dr. Elena Vasquez transcends physical reality to explore interdimensional realms. In spaces between spaces, she discovers ruins of civilizations that predate even the Architects and uncovers evidence of the universe's greatest threat: the reality-eating Devourers.`,
-		},
-		{
-			Number:    3,
-			Title:     "The Quantum Academy",
-			Subtitle:  "Children of Two Realities",
-			Status:    "Coming 2025",
-			Available: false,
-			Summary: `A new generation born with quantum abilities threatens the divide between enhanced and "pure" humans. Chen Wei must build academies to train these gifted children while preventing a civil war that could destroy humanity's cosmic probation.`,
-		},
-		{
-			Number:    4,
-			Title:     "Empire of Stars",
-			Subtitle:  "The Corporate Renaissance",
-			Status:    "Coming 2025",
-			Available: false,
-			Summary: `Mega-corporations form the Stellar Consortium for legitimate expansion, but some executives secretly fund neo-pirates to eliminate competition. Diana Marsh must prevent a new corporate war from destroying humanity's hard-won stability.`,
-		},
-		{
-			Number:    5,
-			Title:     "The Hegemony War",
-			Subtitle:  "When Architects Sleep",
-			Status:    "Coming 2026",
-			Available: false,
-			Summary: `The galaxy faces the Devourers—beings that can unmake existence itself. Admiral Lisa Park must choose: keep humanity safe in their small sector, or join a desperate alliance against entities from the universe's first epoch.`,
-		},
-		{
-			Number:    6,
-			Title:     "Ghosts of Morrison",
-			Subtitle:  "The True Heirs' Revenge",
-			Status:    "Coming 2026",
-			Available: false,
-			Summary: `Rex Morrison's descendants return from the galactic rim with a shadow empire and alien allies. Their twisted vision of humanity's expansion threatens everything the species has built under the Architects' guidance.`,
-		},
-		{
-			Number:    7,
-			Title:     "The Eternal Gambit",
-			Subtitle:  "First Contact Protocol",
-			Status:    "Coming 2026",
-			Available: false,
-			Summary: `Humanity joins an interdimensional council that shapes reality's fundamental rules. Elder Zara Vega leads quantum diplomats in proving humanity won't repeat their expansion mistakes on a universal scale.`,
-		},
-		{
-			Number:    8,
-			Title:     "Pirates of the Quantum Sea",
-			Subtitle:  "The New Frontier",
-			Status:    "Coming 2027",
-			Available: false,
-			Summary: `Descendants of the original pirates become Quantum Salvagers, rescuing civilizations from collapsed timelines. They discover the Devourers aren't destroyers—they're trying to return the universe to its original state.`,
-		},
-		{
-			Number:    9,
-			Title:     "The Architect's Dilemma",
-			Subtitle:  "Guardians' Choice",
-			Status:    "Coming 2027",
-			Available: false,
-			Summary: `The story from the Architects' perspective reveals their struggle with guiding younger species. Humanity's chaos challenged their orderly philosophy and changed them in ways they never expected.`,
-		},
-		{
-			Number:    10,
-			Title:     "New Horizons",
-			Subtitle:  "Children of the Void",
-			Status:    "Coming 2027",
-			Available: false,
-			Summary: `Centuries later, humanity has become gardeners of reality. When a new chaotic species emerges, humans must decide: guide them as the Architects did, or forge a new path that honors both order and chaos.`,
-		},
+			Summary:   "Captain Zara leads her pirate crew through the lawless void.",
+		}}
 	}
+	
+	return series.Books
 }
 
 func initialModelWithUser(width, height int, username string) model {
-	// Try multiple paths to find the book
-	bookPaths := []string{
-		"../book1_void_reavers_source",  // When running from ssh-reader locally
-		"book1_void_reavers_source",      // When copied to ssh-reader directory
-		"/app/book1_void_reavers_source", // Possible Railway path
-	}
-	
-	var book *Book
-	var err error
-	for _, path := range bookPaths {
-		book, err = LoadBook(path)
-		if err == nil {
-			log.Printf("Successfully loaded book from: %s", path)
-			break
-		}
-		log.Printf("Failed to load book from %s: %v", path, err)
-	}
-	
-	if book == nil {
-		log.Printf("Error: Could not load book from any path")
-		book = &Book{
-			Title: "Error Loading Book",
-			Chapters: []Chapter{{Title: "Error", Content: "Could not load book content from any of the expected paths"}},
+	// Load the book content
+	book, err := LoadBook("book1_void_reavers_source")
+	if err != nil {
+		// Try alternate path when running from ssh-reader directory
+		book, err = LoadBook("../book1_void_reavers_source")
+		if err != nil {
+			log.Printf("Error loading book: %v", err)
+			book = &Book{
+				Title: "Error Loading Book",
+				Chapters: []Chapter{{Title: "Error", Content: fmt.Sprintf("Could not load book: %v", err)}},
+			}
 		}
 	}
 
@@ -526,9 +475,6 @@ func initialModelWithUser(width, height int, username string) model {
 	}
 }
 
-func initialModel(width, height int) model {
-	return initialModelWithUser(width, height, "anonymous")
-}
 
 func (m model) Init() tea.Cmd {
 	return nil

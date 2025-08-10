@@ -1,0 +1,85 @@
+{
+  "series": "The Void Chronicles",
+  "books": [
+    {
+      "number": 1,
+      "title": "Void Reavers",
+      "subtitle": "A Tale of Space Pirates and Cosmic Plunder",
+      "status": "✓ Available",
+      "available": true,
+      "summary": "Captain Zara \"Bloodhawk\" Vega leads her pirate crew through the lawless void between solar systems. When humanity attracts the attention of ancient alien Architects, pirates become unlikely diplomats in a test that will determine if humans deserve a place among the stars. A thrilling space adventure where rogues and outlaws must save civilization itself."
+    },
+    {
+      "number": 2,
+      "title": "Shadow Dancers",
+      "subtitle": "Echoes from Beyond",
+      "status": "Coming 2025",
+      "available": false,
+      "summary": "Dr. Elena Vasquez transcends physical reality to explore interdimensional realms. In spaces between spaces, she discovers ruins of civilizations that predate even the Architects and uncovers evidence of the universe's greatest threat: the reality-eating Devourers."
+    },
+    {
+      "number": 3,
+      "title": "The Quantum Academy",
+      "subtitle": "Children of Two Realities",
+      "status": "Coming 2025",
+      "available": false,
+      "summary": "A new generation born with quantum abilities threatens the divide between enhanced and \"pure\" humans. Chen Wei must build academies to train these gifted children while preventing a civil war that could destroy humanity's cosmic probation."
+    },
+    {
+      "number": 4,
+      "title": "Empire of Stars",
+      "subtitle": "The Corporate Renaissance",
+      "status": "Coming 2025",
+      "available": false,
+      "summary": "Mega-corporations form the Stellar Consortium for legitimate expansion, but some executives secretly fund neo-pirates to eliminate competition. Diana Marsh must prevent a new corporate war from destroying humanity's hard-won stability."
+    },
+    {
+      "number": 5,
+      "title": "The Hegemony War",
+      "subtitle": "When Architects Sleep",
+      "status": "Coming 2026",
+      "available": false,
+      "summary": "The galaxy faces the Devourers—beings that can unmake existence itself. Admiral Lisa Park must choose: keep humanity safe in their small sector, or join a desperate alliance against entities from the universe's first epoch."
+    },
+    {
+      "number": 6,
+      "title": "Ghosts of Morrison",
+      "subtitle": "The True Heirs' Revenge",
+      "status": "Coming 2026",
+      "available": false,
+      "summary": "Rex Morrison's descendants return from the galactic rim with a shadow empire and alien allies. Their twisted vision of humanity's expansion threatens everything the species has built under the Architects' guidance."
+    },
+    {
+      "number": 7,
+      "title": "The Eternal Gambit",
+      "subtitle": "First Contact Protocol",
+      "status": "Coming 2026",
+      "available": false,
+      "summary": "Humanity joins an interdimensional council that shapes reality's fundamental rules. Elder Zara Vega leads quantum diplomats in proving humanity won't repeat their expansion mistakes on a universal scale."
+    },
+    {
+      "number": 8,
+      "title": "Pirates of the Quantum Sea",
+      "subtitle": "The New Frontier",
+      "status": "Coming 2027",
+      "available": false,
+      "summary": "Descendants of the original pirates become Quantum Salvagers, rescuing civilizations from collapsed timelines. They discover the Devourers aren't destroyers—they're trying to return the universe to its original state."
+    },
+    {
+      "number": 9,
+      "title": "The Architect's Dilemma",
+      "subtitle": "Guardians' Choice",
+      "status": "Coming 2027",
+      "available": false,
+      "summary": "The story from the Architects' perspective reveals their struggle with guiding younger species. Humanity's chaos challenged their orderly philosophy and changed them in ways they never expected."
+    },
+    {
+      "number": 10,
+      "title": "New Horizons",
+      "subtitle": "Children of the Void",
+      "status": "Coming 2027",
+      "available": false,
+      "summary": "Centuries later, humanity has become gardeners of reality. When a new chaotic species emerges, humans must decide: guide them as the Architects did, or forge a new path that honors both order and chaos."
+    }
+  ]
+}
