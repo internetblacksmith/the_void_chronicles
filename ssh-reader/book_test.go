@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -54,8 +55,12 @@ And even a scene break.`
 		t.Fatal("LoadBook() returned nil book")
 	}
 	
-	if book.Title != "Test Book" {
-		t.Errorf("Expected title 'Test Book', got '%s'", book.Title)
+	if book.Title != "Void Reavers" {
+		t.Errorf("Expected title 'Void Reavers', got '%s'", book.Title)
+	}
+	
+	if book.Author != "Captain J. Starwind" {
+		t.Errorf("Expected author 'Captain J. Starwind', got '%s'", book.Author)
 	}
 	
 	if len(book.Chapters) != 1 {
@@ -106,52 +111,79 @@ A book with no chapters.`
 	}
 	
 	book, err := LoadBook(tempDir)
-	if err != nil {
-		t.Fatalf("LoadBook() error = %v", err)
+	if err == nil {
+		t.Fatal("LoadBook() should return error for empty chapters directory")
 	}
 	
-	if book == nil {
-		t.Fatal("LoadBook() returned nil book")
+	if book != nil {
+		t.Fatal("LoadBook() should return nil book when no chapters found")
 	}
 	
-	if len(book.Chapters) != 0 {
-		t.Errorf("Expected 0 chapters for empty directory, got %d", len(book.Chapters))
+	expectedErrMsg := "no chapter files found"
+	if !strings.Contains(err.Error(), expectedErrMsg) {
+		t.Errorf("Expected error containing '%s', got '%v'", expectedErrMsg, err)
 	}
 }
 
-func TestProcessMarkdown(t *testing.T) {
+func TestParseMarkdownChapter(t *testing.T) {
 	tests := []struct {
-		name     string
-		input    string
-		expected string
+		name            string
+		input           string
+		expectedTitle   string
+		expectedContent string
 	}{
 		{
-			name:     "preserves italics",
-			input:    "This is *italic* text",
-			expected: "This is *italic* text",
+			name:            "extracts chapter title and content",
+			input:           "# Chapter 1: The Beginning\n\nThis is the first paragraph.\n\nThis is the second paragraph.",
+			expectedTitle:   "Chapter 1: The Beginning",
+			expectedContent: "This is the first paragraph.\n\nThis is the second paragraph.",
 		},
 		{
-			name:     "preserves bold",
-			input:    "This is **bold** text",
-			expected: "This is **bold** text",
+			name:            "handles content with italics",
+			input:           "# The Ship\n\nThe *Void Reaver* sailed through space.",
+			expectedTitle:   "The Ship",
+			expectedContent: "The *Void Reaver* sailed through space.",
 		},
 		{
-			name:     "preserves scene breaks",
-			input:    "Before\n\n* * *\n\nAfter",
-			expected: "Before\n\n* * *\n\nAfter",
+			name:            "handles content with bold",
+			input:           "# Alert\n\n**Warning:** Pirates ahead!",
+			expectedTitle:   "Alert",
+			expectedContent: "**Warning:** Pirates ahead!",
 		},
 		{
-			name:     "handles multiple paragraphs",
-			input:    "First paragraph.\n\nSecond paragraph.\n\nThird paragraph.",
-			expected: "First paragraph.\n\nSecond paragraph.\n\nThird paragraph.",
+			name:            "preserves scene breaks",
+			input:           "# Scene Break Test\n\nBefore the break.\n\n* * *\n\nAfter the break.",
+			expectedTitle:   "Scene Break Test",
+			expectedContent: "Before the break.\n\n* * *\n\nAfter the break.",
+		},
+		{
+			name:            "handles missing title",
+			input:           "This is content without a title header.",
+			expectedTitle:   "",
+			expectedContent: "",
+		},
+		{
+			name:            "ignores subsequent headers",
+			input:           "# Main Title\n\nSome content.\n\n## Subsection\n\nMore content.",
+			expectedTitle:   "Main Title",
+			expectedContent: "Some content.\n\n## Subsection\n\nMore content.",
+		},
+		{
+			name:            "trims whitespace properly",
+			input:           "# Trimmed Title   \n\n\n\nContent with extra spaces.\n\n\n",
+			expectedTitle:   "Trimmed Title",
+			expectedContent: "Content with extra spaces.",
 		},
 	}
 	
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := processMarkdown(tt.input)
-			if result != tt.expected {
-				t.Errorf("processMarkdown() = %v, want %v", result, tt.expected)
+			result := parseMarkdownChapter(tt.input)
+			if result.Title != tt.expectedTitle {
+				t.Errorf("parseMarkdownChapter() title = %q, want %q", result.Title, tt.expectedTitle)
+			}
+			if result.Content != tt.expectedContent {
+				t.Errorf("parseMarkdownChapter() content = %q, want %q", result.Content, tt.expectedContent)
 			}
 		})
 	}

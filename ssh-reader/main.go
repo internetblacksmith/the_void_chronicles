@@ -60,19 +60,23 @@ func generateSSHKey(path string) error {
 	return nil
 }
 
-// passwordHandler validates the password for SSH connections
-func passwordHandler(ctx ssh.Context, password string) bool {
+// validatePassword checks if the provided password matches the required password
+func validatePassword(password string) bool {
 	// Get password from environment variable, or use default
 	requiredPassword := os.Getenv("SSH_PASSWORD")
 	if requiredPassword == "" {
 		requiredPassword = "Amigos4Life!"
 	}
-	
+	return password == requiredPassword
+}
+
+// passwordHandler validates the password for SSH connections
+func passwordHandler(ctx ssh.Context, password string) bool {
 	// Log authentication attempt
 	log.Printf("SSH authentication attempt from %s with user '%s'", ctx.RemoteAddr(), ctx.User())
 	
 	// Check if the password matches
-	success := password == requiredPassword
+	success := validatePassword(password)
 	if success {
 		log.Printf("SSH authentication successful for user '%s'", ctx.User())
 	} else {
