@@ -31,6 +31,12 @@ primary_region = 'lhr'
   [[services.ports]]
     port = 22
 
+# Persistent storage for user data
+[[mounts]]
+  source = "void_data"
+  destination = "/data"
+  initial_size = "1gb"
+
 [[vm]]
   memory = '256mb'
   cpu_kind = 'shared'

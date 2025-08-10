@@ -60,19 +60,23 @@ func generateSSHKey(path string) error {
 	return nil
 }
 
-// passwordHandler validates the password for SSH connections
-func passwordHandler(ctx ssh.Context, password string) bool {
+// validatePassword checks if the provided password matches the required password
+func validatePassword(password string) bool {
 	// Get password from environment variable, or use default
 	requiredPassword := os.Getenv("SSH_PASSWORD")
 	if requiredPassword == "" {
 		requiredPassword = "Amigos4Life!"
 	}
-	
+	return password == requiredPassword
+}
+
+// passwordHandler validates the password for SSH connections
+func passwordHandler(ctx ssh.Context, password string) bool {
 	// Log authentication attempt
 	log.Printf("SSH authentication attempt from %s with user '%s'", ctx.RemoteAddr(), ctx.User())
 	
 	// Check if the password matches
-	success := password == requiredPassword
+	success := validatePassword(password)
 	if success {
 		log.Printf("SSH authentication successful for user '%s'", ctx.User())
 	} else {
@@ -113,17 +117,26 @@ func main() {
 	log.Printf("SSH Port: %s", sshPort)
 	log.Printf("SSH Host: %s", host)
 	
-	// Ensure SSH key exists
-	// Use a path relative to the working directory (ssh-reader in Railway)
-	sshKeyPath := ".ssh/id_ed25519"
+	// Ensure SSH key exists - use persistent volume in production
+	var sshKeyPath string
+	if _, err := os.Stat("/data"); err == nil {
+		// Production: use persistent volume
+		sshKeyPath = "/data/ssh/id_ed25519"
+		os.MkdirAll("/data/ssh", 0700)
+	} else {
+		// Development: use local directory
+		sshKeyPath = ".ssh/id_ed25519"
+		os.MkdirAll(".ssh", 0700)
+	}
+	
 	if _, err := os.Stat(sshKeyPath); os.IsNotExist(err) {
 		log.Println("SSH key not found, generating new key...")
-		os.MkdirAll(".ssh", 0700)
 		if err := generateSSHKey(sshKeyPath); err != nil {
 			log.Fatalf("Failed to generate SSH key: %v", err)
 		}
+		log.Printf("Generated new SSH host key at %s", sshKeyPath)
 	} else {
-		log.Printf("Using existing SSH key at %s", sshKeyPath)
+		log.Printf("Using existing SSH host key at %s", sshKeyPath)
 	}
 	
 	// Check for port conflicts
@@ -293,6 +306,14 @@ func startHTTPServer() {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "OK")
 	})
+	
+	// Storage monitoring endpoints
+	pm := NewProgressManager()
+	http.HandleFunc("/api/storage/stats", pm.StorageStatsHandler)
+	http.HandleFunc("/api/storage/cleanup", pm.CleanupHandler)
+	
+	// Start cleanup scheduler
+	pm.StartCleanupScheduler()
 	
 	log.Printf("Starting HTTP server on 0.0.0.0:%s", httpPort)
 	if err := http.ListenAndServe("0.0.0.0:"+httpPort, nil); err != nil {
