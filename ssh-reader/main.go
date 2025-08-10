@@ -113,17 +113,26 @@ func main() {
 	log.Printf("SSH Port: %s", sshPort)
 	log.Printf("SSH Host: %s", host)
 	
-	// Ensure SSH key exists
-	// Use a path relative to the working directory (ssh-reader in Railway)
-	sshKeyPath := ".ssh/id_ed25519"
+	// Ensure SSH key exists - use persistent volume in production
+	var sshKeyPath string
+	if _, err := os.Stat("/data"); err == nil {
+		// Production: use persistent volume
+		sshKeyPath = "/data/ssh/id_ed25519"
+		os.MkdirAll("/data/ssh", 0700)
+	} else {
+		// Development: use local directory
+		sshKeyPath = ".ssh/id_ed25519"
+		os.MkdirAll(".ssh", 0700)
+	}
+	
 	if _, err := os.Stat(sshKeyPath); os.IsNotExist(err) {
 		log.Println("SSH key not found, generating new key...")
-		os.MkdirAll(".ssh", 0700)
 		if err := generateSSHKey(sshKeyPath); err != nil {
 			log.Fatalf("Failed to generate SSH key: %v", err)
 		}
+		log.Printf("Generated new SSH host key at %s", sshKeyPath)
 	} else {
-		log.Printf("Using existing SSH key at %s", sshKeyPath)
+		log.Printf("Using existing SSH host key at %s", sshKeyPath)
 	}
 	
 	// Check for port conflicts
