@@ -114,13 +114,13 @@ func main() {
 		log.Printf("Using HTTP port: %s for local development", httpPort)
 	}
 	
-	// SSH port: use Railway's TCP port if available, otherwise SSH_PORT env var
-	// Railway provides RAILWAY_TCP_APPLICATION_PORT for TCP proxy
+	// SSH port: use SSH_PORT env var or default
+	// Don't use RAILWAY_TCP_APPLICATION_PORT as it conflicts with PORT
+	sshPort = getEnv("SSH_PORT", "23234")
+	
+	// Log if Railway TCP port is set but we're not using it
 	if tcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT"); tcpPort != "" {
-		sshPort = tcpPort
-		log.Printf("Using Railway TCP Application Port for SSH: %s", sshPort)
-	} else {
-		sshPort = getEnv("SSH_PORT", "23234")
+		log.Printf("Note: RAILWAY_TCP_APPLICATION_PORT=%s but using SSH_PORT=%s", tcpPort, sshPort)
 	}
 	
 	// Log startup configuration
@@ -143,9 +143,9 @@ func main() {
 		log.Printf("Using existing SSH key at %s", sshKeyPath)
 	}
 	
-	// Final port conflict check (shouldn't happen with above logic)
+	// Check for port conflicts
 	if httpPort == sshPort {
-		log.Fatalf("FATAL: HTTP and SSH both trying to use port %s. This is a bug.", httpPort)
+		log.Fatalf("ERROR: Port conflict! Both HTTP and SSH are configured to use port %s.\nPlease set SSH_PORT to a different value (e.g., 8022)", httpPort)
 	}
 	
 	// Start both HTTP and SSH servers
