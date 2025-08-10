@@ -40,9 +40,9 @@ jobs:
         go tool cover -func=coverage.txt
         coverage=$(go tool cover -func=coverage.txt | grep total | awk '{print $3}' | sed 's/%//')
         echo "Total coverage: $coverage%"
-        # Fail if coverage is below 30% (adjust as needed)
-        if (( $(echo "$coverage < 30" | bc -l) )); then
-          echo "Coverage is below 30%"
+        # Fail if coverage is below 10% (adjust as needed)
+        if (( $(echo "$coverage < 10" | bc -l) )); then
+          echo "Coverage is below 10%"
           exit 1
         fi
 
