@@ -8,6 +8,11 @@ primary_region = 'lhr'
 
 [build]
 
+[env]
+  HTTP_PORT = "8080"
+  SSH_HOST = "0.0.0.0"
+  SSH_PORT = "2222"
+
 [http_service]
   internal_port = 8080
   force_https = true
@@ -15,6 +20,16 @@ primary_region = 'lhr'
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
+
+# SSH Service on port 2222 internally, 10022 externally
+[[services]]
+  internal_port = 2222
+  protocol = "tcp"
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+
+  [[services.ports]]
+    port = 10022
 
 [[vm]]
   memory = '256mb'
