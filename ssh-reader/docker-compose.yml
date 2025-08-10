@@ -6,7 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "23234:23234"
+      - "8080:8080"
+      - "2222:2222"
     volumes:
       - ./book1_void_reavers_source:/app/book1_void_reavers_source:ro
       - void_reader_data:/app/.void_reader_data
@@ -15,7 +16,7 @@ services:
     environment:
       - GO_ENV=production
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "23234"]
+      test: ["CMD", "nc", "-z", "localhost", "8080"]
       interval: 30s
       timeout: 10s
       retries: 3

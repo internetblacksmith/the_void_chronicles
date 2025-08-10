@@ -40,7 +40,7 @@ fi
 
 # Display connection info (read from env or defaults)
 HTTP_PORT=${HTTP_PORT:-8080}
-SSH_PORT=${SSH_PORT:-23234}
+SSH_PORT=${SSH_PORT:-2222}
 
 echo "🌐 HTTP Server: http://localhost:${HTTP_PORT}"
 echo "🚀 SSH Server: localhost:${SSH_PORT}"

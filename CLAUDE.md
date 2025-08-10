@@ -50,8 +50,8 @@ The application is located in the `ssh-reader/` directory and consists of:
 - `main.go` (~950 lines) - Dual HTTP/SSH servers, split-view TUI, 10-book series menu
 - `book.go` (~250 lines) - Book loading from Markdown source
 - `progress.go` (~150 lines) - User progress tracking and bookmarks
-- `go.mod/go.sum` - Dependencies (Bubbletea, Lipgloss, Wish, Gorilla WebSocket)
-- Railway deployment configs (`railway.toml`, `nixpacks.toml`, `Procfile`)
+- `go.mod/go.sum` - Dependencies (Bubbletea, Lipgloss, Wish)
+- Fly.io deployment config (`fly.toml`)
 - Docker configuration (`docker-compose.yml`)
 - Build and deployment scripts in root directory
 
@@ -64,14 +64,14 @@ The application is located in the `ssh-reader/` directory and consists of:
 # Build the SSH reader application
 ./build.sh
 
-# Start both HTTP (8080) and SSH (23234) servers
+# Start both HTTP (8080) and SSH (2222) servers
 ./run.sh
 
 # View the 90s homepage
 open http://localhost:8080
 
 # Connect to read the book
-ssh localhost -p 23234
+ssh localhost -p 2222
 # Password: Amigos4Life!
 ```
 
@@ -86,18 +86,17 @@ sudo systemctl status void-reader
 sudo journalctl -u void-reader -f
 ```
 
-#### Railway Deployment
+#### Fly.io Deployment
 ```bash
-# Deploy to Railway
-railway up
+# Deploy to Fly.io
+fly launch  # First time
+fly deploy  # Updates
 
-# Set environment variables in Railway dashboard:
-# HTTP_PORT=8080
-# SSH_PORT=2222
-# SSH_PASSWORD=Amigos4Life!
+# Set password secret:
+fly secrets set SSH_PASSWORD="YourSecurePassword"
 
-# Configure TCP Proxy in Railway dashboard to port 2222
-# Connect via: ssh trolley.proxy.rlwy.net -p 10120
+# Connect via standard SSH port:
+ssh void-reader.fly.dev
 ```
 
 #### Container Deployment
@@ -107,7 +106,7 @@ cd ssh-reader && docker-compose up -d
 
 # Or direct Docker
 docker build -t void-reader ssh-reader/
-docker run -d -p 8080:8080 -p 23234:23234 void-reader
+docker run -d -p 8080:8080 -p 2222:2222 void-reader
 ```
 
 #### Development
@@ -141,12 +140,12 @@ DEBUG=1 go run .
 ## SSH Reader Application Details
 
 ### Architecture
-- **Dual Servers**: HTTP on port 8080 (90s homepage), SSH on port 2222/23234
+- **Dual Servers**: HTTP on port 8080 (90s homepage), SSH on port 2222
 - **SSH Server**: Uses Charm's Wish library with password authentication
 - **TUI Interface**: Split-view design showing all 10 books with summaries
 - **Book Loading**: Loads from `book1_void_reavers_source/chapters/` Markdown files
 - **Progress System**: JSON-based user progress persistence
-- **Railway Support**: TCP proxy compatible with environment-based port configuration
+- **Fly.io Support**: Native multi-port support with persistent storage
 
 ### Key Features
 - Split-view menu showing all 10 Void Chronicles books
@@ -156,7 +155,7 @@ DEBUG=1 go run .
 - Chapter navigation with keyboard shortcuts (h/l, ←/→)
 - Progress tracking with auto-save on chapter change
 - Bookmark system (press 'b' while reading)
-- Railway deployment with TCP proxy support
+- Fly.io deployment with standard SSH port (22)
 
 ### User Interface States
 1. **Main Menu** - Split-view with book library on left, details on right
@@ -199,11 +198,10 @@ The Ruby conversion scripts handle:
 
 ### SSH Reader Development
 1. Make changes to Go source files in `ssh-reader/` directory
-2. Test with `./run.sh` for local development (HTTP on 8080, SSH on 23234)
+2. Test with `./run.sh` for local development (HTTP on 8080, SSH on 2222)
 3. Build with `./build.sh` for binary generation
-4. Deploy to Railway with `railway up`
-5. Configure Railway TCP proxy for SSH access
-6. Check logs with `railway logs` or local console output
+4. Deploy to Fly.io with `fly deploy`
+5. Check logs with `fly logs`
 
 ### Book Content Editing
 1. Edit the Markdown source files in `book1_void_reavers_source/chapters/`
@@ -231,5 +229,5 @@ The book follows a 50-year timeline chronicling humanity's evolution from chaoti
 - **Keygen** - Go-native SSH key generation
 - **Markdown** - Book source format (migrated from LaTeX)
 - **Ruby** - Conversion scripts for PDF/EPUB
-- **Railway** - Cloud deployment platform with TCP proxy
+- **Fly.io** - Cloud deployment platform with native multi-port support
 - **Docker** - Containerization support

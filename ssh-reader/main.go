@@ -101,32 +101,15 @@ func main() {
 	// Configure ports
 	host = getEnv("SSH_HOST", "0.0.0.0")
 	
-	// Get the ports we actually need
-	portEnv := os.Getenv("PORT")  // Railway's HTTP port
-	
-	// HTTP port: use Railway's PORT or local development default
-	if portEnv != "" {
-		httpPort = portEnv
-		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
-	} else {
-		// Check for explicit HTTP_PORT env var, otherwise use default
-		httpPort = getEnv("HTTP_PORT", "8080")
-		log.Printf("Using HTTP port: %s for local development", httpPort)
-	}
+	// HTTP port: use HTTP_PORT env var or default
+	httpPort = getEnv("HTTP_PORT", "8080")
 	
 	// SSH port: use SSH_PORT env var or default
-	// Don't use RAILWAY_TCP_APPLICATION_PORT as it conflicts with PORT
-	sshPort = getEnv("SSH_PORT", "23234")
-	
-	// Log if Railway TCP port is set but we're not using it
-	if tcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT"); tcpPort != "" {
-		log.Printf("Note: RAILWAY_TCP_APPLICATION_PORT=%s but using SSH_PORT=%s", tcpPort, sshPort)
-	}
+	sshPort = getEnv("SSH_PORT", "2222")
 	
 	// Log startup configuration
 	log.Printf("=== Void Reader Starting ===")
-	log.Printf("Environment: Railway=%v", os.Getenv("RAILWAY_ENVIRONMENT") != "")
-	log.Printf("HTTP Port: %s (from PORT=%s)", httpPort, portEnv)
+	log.Printf("HTTP Port: %s", httpPort)
 	log.Printf("SSH Port: %s", sshPort)
 	log.Printf("SSH Host: %s", host)
 	
@@ -190,10 +173,6 @@ func main() {
 		log.Printf("SSH Password: [configured via SSH_PASSWORD env var]")
 	} else {
 		log.Printf("SSH Password: [using default]")
-	}
-	if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
-		log.Printf("Railway deployment detected")
-		log.Printf("Note: Configure Railway TCP proxy to forward to port %s", sshPort)
 	}
 	
 	// Start SSH server

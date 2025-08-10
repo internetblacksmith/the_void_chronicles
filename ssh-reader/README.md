@@ -25,7 +25,7 @@ From the project root directory:
 
 Then connect with password authentication:
 ```bash
-ssh localhost -p 23234
+ssh localhost -p 2222
 # Password: Amigos4Life!
 ```
 
@@ -33,12 +33,10 @@ ssh localhost -p 23234
 
 The SSH reader supports the following environment variables:
 
-- `PORT` - HTTP server port (Railway provides this automatically, default: uses HTTP_PORT)
-- `HTTP_PORT` - HTTP server port for local development (default: 8080)
-- `SSH_PORT` - SSH server port (default: 23234 for local, 2222 for Railway)
+- `HTTP_PORT` - HTTP server port (default: 8080)
+- `SSH_PORT` - SSH server port (default: 2222)
 - `SSH_HOST` - SSH server bind address (default: 0.0.0.0)
 - `SSH_PASSWORD` - SSH authentication password (default: Amigos4Life!)
-- `RAILWAY_ENVIRONMENT` - Set by Railway to detect cloud deployment
 
 Example with custom settings:
 ```bash

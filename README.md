@@ -92,17 +92,25 @@ ssh localhost -p 23234
 open http://localhost:8080
 ```
 
-### 🚢 Deploy to Railway
+### 🚢 Deploy to Fly.io
 
 ```bash
-# Install Railway CLI
-curl -fsSL https://railway.app/install.sh | sh
+# Install Fly CLI
+curl -L https://fly.io/install.sh | sh
 
-# Deploy
-railway up
+# Sign up and authenticate
+fly auth signup
+fly auth login
 
-# Configure TCP Proxy in Railway dashboard for port 2222
-# Connect via: ssh your-app.proxy.rlwy.net -p PROXY_PORT
+# Launch the app (first time only)
+fly launch
+
+# Deploy updates
+fly deploy
+
+# Connect via SSH (standard port 22!)
+ssh void-reader.fly.dev
+# Password: Amigos4Life!
 ```
 
 ## 📖 The Void Chronicles Series
