@@ -97,8 +97,18 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 		requiredPassword = "Amigos4Life!"
 	}
 	
+	// Log authentication attempt
+	log.Printf("SSH authentication attempt from %s with user '%s'", ctx.RemoteAddr(), ctx.User())
+	
 	// Check if the password matches
-	return password == requiredPassword
+	success := password == requiredPassword
+	if success {
+		log.Printf("SSH authentication successful for user '%s'", ctx.User())
+	} else {
+		log.Printf("SSH authentication failed for user '%s' (wrong password)", ctx.User())
+	}
+	
+	return success
 }
 
 func main() {
@@ -106,13 +116,16 @@ func main() {
 	log.Printf("Starting servers - HTTP on 0.0.0.0:%s, SSH on %s:%s", httpPort, host, sshPort)
 	
 	// Ensure SSH key exists
-	sshKeyPath := "../.ssh/id_ed25519"
+	// Use a path relative to the working directory (ssh-reader in Railway)
+	sshKeyPath := ".ssh/id_ed25519"
 	if _, err := os.Stat(sshKeyPath); os.IsNotExist(err) {
 		log.Println("SSH key not found, generating new key...")
-		os.MkdirAll("../.ssh", 0700)
+		os.MkdirAll(".ssh", 0700)
 		if err := generateSSHKey(sshKeyPath); err != nil {
 			log.Fatalf("Failed to generate SSH key: %v", err)
 		}
+	} else {
+		log.Printf("Using existing SSH key at %s", sshKeyPath)
 	}
 	
 	// Final port conflict check (shouldn't happen with above logic)
@@ -123,14 +136,29 @@ func main() {
 	// Start both HTTP and SSH servers
 	go startHTTPServer()
 	
+	// Configure SSH server with more detailed logging
+	wishMiddleware := []wish.Middleware{
+		func(h ssh.Handler) ssh.Handler {
+			return func(s ssh.Session) {
+				log.Printf("SSH connection established from %s (user: %s)", s.RemoteAddr(), s.User())
+				defer func() {
+					if r := recover(); r != nil {
+						log.Printf("SSH session panic recovered: %v", r)
+					}
+					log.Printf("SSH connection closed for %s", s.RemoteAddr())
+				}()
+				h(s)
+			}
+		},
+		logging.Middleware(),
+		bubbletea.Middleware(teaHandler),
+	}
+	
 	s, err := wish.NewServer(
 		wish.WithAddress(net.JoinHostPort(host, sshPort)),
 		wish.WithHostKeyPath(sshKeyPath),
 		wish.WithPasswordAuth(passwordHandler),
-		wish.WithMiddleware(
-			bubbletea.Middleware(teaHandler),
-			logging.Middleware(),
-		),
+		wish.WithMiddleware(wishMiddleware...),
 	)
 	if err != nil {
 		log.Fatalln(err)
@@ -138,12 +166,21 @@ func main() {
 
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-	log.Printf("HTTP server listening on port %s", httpPort)
-	log.Printf("SSH server listening on internal port %s", sshPort)
-	log.Printf("SSH Password: Amigos4Life!")
-	log.Printf("Note: For Railway, configure TCP proxy to forward to port %s", sshPort)
+	
+	// Log server configuration
+	log.Printf("HTTP server listening on 0.0.0.0:%s", httpPort)
+	log.Printf("SSH server listening on %s:%s", host, sshPort)
+	log.Printf("SSH Password: %s", os.Getenv("SSH_PASSWORD"))
+	if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
+		log.Printf("Railway deployment detected")
+		log.Printf("Note: Configure Railway TCP proxy to forward to port %s", sshPort)
+	}
+	
+	// Start SSH server
 	go func() {
+		log.Println("Starting SSH server...")
 		if err = s.ListenAndServe(); err != nil && err != ssh.ErrServerClosed {
+			log.Printf("SSH server error: %v", err)
 			log.Fatalln(err)
 		}
 	}()
