@@ -2,10 +2,10 @@
 
 [build]
 builder = "NIXPACKS"
-buildCommand = "cd ssh-reader && go mod download && go build -o void-reader ."
+buildCommand = "cd ssh-reader && go mod download && go build -o void-reader . && cp -r ../book1_void_reavers_source ."
 
 [deploy]
-startCommand = "cd ssh-reader && PORT=${PORT:-8080} ./void-reader"
+startCommand = "cd ssh-reader && ./void-reader"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 

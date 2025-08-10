@@ -41,36 +41,6 @@ var (
 	sshPort  string
 )
 
-func init() {
-	host = getEnv("SSH_HOST", "0.0.0.0")
-	
-	// Get the ports we actually need
-	portEnv := os.Getenv("PORT")  // Railway's HTTP port
-	
-	// HTTP port: use Railway's PORT or local development default
-	if portEnv != "" {
-		httpPort = portEnv
-		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
-	} else {
-		httpPort = "8080"
-		log.Printf("No Railway PORT found, using 8080 for local development")
-	}
-	
-	// SSH port: use a different port than HTTP to avoid conflicts
-	// Railway supports both HTTP and TCP but they need different internal ports
-	sshPort = "2222"
-	
-	// On Railway, if PORT is also 2222, we must use a different port for SSH
-	if os.Getenv("RAILWAY_ENVIRONMENT") != "" && httpPort == "2222" {
-		sshPort = "8022"  // Use 8022 for SSH when HTTP is on 2222
-		log.Printf("Railway: HTTP on %s, moving SSH to %s", httpPort, sshPort)
-	} else {
-		log.Printf("SSH server will use port: %s", sshPort)
-	}
-	
-	log.Printf("Port configuration: HTTP=%s, SSH=%s", httpPort, sshPort)
-}
-
 func getEnv(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
 		return value
@@ -112,8 +82,37 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 }
 
 func main() {
-	// Log final port configuration
-	log.Printf("Starting servers - HTTP on 0.0.0.0:%s, SSH on %s:%s", httpPort, host, sshPort)
+	// Configure ports
+	host = getEnv("SSH_HOST", "0.0.0.0")
+	
+	// Get the ports we actually need
+	portEnv := os.Getenv("PORT")  // Railway's HTTP port
+	
+	// HTTP port: use Railway's PORT or local development default
+	if portEnv != "" {
+		httpPort = portEnv
+		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
+	} else {
+		httpPort = "8080"
+		log.Printf("No Railway PORT found, using 8080 for local development")
+	}
+	
+	// SSH port: use a different port than HTTP to avoid conflicts
+	// Railway supports both HTTP and TCP but they need different internal ports
+	sshPort = getEnv("SSH_PORT", "2222")
+	
+	// On Railway, if PORT is also 2222, we must use a different port for SSH
+	if os.Getenv("RAILWAY_ENVIRONMENT") != "" && httpPort == "2222" {
+		sshPort = "8022"  // Use 8022 for SSH when HTTP is on 2222
+		log.Printf("Railway: HTTP on %s, moving SSH to %s", httpPort, sshPort)
+	}
+	
+	// Log startup configuration
+	log.Printf("=== Void Reader Starting ===")
+	log.Printf("Environment: Railway=%v", os.Getenv("RAILWAY_ENVIRONMENT") != "")
+	log.Printf("HTTP Port: %s (from PORT=%s)", httpPort, portEnv)
+	log.Printf("SSH Port: %s", sshPort)
+	log.Printf("SSH Host: %s", host)
 	
 	// Ensure SSH key exists
 	// Use a path relative to the working directory (ssh-reader in Railway)
@@ -297,7 +296,7 @@ func startHTTPServer() {
 	
 	log.Printf("Starting HTTP server on 0.0.0.0:%s", httpPort)
 	if err := http.ListenAndServe("0.0.0.0:"+httpPort, nil); err != nil {
-		log.Printf("HTTP server error: %v", err)
+		log.Fatalf("FATAL: HTTP server failed to start: %v", err)
 	}
 }
 
@@ -442,12 +441,29 @@ func getSeriesBooks() []BookInfo {
 }
 
 func initialModelWithUser(width, height int, username string) model {
-	book, err := LoadBook("../book1_void_reavers_source")
-	if err != nil {
-		log.Printf("Error loading book: %v", err)
+	// Try multiple paths to find the book
+	bookPaths := []string{
+		"../book1_void_reavers_source",  // When running from ssh-reader locally
+		"book1_void_reavers_source",      // When copied to ssh-reader directory
+		"/app/book1_void_reavers_source", // Possible Railway path
+	}
+	
+	var book *Book
+	var err error
+	for _, path := range bookPaths {
+		book, err = LoadBook(path)
+		if err == nil {
+			log.Printf("Successfully loaded book from: %s", path)
+			break
+		}
+		log.Printf("Failed to load book from %s: %v", path, err)
+	}
+	
+	if book == nil {
+		log.Printf("Error: Could not load book from any path")
 		book = &Book{
 			Title: "Error Loading Book",
-			Chapters: []Chapter{{Title: "Error", Content: "Could not load book content"}},
+			Chapters: []Chapter{{Title: "Error", Content: "Could not load book content from any of the expected paths"}},
 		}
 	}
 

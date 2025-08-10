@@ -6,13 +6,12 @@ nixPkgs = ["go_1_21", "openssh"]
 [phases.build]
 cmds = [
   "cd ssh-reader && go mod download",
-  "cd ssh-reader && go build -o void-reader ."
+  "cd ssh-reader && go build -o void-reader .",
+  "cp -r book1_void_reavers_source ssh-reader/"
 ]
 
 [start]
 cmd = "cd ssh-reader && ./void-reader"
 
-[variables]
-SSH_PASSWORD = "Amigos4Life!"
-SSH_PORT = "2222"
-# PORT will be set by Railway automatically for HTTP
+# Environment variables should be set in Railway dashboard
+# PORT is automatically provided by Railway for HTTP
