@@ -3,7 +3,7 @@ app = "void-reader"
 primary_region = "sjc"  # San Jose, change to your preferred region
 
 [build]
-  dockerfile = "ssh-reader/Dockerfile"
+  dockerfile = "Dockerfile.fly"
 
 [env]
   SSH_HOST = "0.0.0.0"

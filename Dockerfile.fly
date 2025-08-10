@@ -5,14 +5,14 @@ RUN apk add --no-cache git openssh-keygen
 
 WORKDIR /app
 
-# Copy go mod files
-COPY go.mod go.sum ./
+# Copy go mod files from ssh-reader
+COPY ssh-reader/go.mod ssh-reader/go.sum ./
 
 # Download dependencies
 RUN go mod download
 
-# Copy source code
-COPY *.go ./
+# Copy source code from ssh-reader
+COPY ssh-reader/*.go ./
 
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o void-reader
@@ -27,11 +27,11 @@ WORKDIR /app
 # Copy binary from builder
 COPY --from=builder /app/void-reader .
 
-# Copy book content (will be added via build context)
-COPY book1_void_reavers_source ./book1_void_reavers_source
+# Create necessary directories including book placeholder
+RUN mkdir -p .ssh .void_reader_data book1_void_reavers_source/chapters
 
-# Create necessary directories
-RUN mkdir -p .ssh .void_reader_data
+# Create a placeholder chapter for deployment
+RUN echo "# Welcome to Void Reavers\n\nBook content will be loaded here." > book1_void_reavers_source/chapters/chapter-01.md
 
 # Generate SSH host key
 RUN ssh-keygen -t ed25519 -f .ssh/id_ed25519 -N "" -C "void-reader-docker-host"
