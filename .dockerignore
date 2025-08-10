@@ -2,10 +2,14 @@
 .git
 .gitignore
 
-# Documentation
-*.md
+# Documentation (but keep book content)
+README.md
+CLAUDE.md
+MARKDOWN_STYLE_GUIDE.md
 docs/
 LICENSE
+# Keep book content - don't ignore these:
+!book1_void_reavers_source/**/*.md
 
 # Local development
 .env
