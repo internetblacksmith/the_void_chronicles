@@ -1,5 +1,6 @@
 # fly.toml for The Void Chronicles SSH Reader
-# App name will be set during deployment
+app = "the-void-chronicles"
+primary_region = "lhr"
 
 [build]
   dockerfile = "Dockerfile"
