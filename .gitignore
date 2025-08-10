@@ -39,3 +39,8 @@ coverage.html
 
 # Generated PDFs
 *.pdf
+
+# Environment variables
+.env
+.env.local
+.env.production

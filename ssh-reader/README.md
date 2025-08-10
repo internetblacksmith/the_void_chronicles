@@ -25,13 +25,22 @@ From the project root directory:
 
 Then connect with password authentication:
 ```bash
-ssh localhost -p 23234
+ssh localhost -p 2222
 # Password: Amigos4Life!
 ```
 
-Or set a custom password via environment variable:
+## Environment Variables
+
+The SSH reader supports the following environment variables:
+
+- `HTTP_PORT` - HTTP server port (default: 8080)
+- `SSH_PORT` - SSH server port (default: 2222)
+- `SSH_HOST` - SSH server bind address (default: 0.0.0.0)
+- `SSH_PASSWORD` - SSH authentication password (default: Amigos4Life!)
+
+Example with custom settings:
 ```bash
-SSH_PASSWORD="YourCustomPassword" ./run.sh
+SSH_PASSWORD="YourCustomPassword" SSH_PORT=2222 ./run.sh
 ```
 
 ## Docker Support
