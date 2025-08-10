@@ -1,6 +1,6 @@
 module void-reader
 
-go 1.23.0
+go 1.21
 
 require (
 	github.com/charmbracelet/bubbletea v0.25.0
