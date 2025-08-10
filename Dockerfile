@@ -20,9 +20,11 @@ WORKDIR /app
 
 COPY --from=builder /app/void-reader .
 
-# Create necessary directories and placeholder content
-RUN mkdir -p .ssh .void_reader_data book1_void_reavers_source/chapters && \
-    echo "# Welcome to The Void Chronicles\n\nBook content will be loaded here." > book1_void_reavers_source/chapters/chapter-01.md && \
+# Copy the actual book content
+COPY book1_void_reavers_source ./book1_void_reavers_source
+
+# Create necessary directories
+RUN mkdir -p .ssh .void_reader_data && \
     ssh-keygen -t ed25519 -f .ssh/id_ed25519 -N "" -C "void-chronicles-host"
 
 # Create non-root user
