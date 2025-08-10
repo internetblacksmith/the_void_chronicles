@@ -93,18 +93,24 @@ func main() {
 		httpPort = portEnv
 		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
 	} else {
-		httpPort = "8080"
-		log.Printf("No Railway PORT found, using 8080 for local development")
+		// Check for explicit HTTP_PORT env var, otherwise use default
+		httpPort = getEnv("HTTP_PORT", "8080")
+		log.Printf("Using HTTP port: %s for local development", httpPort)
 	}
 	
-	// SSH port: use a different port than HTTP to avoid conflicts
-	// Railway supports both HTTP and TCP but they need different internal ports
-	sshPort = getEnv("SSH_PORT", "2222")
+	// SSH port: use SSH_PORT env var or default
+	// Local development uses 23234, Railway uses 2222
+	sshPort = getEnv("SSH_PORT", "23234")
 	
-	// On Railway, if PORT is also 2222, we must use a different port for SSH
-	if os.Getenv("RAILWAY_ENVIRONMENT") != "" && httpPort == "2222" {
-		sshPort = "8022"  // Use 8022 for SSH when HTTP is on 2222
-		log.Printf("Railway: HTTP on %s, moving SSH to %s", httpPort, sshPort)
+	// On Railway, if HTTP and SSH ports conflict, adjust SSH port
+	if httpPort == sshPort {
+		// Move SSH to a different port to avoid conflict
+		if sshPort == "2222" {
+			sshPort = "8022"
+		} else {
+			sshPort = "2222"
+		}
+		log.Printf("Port conflict detected! Moving SSH to %s to avoid conflict with HTTP on %s", sshPort, httpPort)
 	}
 	
 	// Log startup configuration
@@ -169,7 +175,12 @@ func main() {
 	// Log server configuration
 	log.Printf("HTTP server listening on 0.0.0.0:%s", httpPort)
 	log.Printf("SSH server listening on %s:%s", host, sshPort)
-	log.Printf("SSH Password: %s", os.Getenv("SSH_PASSWORD"))
+	// Don't log the actual password for security
+	if os.Getenv("SSH_PASSWORD") != "" {
+		log.Printf("SSH Password: [configured via SSH_PASSWORD env var]")
+	} else {
+		log.Printf("SSH Password: [using default]")
+	}
 	if os.Getenv("RAILWAY_ENVIRONMENT") != "" {
 		log.Printf("Railway deployment detected")
 		log.Printf("Note: Configure Railway TCP proxy to forward to port %s", sshPort)

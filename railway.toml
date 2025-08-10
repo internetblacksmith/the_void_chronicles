@@ -12,9 +12,10 @@ restartPolicyMaxRetries = 10
 # Environment variables (can be overridden in Railway dashboard)
 [variables]
 SSH_HOST = "0.0.0.0"
-# PORT is provided by Railway automatically for HTTP domain
-# RAILWAY_TCP_APPLICATION_PORT is provided for TCP proxy (SSH)
+SSH_PORT = "2222"
 SSH_PASSWORD = "Amigos4Life!"
+# PORT is provided by Railway automatically for HTTP domain
+# Configure TCP proxy in Railway dashboard to forward to SSH_PORT (2222)
 
 # Railway Configuration Notes:
 # 1. HTTP domain uses PORT (automatically provided)

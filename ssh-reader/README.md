@@ -29,9 +29,20 @@ ssh localhost -p 23234
 # Password: Amigos4Life!
 ```
 
-Or set a custom password via environment variable:
+## Environment Variables
+
+The SSH reader supports the following environment variables:
+
+- `PORT` - HTTP server port (Railway provides this automatically, default: uses HTTP_PORT)
+- `HTTP_PORT` - HTTP server port for local development (default: 8080)
+- `SSH_PORT` - SSH server port (default: 23234 for local, 2222 for Railway)
+- `SSH_HOST` - SSH server bind address (default: 0.0.0.0)
+- `SSH_PASSWORD` - SSH authentication password (default: Amigos4Life!)
+- `RAILWAY_ENVIRONMENT` - Set by Railway to detect cloud deployment
+
+Example with custom settings:
 ```bash
-SSH_PASSWORD="YourCustomPassword" ./run.sh
+SSH_PASSWORD="YourCustomPassword" SSH_PORT=2222 ./run.sh
 ```
 
 ## Docker Support
