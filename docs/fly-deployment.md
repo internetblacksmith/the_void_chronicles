@@ -1,6 +1,6 @@
 # Deploying to Fly.io
 
-This guide walks through deploying the Void Reader SSH application to Fly.io.
+This guide walks through deploying the Void Chronicles SSH Reader to Fly.io.
 
 ## Prerequisites
 
@@ -19,109 +19,100 @@ fly auth signup
 fly auth login
 ```
 
-## Initial Deployment
+## Deployment via GitHub Actions (Recommended)
 
-1. From the project root directory, launch the app:
+The project is configured for automatic deployment via GitHub Actions.
+
+1. Fork or clone the repository
+2. Get your Fly API token:
 ```bash
-fly launch
+fly auth token
+```
+3. Add it as a GitHub secret named `FLY_API_TOKEN` in your repository settings
+4. Push to main branch to trigger deployment
+
+## Manual Deployment
+
+If you need to deploy manually:
+
+```bash
+fly deploy -a the-void-chronicles
 ```
 
-When prompted:
-- **App name**: Choose a unique name (e.g., `void-chronicles-yourname`)
-- **Region**: Select the closest region to you
-- **Database**: Select "No" (we don't need one)
-- **Redis**: Select "No"
-- **Deploy now**: Select "Yes"
+## Configuration
 
-2. Set the SSH password secret:
+The app is configured in `fly.toml`:
+- HTTP service on ports 80/443 (with HTTPS redirect)
+- SSH service on port 22
+- 256MB RAM, 1 shared CPU
+- London (lhr) region by default
+
+## Environment Variables
+
+Set via Fly.io secrets:
 ```bash
-fly secrets set SSH_PASSWORD="YourSecurePassword"
+fly secrets set SSH_PASSWORD="YourSecurePassword" -a the-void-chronicles
 ```
+
+Current environment variables:
+- `HTTP_PORT`: 8080 (internal)
+- `SSH_PORT`: 2222 (internal)
+- `SSH_HOST`: 0.0.0.0
+- `SSH_PASSWORD`: Your chosen password (default: Amigos4Life!)
 
 ## Accessing Your App
 
 Once deployed, your app will be available at:
 
-- **Web Interface**: `https://your-app-name.fly.dev`
-- **SSH Access**: `ssh your-app-name.fly.dev` (port 22!)
+- **Web Interface**: `https://the-void-chronicles.fly.dev`
+- **SSH Access**: `ssh the-void-chronicles.fly.dev`
 
 Connect via SSH:
 ```bash
-ssh your-app-name.fly.dev
+ssh the-void-chronicles.fly.dev
 # Enter password when prompted
 ```
 
-## Updating the App
+## Custom Domain
 
-After making changes to the code:
+To add a custom domain:
 
+1. Add the certificate:
 ```bash
-fly deploy
+fly certs add yourdomain.com -a the-void-chronicles
+```
+
+2. Add DNS records as instructed (usually a CNAME to your-app.fly.dev)
+
+3. Wait for DNS propagation and certificate issuance
+
+Example:
+```
+Type: CNAME
+Name: vc
+Target: the-void-chronicles.fly.dev
 ```
 
 ## Managing the App
 
 ### View logs:
 ```bash
-fly logs
+fly logs -a the-void-chronicles
 ```
 
 ### Check app status:
 ```bash
-fly status
+fly status -a the-void-chronicles
 ```
 
-### Scale the app:
+### List certificates:
 ```bash
-# Scale to 2 instances
-fly scale count 2
-
-# Scale back to 1
-fly scale count 1
+fly certs list -a the-void-chronicles
 ```
 
 ### SSH into the container (for debugging):
 ```bash
-fly ssh console
-```
-
-## Configuration
-
-The `fly.toml` file contains all the configuration:
-
-- **HTTP Service**: Runs on port 8080 internally, exposed on 80/443
-- **SSH Service**: Runs on port 2222 internally, exposed on port 22
-- **Persistent Storage**: 1GB volume mounted at `/data`
-- **Auto-scaling**: Scales to zero when not in use
-
-## Environment Variables
-
-Set additional environment variables:
-```bash
-fly secrets set KEY=value
-```
-
-View current secrets (names only):
-```bash
-fly secrets list
-```
-
-## Custom Domain
-
-Add a custom domain:
-```bash
-fly certs add yourdomain.com
-```
-
-Then update your DNS:
-- **A Record**: Point to the IP from `fly ips list`
-- **AAAA Record**: Point to the IPv6 from `fly ips list`
-
-## Monitoring
-
-View metrics in the dashboard:
-```bash
-fly dashboard
+fly ssh console -a the-void-chronicles
 ```
 
 ## Costs
@@ -135,39 +126,24 @@ This is perfect for the Void Reader app!
 
 ## Troubleshooting
 
-### App won't start
-Check the logs:
-```bash
-fly logs
-```
-
 ### SSH connection refused
-Ensure the SSH service is running:
-```bash
-fly status
-```
+- Ensure the SSH service is configured in fly.toml
+- Check that port 22 is exposed externally
+- Verify SSH_PASSWORD is set
 
-### Can't connect to SSH
-Check that port 22 is exposed in `fly.toml`:
-```toml
-[[services]]
-  internal_port = 2222
-  protocol = "tcp"
-  
-  [[services.ports]]
-    port = 22
-```
+### Book content not showing
+- Ensure book1_void_reavers_source is included in Docker image
+- Check .dockerignore doesn't exclude .md files in book directory
+- Verify COPY statement in Dockerfile
 
-## Backup and Data
+### SSL/Certificate issues with custom domain
+- If using Cloudflare, set SSL/TLS mode to "Full" (not "Full strict")
+- Or disable Cloudflare proxy (grey cloud) for direct connection
+- Wait for certificate to be issued (check with `fly certs list`)
 
-The app stores user progress in `/data` which is persisted across deployments.
+## GitHub Actions Workflow
 
-To backup:
-```bash
-fly ssh console -C "tar czf - /data" > backup.tar.gz
-```
-
-To restore:
-```bash
-cat backup.tar.gz | fly ssh console -C "tar xzf - -C /"
-```
+The project includes `.github/workflows/fly-deploy.yml` for automatic deployment:
+- Triggers on push to main branch
+- Uses Fly.io's official GitHub Action
+- Requires FLY_API_TOKEN secret in repository settings
