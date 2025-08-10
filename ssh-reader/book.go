@@ -18,7 +18,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"regexp"
 	"sort"
 	"strings"
 
@@ -37,29 +36,21 @@ type Book struct {
 }
 
 func LoadBook(bookDir string) (*Book, error) {
-	// Try to load from markdown first, then LaTeX
+	// Load from markdown chapters
 	book, err := loadFromMarkdown(bookDir)
 	if err != nil {
-		book, err = loadFromLaTeX(bookDir)
-		if err != nil {
-			return nil, fmt.Errorf("failed to load book from both markdown and LaTeX: %v", err)
-		}
+		return nil, fmt.Errorf("failed to load book: %v", err)
 	}
 
 	return book, nil
 }
 
 func loadFromMarkdown(bookDir string) (*Book, error) {
-	// Try both "markdown" and "chapters" subdirectories
-	markdownDir := filepath.Join(bookDir, "chapters")
-	files, err := ioutil.ReadDir(markdownDir)
+	// Read chapters from the chapters subdirectory
+	chaptersDir := filepath.Join(bookDir, "chapters")
+	files, err := ioutil.ReadDir(chaptersDir)
 	if err != nil {
-		// Try the old "markdown" directory as fallback
-		markdownDir = filepath.Join(bookDir, "markdown")
-		files, err = ioutil.ReadDir(markdownDir)
-		if err != nil {
-			return nil, fmt.Errorf("could not read markdown/chapters directory: %v", err)
-		}
+		return nil, fmt.Errorf("could not read chapters directory: %v", err)
 	}
 
 	var chapterFiles []string
@@ -71,61 +62,19 @@ func loadFromMarkdown(bookDir string) (*Book, error) {
 	}
 
 	if len(chapterFiles) == 0 {
-		return nil, fmt.Errorf("no chapter files found in %s", markdownDir)
+		return nil, fmt.Errorf("no chapter files found in %s", chaptersDir)
 	}
 
 	sort.Strings(chapterFiles)
 
 	var chapters []Chapter
 	for _, filename := range chapterFiles {
-		content, err := ioutil.ReadFile(filepath.Join(markdownDir, filename))
+		content, err := ioutil.ReadFile(filepath.Join(chaptersDir, filename))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read %s: %v", filename, err)
 		}
 
 		chapter := parseMarkdownChapter(string(content))
-		if chapter.Title == "" {
-			// Generate title from filename if not found
-			chapter.Title = fmt.Sprintf("Chapter %d", len(chapters)+1)
-		}
-		chapters = append(chapters, chapter)
-	}
-
-	return &Book{
-		Title:    "Void Reavers",
-		Author:   "Captain J. Starwind",
-		Chapters: chapters,
-	}, nil
-}
-
-func loadFromLaTeX(bookDir string) (*Book, error) {
-	// Try to find chapter files
-	files, err := ioutil.ReadDir(bookDir)
-	if err != nil {
-		return nil, fmt.Errorf("could not read book directory: %v", err)
-	}
-
-	var chapterFiles []string
-	for _, file := range files {
-		if strings.HasPrefix(file.Name(), "chapter") && strings.HasSuffix(file.Name(), ".tex") {
-			chapterFiles = append(chapterFiles, file.Name())
-		}
-	}
-
-	if len(chapterFiles) == 0 {
-		return nil, fmt.Errorf("no chapter files found in %s", bookDir)
-	}
-
-	sort.Strings(chapterFiles)
-
-	var chapters []Chapter
-	for _, filename := range chapterFiles {
-		content, err := ioutil.ReadFile(filepath.Join(bookDir, filename))
-		if err != nil {
-			return nil, fmt.Errorf("failed to read %s: %v", filename, err)
-		}
-
-		chapter := parseLaTeXChapter(string(content))
 		if chapter.Title == "" {
 			// Generate title from filename if not found
 			chapter.Title = fmt.Sprintf("Chapter %d", len(chapters)+1)
@@ -164,64 +113,6 @@ func parseMarkdownChapter(content string) Chapter {
 		Title:   title,
 		Content: content,
 	}
-}
-
-func parseLaTeXChapter(content string) Chapter {
-	// Extract chapter title
-	chapterRegex := regexp.MustCompile(`\\chapter\{([^}]+)\}`)
-	matches := chapterRegex.FindStringSubmatch(content)
-	
-	var title string
-	if len(matches) > 1 {
-		title = matches[1]
-	}
-
-	// Convert LaTeX to plain text
-	content = convertLaTeXToPlainText(content)
-
-	return Chapter{
-		Title:   title,
-		Content: content,
-	}
-}
-
-func convertLaTeXToPlainText(content string) string {
-	// Remove chapter command
-	content = regexp.MustCompile(`\\chapter\{[^}]+\}`).ReplaceAllString(content, "")
-	
-	// Convert italics
-	content = regexp.MustCompile(`\\textit\{([^}]+)\}`).ReplaceAllString(content, "*$1*")
-	
-	// Convert bold
-	content = regexp.MustCompile(`\\textbf\{([^}]+)\}`).ReplaceAllString(content, "**$1**")
-	
-	// Convert double quotes
-	content = regexp.MustCompile("``([^']+)''").ReplaceAllString(content, "\"$1\"")
-	
-	// Convert single quotes
-	content = regexp.MustCompile("`([^']+)'").ReplaceAllString(content, "'$1'")
-	
-	// Convert em-dashes
-	content = strings.ReplaceAll(content, "---", "—")
-	
-	// Remove LaTeX escapes
-	replacements := map[string]string{
-		"\\%": "%",
-		"\\$": "$",
-		"\\&": "&",
-		"\\_": "_",
-		"\\#": "#",
-	}
-	
-	for latex, plain := range replacements {
-		content = strings.ReplaceAll(content, latex, plain)
-	}
-	
-	// Clean up excessive newlines
-	content = regexp.MustCompile(`\n{3,}`).ReplaceAllString(content, "\n\n")
-	content = strings.TrimSpace(content)
-	
-	return content
 }
 
 func wrapText(text string, width int) []string {
