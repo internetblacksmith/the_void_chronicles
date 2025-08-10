@@ -33,6 +33,7 @@ import (
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -40,43 +41,6 @@ var (
 	httpPort string
 	sshPort  string
 )
-
-func init() {
-	host = getEnv("SSH_HOST", "0.0.0.0")
-	
-	// Get all port-related environment variables
-	portEnv := os.Getenv("PORT")
-	httpPortEnv := os.Getenv("HTTP_PORT") 
-	sshPortEnv := os.Getenv("SSH_PORT")
-	railwayTcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT")
-	
-	// HTTP port: use PORT if set, else HTTP_PORT, else 8080
-	// But make sure it's different from the TCP port
-	if portEnv != "" {
-		httpPort = portEnv
-	} else if httpPortEnv != "" && httpPortEnv != railwayTcpPort {
-		httpPort = httpPortEnv
-	} else {
-		httpPort = "8080"
-	}
-	
-	// SSH port: prefer RAILWAY_TCP_APPLICATION_PORT if set (Railway's TCP proxy target)
-	// Otherwise use SSH_PORT if set, else 2222
-	if railwayTcpPort != "" {
-		sshPort = railwayTcpPort
-		// Make sure HTTP uses a different port
-		if httpPort == sshPort {
-			httpPort = "8080"
-		}
-	} else if sshPortEnv != "" {
-		sshPort = sshPortEnv
-	} else {
-		sshPort = "2222"
-	}
-	
-	log.Printf("Port resolution: PORT=%s, HTTP_PORT=%s, SSH_PORT=%s, RAILWAY_TCP=%s -> Using HTTP=%s, SSH=%s",
-		portEnv, httpPortEnv, sshPortEnv, railwayTcpPort, httpPort, sshPort)
-}
 
 func getEnv(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
@@ -104,37 +68,95 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 		requiredPassword = "Amigos4Life!"
 	}
 	
+	// Log authentication attempt
+	log.Printf("SSH authentication attempt from %s with user '%s'", ctx.RemoteAddr(), ctx.User())
+	
 	// Check if the password matches
-	return password == requiredPassword
+	success := password == requiredPassword
+	if success {
+		log.Printf("SSH authentication successful for user '%s'", ctx.User())
+	} else {
+		log.Printf("SSH authentication failed for user '%s' (wrong password)", ctx.User())
+	}
+	
+	return success
 }
 
 func main() {
-	// Ensure ports are different
-	if httpPort == sshPort {
-		log.Fatalf("ERROR: HTTP and SSH cannot use the same port! HTTP=%s, SSH=%s", httpPort, sshPort)
+	// Load .env file if it exists (for local development)
+	// Try multiple locations to find .env file
+	envPaths := []string{
+		".env",           // In ssh-reader directory
+		"../.env",        // In parent directory
+		".env.local",     // Local overrides
 	}
 	
-	// Ensure SSH key exists
-	sshKeyPath := "../.ssh/id_ed25519"
-	if _, err := os.Stat(sshKeyPath); os.IsNotExist(err) {
-		log.Println("SSH key not found, generating new key...")
-		os.MkdirAll("../.ssh", 0700)
-		if err := generateSSHKey(sshKeyPath); err != nil {
-			log.Fatalf("Failed to generate SSH key: %v", err)
+	for _, path := range envPaths {
+		if err := godotenv.Load(path); err == nil {
+			log.Printf("Loaded environment from %s", path)
+			break
 		}
 	}
 	
-	// Start HTTP server on Railway's PORT or HTTP_PORT
+	// Configure ports
+	host = getEnv("SSH_HOST", "0.0.0.0")
+	
+	// HTTP port: use HTTP_PORT env var or default
+	httpPort = getEnv("HTTP_PORT", "8080")
+	
+	// SSH port: use SSH_PORT env var or default
+	sshPort = getEnv("SSH_PORT", "2222")
+	
+	// Log startup configuration
+	log.Printf("=== Void Reader Starting ===")
+	log.Printf("HTTP Port: %s", httpPort)
+	log.Printf("SSH Port: %s", sshPort)
+	log.Printf("SSH Host: %s", host)
+	
+	// Ensure SSH key exists
+	// Use a path relative to the working directory (ssh-reader in Railway)
+	sshKeyPath := ".ssh/id_ed25519"
+	if _, err := os.Stat(sshKeyPath); os.IsNotExist(err) {
+		log.Println("SSH key not found, generating new key...")
+		os.MkdirAll(".ssh", 0700)
+		if err := generateSSHKey(sshKeyPath); err != nil {
+			log.Fatalf("Failed to generate SSH key: %v", err)
+		}
+	} else {
+		log.Printf("Using existing SSH key at %s", sshKeyPath)
+	}
+	
+	// Check for port conflicts
+	if httpPort == sshPort {
+		log.Fatalf("ERROR: Port conflict! Both HTTP and SSH are configured to use port %s.\nPlease set SSH_PORT to a different value (e.g., 8022)", httpPort)
+	}
+	
+	// Start both HTTP and SSH servers
 	go startHTTPServer()
+	
+	// Configure SSH server with more detailed logging
+	wishMiddleware := []wish.Middleware{
+		func(h ssh.Handler) ssh.Handler {
+			return func(s ssh.Session) {
+				log.Printf("SSH connection established from %s (user: %s)", s.RemoteAddr(), s.User())
+				defer func() {
+					if r := recover(); r != nil {
+						log.Printf("SSH session panic recovered: %v", r)
+					}
+					log.Printf("SSH connection closed for %s", s.RemoteAddr())
+				}()
+				h(s)
+			}
+		},
+		logging.Middleware(),
+		bubbletea.Middleware(teaHandler),
+	}
 	
 	s, err := wish.NewServer(
 		wish.WithAddress(net.JoinHostPort(host, sshPort)),
 		wish.WithHostKeyPath(sshKeyPath),
 		wish.WithPasswordAuth(passwordHandler),
-		wish.WithMiddleware(
-			bubbletea.Middleware(teaHandler),
-			logging.Middleware(),
-		),
+		wish.WithMiddleware(wishMiddleware...),
 	)
 	if err != nil {
 		log.Fatalln(err)
@@ -142,12 +164,22 @@ func main() {
 
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-	log.Printf("HTTP server listening on port %s", httpPort)
-	log.Printf("SSH server listening on internal port %s", sshPort)
-	log.Printf("SSH Password: Amigos4Life!")
-	log.Printf("Note: For Railway, configure TCP proxy to forward to port %s", sshPort)
+	
+	// Log server configuration
+	log.Printf("HTTP server listening on 0.0.0.0:%s", httpPort)
+	log.Printf("SSH server listening on %s:%s", host, sshPort)
+	// Don't log the actual password for security
+	if os.Getenv("SSH_PASSWORD") != "" {
+		log.Printf("SSH Password: [configured via SSH_PASSWORD env var]")
+	} else {
+		log.Printf("SSH Password: [using default]")
+	}
+	
+	// Start SSH server
 	go func() {
+		log.Println("Starting SSH server...")
 		if err = s.ListenAndServe(); err != nil && err != ssh.ErrServerClosed {
+			log.Printf("SSH server error: %v", err)
 			log.Fatalln(err)
 		}
 	}()
@@ -262,9 +294,9 @@ func startHTTPServer() {
 		fmt.Fprint(w, "OK")
 	})
 	
-	log.Printf("Starting HTTP server on port %s", httpPort)
-	if err := http.ListenAndServe(":"+httpPort, nil); err != nil {
-		log.Printf("HTTP server error: %v", err)
+	log.Printf("Starting HTTP server on 0.0.0.0:%s", httpPort)
+	if err := http.ListenAndServe("0.0.0.0:"+httpPort, nil); err != nil {
+		log.Fatalf("FATAL: HTTP server failed to start: %v", err)
 	}
 }
 
@@ -409,12 +441,29 @@ func getSeriesBooks() []BookInfo {
 }
 
 func initialModelWithUser(width, height int, username string) model {
-	book, err := LoadBook("../book1_void_reavers_source")
-	if err != nil {
-		log.Printf("Error loading book: %v", err)
+	// Try multiple paths to find the book
+	bookPaths := []string{
+		"../book1_void_reavers_source",  // When running from ssh-reader locally
+		"book1_void_reavers_source",      // When copied to ssh-reader directory
+		"/app/book1_void_reavers_source", // Possible Railway path
+	}
+	
+	var book *Book
+	var err error
+	for _, path := range bookPaths {
+		book, err = LoadBook(path)
+		if err == nil {
+			log.Printf("Successfully loaded book from: %s", path)
+			break
+		}
+		log.Printf("Failed to load book from %s: %v", path, err)
+	}
+	
+	if book == nil {
+		log.Printf("Error: Could not load book from any path")
 		book = &Book{
 			Title: "Error Loading Book",
-			Chapters: []Chapter{{Title: "Error", Content: "Could not load book content"}},
+			Chapters: []Chapter{{Title: "Error", Content: "Could not load book content from any of the expected paths"}},
 		}
 	}
 
