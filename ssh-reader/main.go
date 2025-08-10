@@ -44,17 +44,10 @@ var (
 func init() {
 	host = getEnv("SSH_HOST", "0.0.0.0")
 	
-	// Get all port-related environment variables
-	portEnv := os.Getenv("PORT")
-	httpPortEnv := os.Getenv("HTTP_PORT") 
-	sshPortEnv := os.Getenv("SSH_PORT")
-	railwayTcpPort := os.Getenv("RAILWAY_TCP_APPLICATION_PORT")
+	// Get the ports we actually need
+	portEnv := os.Getenv("PORT")  // Railway's HTTP port
 	
-	// Railway dual port configuration:
-	// - PORT: for HTTP domain (web traffic)
-	// - RAILWAY_TCP_APPLICATION_PORT: for TCP proxy (SSH traffic)
-	// These MUST be different ports for Railway to work correctly
-	
+	// HTTP port: use Railway's PORT or local development default
 	if portEnv != "" {
 		httpPort = portEnv
 		log.Printf("Using Railway-provided PORT for HTTP: %s", httpPort)
@@ -63,17 +56,11 @@ func init() {
 		log.Printf("No Railway PORT found, using 8080 for local development")
 	}
 	
-	// SSH always uses port 2222
-	// Railway's TCP proxy handles the external routing to a different URL
+	// SSH port: always start with 2222
 	sshPort = "2222"
-	if railwayTcpPort != "" {
-		log.Printf("Railway TCP proxy configured for port %s, but SSH stays on 2222", railwayTcpPort)
-	} else {
-		log.Printf("SSH server using standard port: 2222")
-	}
+	log.Printf("SSH server will use port: %s", sshPort)
 	
-	log.Printf("Port resolution: PORT=%s, HTTP_PORT=%s, SSH_PORT=%s, RAILWAY_TCP=%s -> Using HTTP=%s, SSH=%s",
-		portEnv, httpPortEnv, sshPortEnv, railwayTcpPort, httpPort, sshPort)
+	log.Printf("Port configuration: HTTP=%s, SSH=%s", httpPort, sshPort)
 }
 
 func getEnv(key, defaultValue string) string {
