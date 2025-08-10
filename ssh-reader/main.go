@@ -56,9 +56,17 @@ func init() {
 		log.Printf("No Railway PORT found, using 8080 for local development")
 	}
 	
-	// SSH port: always start with 2222
+	// SSH port: use a different port than HTTP to avoid conflicts
+	// Railway supports both HTTP and TCP but they need different internal ports
 	sshPort = "2222"
-	log.Printf("SSH server will use port: %s", sshPort)
+	
+	// On Railway, if PORT is also 2222, we must use a different port for SSH
+	if os.Getenv("RAILWAY_ENVIRONMENT") != "" && httpPort == "2222" {
+		sshPort = "8022"  // Use 8022 for SSH when HTTP is on 2222
+		log.Printf("Railway: HTTP on %s, moving SSH to %s", httpPort, sshPort)
+	} else {
+		log.Printf("SSH server will use port: %s", sshPort)
+	}
 	
 	log.Printf("Port configuration: HTTP=%s, SSH=%s", httpPort, sshPort)
 }
@@ -107,12 +115,9 @@ func main() {
 		}
 	}
 	
-	// Handle port conflicts - we MUST use different internal ports
+	// Final port conflict check (shouldn't happen with above logic)
 	if httpPort == sshPort {
-		log.Printf("Port conflict detected: both servers cannot bind to port %s", httpPort)
-		// Always fix the conflict by moving SSH to 2223
-		sshPort = "2223"
-		log.Printf("Moving SSH to port 2223 to resolve conflict")
+		log.Fatalf("FATAL: HTTP and SSH both trying to use port %s. This is a bug.", httpPort)
 	}
 	
 	// Start both HTTP and SSH servers
