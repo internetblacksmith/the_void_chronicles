@@ -18,7 +18,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -385,12 +384,12 @@ type model struct {
 
 func getSeriesBooks() []BookInfo {
 	// Try to load series info from JSON file
-	data, err := ioutil.ReadFile("series.json")
+	data, err := os.ReadFile("series.json")
 	if err != nil {
 		// If file doesn't exist, try alternate paths
-		data, err = ioutil.ReadFile("ssh-reader/series.json")
+		data, err = os.ReadFile("ssh-reader/series.json")
 		if err != nil {
-			data, err = ioutil.ReadFile("../series.json")
+			data, err = os.ReadFile("../series.json")
 			if err != nil {
 				log.Printf("Warning: Could not load series.json: %v", err)
 				// Return a minimal fallback
