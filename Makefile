@@ -1,4 +1,33 @@
-.PHONY: test test-coverage test-verbose build run clean docker-build docker-run lint security-scan
+.PHONY: test test-coverage test-verbose build run clean docker-build docker-run lint security-scan menu
+
+# Interactive menu as default
+menu:
+	@echo "Select an option:"
+	@echo "1) Run tests"
+	@echo "2) Run tests with coverage"
+	@echo "3) Run tests with verbose output"
+	@echo "4) Build the application"
+	@echo "5) Run the application locally"
+	@echo "6) Clean build artifacts"
+	@echo "7) Build Docker image"
+	@echo "8) Run Docker container"
+	@echo "9) Run linting"
+	@echo "10) Run security scan"
+	@echo "Enter your choice:"
+	@read choice; \
+	case $$choice in \
+		1) $(MAKE) test ;; \
+		2) $(MAKE) test-coverage ;; \
+		3) $(MAKE) test-verbose ;; \
+		4) $(MAKE) build ;; \
+		5) $(MAKE) run ;; \
+		6) $(MAKE) clean ;; \
+		7) $(MAKE) docker-build ;; \
+		8) $(MAKE) docker-run ;; \
+		9) $(MAKE) lint ;; \
+		10) $(MAKE) security-scan ;; \
+		*) echo "Invalid choice" ;; \
+	esac
 
 # Run tests
 test:
