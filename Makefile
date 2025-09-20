@@ -13,6 +13,8 @@ menu:
 	@echo "8) Run Docker container"
 	@echo "9) Run linting"
 	@echo "10) Run security scan"
+	@echo "11) Generate PDF and EPUB with build metadata"
+	@echo "12) Publish PDF and EPUB without build metadata"
 	@echo "Enter your choice:"
 	@read choice; \
 	case $$choice in \
@@ -26,6 +28,8 @@ menu:
 		8) $(MAKE) docker-run ;; \
 		9) $(MAKE) lint ;; \
 		10) $(MAKE) security-scan ;; \
+		11) ruby markdown_to_kdp_pdf.rb && ruby markdown_to_epub.rb ;; \
+		12) ruby markdown_to_publish.rb ;; \
 		*) echo "Invalid choice" ;; \
 	esac
 

@@ -20,6 +20,7 @@ class MarkdownToKDPConverter
   
   def generate_pdf(output_file)
     puts "Generating KDP-ready PDF..."
+    puts "Build Time: #{Time.now}"
     
     # Create temporary combined markdown file
     combined_md = create_combined_markdown

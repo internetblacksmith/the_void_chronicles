@@ -1,46 +1,45 @@
 #!/usr/bin/env ruby
-# Convert Markdown source to EPUB for e-readers
+# Publish Markdown source to PDF and EPUB without build metadata
 
 require 'yaml'
 require 'fileutils'
 require 'tempfile'
 
-class MarkdownToEPUBConverter
+class MarkdownToPublishConverter
   def initialize(source_dir)
     @source_dir = source_dir
     @metadata = load_metadata
   end
-  
-  def generate_epub(output_file)
-    puts "Generating EPUB from Markdown source..."
-    puts "Build Time: #{Time.now}"
-    
+
+  def publish(output_file, format)
+    puts "Publishing #{format.upcase} from Markdown source..."
+
     # Create temporary combined markdown file
     combined_md = create_combined_markdown
-    
+
     # Build Pandoc command
-    cmd = build_pandoc_command(combined_md.path, output_file)
-    
+    cmd = build_pandoc_command(combined_md.path, output_file, format)
+
     puts "Running Pandoc..."
     success = system(cmd)
-    
+
     # Cleanup
     combined_md.unlink
-    
+
     if success
-      puts "✓ EPUB generated successfully: #{output_file}"
+      puts "\u2713 #{format.upcase} published successfully: #{output_file}"
       size_mb = File.size(output_file) / (1024.0 * 1024.0)
       puts "  File size: #{'%.2f' % size_mb} MB"
     else
-      puts "✗ EPUB generation failed!"
+      puts "\u2717 #{format.upcase} publishing failed!"
       puts "  Make sure Pandoc is installed"
     end
-    
+
     success
   end
-  
+
   private
-  
+
   def load_metadata
     metadata_file = File.join(@source_dir, 'metadata.yaml')
     if File.exist?(metadata_file)
@@ -53,10 +52,10 @@ class MarkdownToEPUBConverter
       }
     end
   end
-  
+
   def create_combined_markdown
     tempfile = Tempfile.new(['book', '.md'])
-    
+
     # Add metadata header
     tempfile.puts "---"
     tempfile.puts "title: \"#{@metadata['title']}\""
@@ -65,7 +64,7 @@ class MarkdownToEPUBConverter
     tempfile.puts "lang: #{@metadata['language'] || 'en-GB'}"
     tempfile.puts "---"
     tempfile.puts
-    
+
     # Add all chapters
     if @metadata['chapters']
       @metadata['chapters'].each do |chapter|
@@ -83,36 +82,39 @@ class MarkdownToEPUBConverter
         tempfile.puts "\n"
       end
     end
-    
+
     tempfile.close
     tempfile
   end
-  
-  def build_pandoc_command(input_file, output_file)
+
+  def build_pandoc_command(input_file, output_file, format)
     cmd = [
       'pandoc',
       input_file,
       '-o', output_file,
       '--toc',
-      '--toc-depth=1',
-      '--epub-chapter-level=1'
+      '--toc-depth=1'
     ]
-    
-    # Add metadata if available
-    if @metadata['isbn']
-      cmd << "--epub-metadata=<dc:identifier id=\"isbn\">#{@metadata['isbn']}</dc:identifier>"
+
+    if format == 'epub'
+      cmd << '--epub-chapter-level=1'
+    elsif format == 'pdf'
+      cmd << '--pdf-engine=xelatex'
+      cmd << '-V documentclass=book'
+      cmd << '-V fontsize=11pt'
+      cmd << '-V mainfont="Georgia"'
+      cmd << '-V sansfont="Arial"'
+      cmd << '-V monofont="Courier New"'
+      cmd << '-V linestretch=1.5'
+      cmd << '-V indent=true'
     end
-    
-    if @metadata['publisher']
-      cmd << "--epub-metadata=<dc:publisher>#{@metadata['publisher']}</dc:publisher>"
-    end
-    
+
     cmd.join(' ')
   end
 end
 
 # Main script
-puts "📚 Markdown to EPUB Converter"
+puts "\u2728 Markdown to Publish Converter"
 puts "============================"
 puts
 
@@ -120,7 +122,7 @@ puts
 book_dirs = Dir.glob('book*_source').select { |d| File.directory?(d) }
 
 if book_dirs.empty?
-  puts "❌ No book source directories found!"
+  puts "\u274c No book source directories found!"
   puts "   Expected format: book*_source"
   exit 1
 end
@@ -136,32 +138,34 @@ else
   end
   print "\nSelect book (1-#{book_dirs.size}): "
   choice = gets.chomp.to_i
-  
+
   if choice < 1 || choice > book_dirs.size
     puts "Invalid selection!"
     exit 1
   end
-  
+
   source_dir = book_dirs[choice - 1]
 end
 
 # Get book name for output file
 book_name = source_dir.gsub(/_source$/, '')
-default_output = "#{book_name}.epub"
+default_output_pdf = "#{book_name}.pdf"
+default_output_epub = "#{book_name}.epub"
 
 # Get output filename
-if ARGV[0]
-  output_file = ARGV[0]
-else
-  print "\nOutput filename [#{default_output}]: "
-  input = gets.chomp
-  output_file = input.empty? ? default_output : input
-end
+print "\nOutput PDF filename [#{default_output_pdf}]: "
+pdf_input = gets.chomp
+output_pdf = pdf_input.empty? ? default_output_pdf : pdf_input
+
+print "\nOutput EPUB filename [#{default_output_epub}]: "
+epub_input = gets.chomp
+output_epub = epub_input.empty? ? default_output_epub : epub_input
 
 unless system('which pandoc > /dev/null 2>&1')
   puts "Error: Pandoc is required but not installed"
   exit 1
 end
 
-converter = MarkdownToEPUBConverter.new(source_dir)
-converter.generate_epub(output_file)
+converter = MarkdownToPublishConverter.new(source_dir)
+converter.publish(output_pdf, 'pdf')
+converter.publish(output_epub, 'epub')
