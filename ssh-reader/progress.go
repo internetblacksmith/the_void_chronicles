@@ -22,14 +22,14 @@ import (
 )
 
 type UserProgress struct {
-	Username       string            `json:"username"`
-	CurrentChapter int               `json:"current_chapter"`
-	ScrollOffset   int               `json:"scroll_offset"`
-	LastRead       time.Time         `json:"last_read"`
-	ChapterProgress map[int]bool     `json:"chapter_progress"` // tracks completed chapters
-	Bookmarks      []Bookmark        `json:"bookmarks"`
-	ReadingTime    time.Duration     `json:"reading_time"`
-	SessionStart   time.Time         `json:"-"` // not persisted
+	Username        string        `json:"username"`
+	CurrentChapter  int           `json:"current_chapter"`
+	ScrollOffset    int           `json:"scroll_offset"`
+	LastRead        time.Time     `json:"last_read"`
+	ChapterProgress map[int]bool  `json:"chapter_progress"` // tracks completed chapters
+	Bookmarks       []Bookmark    `json:"bookmarks"`
+	ReadingTime     time.Duration `json:"reading_time"`
+	SessionStart    time.Time     `json:"-"` // not persisted
 }
 
 type Bookmark struct {
@@ -43,6 +43,7 @@ type ProgressManager struct {
 	dataDir string
 }
 
+// NewProgressManager creates a new progress manager with appropriate data directory for the environment.
 func NewProgressManager() *ProgressManager {
 	// Use persistent volume in production, local dir in development
 	dataDir := "/data/void_reader_data"
@@ -54,13 +55,14 @@ func NewProgressManager() *ProgressManager {
 	return &ProgressManager{dataDir: dataDir}
 }
 
+// LoadProgress loads reading progress for the specified username from persistent storage.
 func (pm *ProgressManager) LoadProgress(username string) (*UserProgress, error) {
 	if username == "" {
 		username = "anonymous"
 	}
 
 	filename := filepath.Join(pm.dataDir, username+".json")
-	
+
 	// If file doesn't exist, return new progress
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		return &UserProgress{
@@ -90,6 +92,7 @@ func (pm *ProgressManager) LoadProgress(username string) (*UserProgress, error) 
 	return &progress, nil
 }
 
+// SaveProgress saves reading progress for a user to persistent storage.
 func (pm *ProgressManager) SaveProgress(progress *UserProgress) error {
 	if progress.Username == "" {
 		progress.Username = "anonymous"
@@ -109,7 +112,7 @@ func (pm *ProgressManager) SaveProgress(progress *UserProgress) error {
 	}
 
 	filename := filepath.Join(pm.dataDir, progress.Username+".json")
-	
+
 	data, err := json.MarshalIndent(progress, "", "  ")
 	if err != nil {
 		return err
@@ -118,6 +121,7 @@ func (pm *ProgressManager) SaveProgress(progress *UserProgress) error {
 	return os.WriteFile(filename, data, 0644)
 }
 
+// AddBookmark adds a bookmark at the specified chapter and scroll position.
 func (p *UserProgress) AddBookmark(chapter, scrollOffset int, note string) {
 	bookmark := Bookmark{
 		Chapter:      chapter,
@@ -125,16 +129,18 @@ func (p *UserProgress) AddBookmark(chapter, scrollOffset int, note string) {
 		Note:         note,
 		Created:      time.Now(),
 	}
-	
+
 	p.Bookmarks = append(p.Bookmarks, bookmark)
 }
 
+// RemoveBookmark removes the bookmark at the specified index.
 func (p *UserProgress) RemoveBookmark(index int) {
 	if index >= 0 && index < len(p.Bookmarks) {
 		p.Bookmarks = append(p.Bookmarks[:index], p.Bookmarks[index+1:]...)
 	}
 }
 
+// MarkChapterComplete marks the specified chapter as completed.
 func (p *UserProgress) MarkChapterComplete(chapter int) {
 	if p.ChapterProgress == nil {
 		p.ChapterProgress = make(map[int]bool)
@@ -142,6 +148,7 @@ func (p *UserProgress) MarkChapterComplete(chapter int) {
 	p.ChapterProgress[chapter] = true
 }
 
+// IsChapterComplete returns true if the specified chapter has been completed.
 func (p *UserProgress) IsChapterComplete(chapter int) bool {
 	if p.ChapterProgress == nil {
 		return false
@@ -149,29 +156,31 @@ func (p *UserProgress) IsChapterComplete(chapter int) bool {
 	return p.ChapterProgress[chapter]
 }
 
+// GetCompletionPercentage returns the percentage of chapters completed.
 func (p *UserProgress) GetCompletionPercentage(totalChapters int) float64 {
 	if totalChapters == 0 {
 		return 0
 	}
-	
+
 	completed := 0
 	for i := 0; i < totalChapters; i++ {
 		if p.IsChapterComplete(i) {
 			completed++
 		}
 	}
-	
+
 	return float64(completed) / float64(totalChapters) * 100
 }
 
+// GetReadingStats returns a map of reading statistics including time and progress.
 func (p *UserProgress) GetReadingStats() map[string]interface{} {
 	stats := map[string]interface{}{
 		"total_reading_time": p.ReadingTime,
-		"last_read":         p.LastRead,
-		"current_chapter":   p.CurrentChapter + 1, // Display as 1-based
-		"bookmarks_count":   len(p.Bookmarks),
+		"last_read":          p.LastRead,
+		"current_chapter":    p.CurrentChapter + 1, // Display as 1-based
+		"bookmarks_count":    len(p.Bookmarks),
 		"chapters_completed": len(p.ChapterProgress),
 	}
-	
+
 	return stats
 }
