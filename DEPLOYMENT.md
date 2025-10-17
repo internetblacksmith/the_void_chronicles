@@ -53,7 +53,7 @@ docker push gcr.io/PROJECT_ID/void-reader
 # Deploy
 gcloud run deploy void-reader \
   --image gcr.io/PROJECT_ID/void-reader \
-  --port 23234 \
+  --port 2222 \
   --allow-unauthenticated
 ```
 
@@ -153,7 +153,7 @@ docker build -t void-reader .
 # Run container
 docker run -d \
   --name void-reader \
-  -p 23234:23234 \
+  -p 2222:2222 \
   -v $(pwd)/.ssh:/app/.ssh \
   -v $(pwd)/.void_reader_data:/app/.void_reader_data \
   void-reader
@@ -166,7 +166,7 @@ services:
   void-reader:
     build: .
     ports:
-      - "23234:23234"
+      - "2222:2222"
     volumes:
       - ./.ssh:/app/.ssh
       - ./.void_reader_data:/app/.void_reader_data
@@ -182,7 +182,7 @@ The SSH reader now requires password authentication:
 
 ```bash
 # Connect with password
-ssh yourserver.com -p 23234
+ssh yourserver.com -p 2222
 # Enter password when prompted: Amigos4Life!
 
 # Or use custom password
@@ -202,11 +202,11 @@ chmod 600 .ssh/id_ed25519
 ### Firewall Configuration
 ```bash
 # UFW (Ubuntu/Debian)
-sudo ufw allow 23234/tcp
+sudo ufw allow 2222/tcp
 sudo ufw enable
 
 # firewalld (CentOS/RHEL)
-sudo firewall-cmd --permanent --add-port=23234/tcp
+sudo firewall-cmd --permanent --add-port=2222/tcp
 sudo firewall-cmd --reload
 ```
 
@@ -215,7 +215,7 @@ sudo firewall-cmd --reload
 # /etc/fail2ban/jail.local
 [void-reader]
 enabled = true
-port = 23234
+port = 2222
 filter = void-reader
 logpath = /var/log/void-reader.log
 maxretry = 5
@@ -258,7 +258,7 @@ Deploy to multiple regions for better latency:
 Create `.env` file for configuration:
 ```bash
 # .env
-SSH_PORT=23234
+SSH_PORT=2222
 SSH_HOST=0.0.0.0
 SSH_PASSWORD=Amigos4Life!  # Change this for production!
 BOOK_PATH=./book1_void_reavers_source
@@ -290,7 +290,7 @@ jobs:
 
 ### Desktop/Laptop
 ```bash
-ssh reader.yourdomain.com -p 23234
+ssh reader.yourdomain.com -p 2222
 # Password: Amigos4Life!
 ```
 
@@ -301,7 +301,7 @@ ssh reader.yourdomain.com -p 23234
 ### Web-based Terminal (Optional)
 Use `ttyd` to provide web access:
 ```bash
-ttyd -p 8080 ssh localhost -p 23234
+ttyd -p 8080 ssh localhost -p 2222
 ```
 
 ## 🎯 Quick Start Recommendations
@@ -314,5 +314,5 @@ ttyd -p 8080 ssh localhost -p 23234
 ## 📞 Support
 
 - Check application logs: `journalctl -u void-reader -f`
-- Test SSH connection: `ssh -v localhost -p 23234`
-- Verify port is open: `netstat -tlnp | grep 23234`
+- Test SSH connection: `ssh -v localhost -p 2222`
+- Verify port is open: `netstat -tlnp | grep 2222`

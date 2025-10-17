@@ -35,6 +35,7 @@ type Book struct {
 	Chapters []Chapter
 }
 
+// LoadBook loads a book from the specified directory containing markdown chapters.
 func LoadBook(bookDir string) (*Book, error) {
 	// Load from markdown chapters
 	book, err := loadFromMarkdown(bookDir)
@@ -93,7 +94,7 @@ func parseMarkdownChapter(content string) Chapter {
 	lines := strings.Split(content, "\n")
 	var title string
 	var contentLines []string
-	
+
 	titleFound := false
 	for _, line := range lines {
 		trimmed := strings.TrimSpace(line)
@@ -119,15 +120,15 @@ func wrapText(text string, width int) []string {
 	if width <= 0 {
 		width = 80
 	}
-	
+
 	paragraphs := strings.Split(text, "\n\n")
 	var wrappedLines []string
-	
+
 	for i, paragraph := range paragraphs {
 		if strings.TrimSpace(paragraph) == "" {
 			continue
 		}
-		
+
 		// Handle special formatting
 		if strings.HasPrefix(paragraph, "*") && strings.HasSuffix(paragraph, "*") {
 			// Italic text
@@ -142,12 +143,12 @@ func wrapText(text string, width int) []string {
 			wrapped := wordwrap.String(paragraph, width)
 			wrappedLines = append(wrappedLines, strings.Split(wrapped, "\n")...)
 		}
-		
+
 		// Add spacing between paragraphs (except for the last one)
 		if i < len(paragraphs)-1 {
 			wrappedLines = append(wrappedLines, "")
 		}
 	}
-	
+
 	return wrappedLines
 }

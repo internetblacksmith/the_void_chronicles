@@ -38,14 +38,24 @@ import (
 )
 
 var (
-	host     string
-	httpPort string
-	sshPort  string
+	host        string
+	httpPort    string
+	sshPort     string
+	rateLimiter *RateLimiter
 )
 
 func getEnv(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
 		return value
+	}
+	return defaultValue
+}
+
+func getEnvInt(key string, defaultValue int) int {
+	if value := os.Getenv(key); value != "" {
+		if intVal, err := time.ParseDuration(value + "m"); err == nil {
+			return int(intVal.Minutes())
+		}
 	}
 	return defaultValue
 }
@@ -56,7 +66,7 @@ func generateSSHKey(path string) error {
 	if err != nil {
 		return fmt.Errorf("failed to generate key: %w", err)
 	}
-	
+
 	log.Printf("Generated new SSH key at %s", path)
 	return nil
 }
@@ -73,17 +83,23 @@ func validatePassword(password string) bool {
 
 // passwordHandler validates the password for SSH connections
 func passwordHandler(ctx ssh.Context, password string) bool {
-	// Log authentication attempt
-	log.Printf("SSH authentication attempt from %s with user '%s'", ctx.RemoteAddr(), ctx.User())
-	
-	// Check if the password matches
+	addr := ctx.RemoteAddr()
+
+	if !rateLimiter.AllowConnection(addr) {
+		return false
+	}
+
+	log.Printf("SSH authentication attempt from %s with user '%s'", addr, ctx.User())
+
 	success := validatePassword(password)
 	if success {
 		log.Printf("SSH authentication successful for user '%s'", ctx.User())
+		rateLimiter.RecordSuccessfulAuth(addr)
 	} else {
 		log.Printf("SSH authentication failed for user '%s' (wrong password)", ctx.User())
+		rateLimiter.RecordFailedAuth(addr)
 	}
-	
+
 	return success
 }
 
@@ -91,33 +107,38 @@ func main() {
 	// Load .env file if it exists (for local development)
 	// Try multiple locations to find .env file
 	envPaths := []string{
-		".env",           // In ssh-reader directory
-		"../.env",        // In parent directory
-		".env.local",     // Local overrides
+		".env",       // In ssh-reader directory
+		"../.env",    // In parent directory
+		".env.local", // Local overrides
 	}
-	
+
 	for _, path := range envPaths {
 		if err := godotenv.Load(path); err == nil {
 			log.Printf("Loaded environment from %s", path)
 			break
 		}
 	}
-	
+
 	// Configure ports
 	host = getEnv("SSH_HOST", "0.0.0.0")
-	
+
 	// HTTP port: use HTTP_PORT env var or default
 	httpPort = getEnv("HTTP_PORT", "8080")
-	
+
 	// SSH port: use SSH_PORT env var or default
 	sshPort = getEnv("SSH_PORT", "2222")
-	
+
+	// Initialize rate limiter
+	rateLimiter = NewRateLimiter(5, 5*time.Minute, 15*time.Minute)
+
 	// Log startup configuration
 	log.Printf("=== Void Reader Starting ===")
 	log.Printf("HTTP Port: %s", httpPort)
 	log.Printf("SSH Port: %s", sshPort)
 	log.Printf("SSH Host: %s", host)
-	
+	log.Printf("Rate limiting: 5 attempts per 5 minutes, 15 minute block")
+	log.Printf("Session timeout: %d minutes", getEnvInt("SSH_SESSION_TIMEOUT", 30))
+
 	// Ensure SSH key exists - use persistent volume in production
 	var sshKeyPath string
 	if _, err := os.Stat("/data"); err == nil {
@@ -129,7 +150,7 @@ func main() {
 		sshKeyPath = ".ssh/id_ed25519"
 		os.MkdirAll(".ssh", 0700)
 	}
-	
+
 	if _, err := os.Stat(sshKeyPath); os.IsNotExist(err) {
 		log.Println("SSH key not found, generating new key...")
 		if err := generateSSHKey(sshKeyPath); err != nil {
@@ -139,33 +160,47 @@ func main() {
 	} else {
 		log.Printf("Using existing SSH host key at %s", sshKeyPath)
 	}
-	
+
 	// Check for port conflicts
 	if httpPort == sshPort {
 		log.Fatalf("ERROR: Port conflict! Both HTTP and SSH are configured to use port %s.\nPlease set SSH_PORT to a different value (e.g., 8022)", httpPort)
 	}
-	
+
 	// Start both HTTP and SSH servers
 	go startHTTPServer()
-	
+
 	// Configure SSH server with more detailed logging
 	wishMiddleware := []wish.Middleware{
 		func(h ssh.Handler) ssh.Handler {
 			return func(s ssh.Session) {
+				sessionTimeout := time.Duration(getEnvInt("SSH_SESSION_TIMEOUT", 30)) * time.Minute
 				log.Printf("SSH connection established from %s (user: %s)", s.RemoteAddr(), s.User())
-				defer func() {
-					if r := recover(); r != nil {
-						log.Printf("SSH session panic recovered: %v", r)
-					}
-					log.Printf("SSH connection closed for %s", s.RemoteAddr())
+
+				done := make(chan struct{})
+				go func() {
+					defer func() {
+						if r := recover(); r != nil {
+							log.Printf("SSH session panic recovered: %v", r)
+						}
+						log.Printf("SSH connection closed for %s", s.RemoteAddr())
+						close(done)
+					}()
+					h(s)
 				}()
-				h(s)
+
+				select {
+				case <-done:
+				case <-time.After(sessionTimeout):
+					log.Printf("Session timeout for %s after %v", s.RemoteAddr(), sessionTimeout)
+					s.Close()
+					<-done
+				}
 			}
 		},
 		logging.Middleware(),
 		bubbletea.Middleware(teaHandler),
 	}
-	
+
 	s, err := wish.NewServer(
 		wish.WithAddress(net.JoinHostPort(host, sshPort)),
 		wish.WithHostKeyPath(sshKeyPath),
@@ -178,7 +213,7 @@ func main() {
 
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-	
+
 	// Log server configuration
 	log.Printf("HTTP server listening on 0.0.0.0:%s", httpPort)
 	log.Printf("SSH server listening on %s:%s", host, sshPort)
@@ -188,7 +223,7 @@ func main() {
 	} else {
 		log.Printf("SSH Password: [using default]")
 	}
-	
+
 	// Start SSH server
 	go func() {
 		log.Println("Starting SSH server...")
@@ -298,30 +333,29 @@ func startHTTPServer() {
 </body>
 </html>
 `
-		
+
 		w.Header().Set("Content-Type", "text/html")
 		fmt.Fprint(w, html)
 	})
-	
+
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "OK")
 	})
-	
+
 	// Storage monitoring endpoints
 	pm := NewProgressManager()
 	http.HandleFunc("/api/storage/stats", pm.StorageStatsHandler)
 	http.HandleFunc("/api/storage/cleanup", pm.CleanupHandler)
-	
+
 	// Start cleanup scheduler
 	pm.StartCleanupScheduler()
-	
+
 	log.Printf("Starting HTTP server on 0.0.0.0:%s", httpPort)
 	if err := http.ListenAndServe("0.0.0.0:"+httpPort, nil); err != nil {
 		log.Fatalf("FATAL: HTTP server failed to start: %v", err)
 	}
 }
-
 
 func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 	pty, _, active := s.Pty()
@@ -329,13 +363,13 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		fmt.Println("no active terminal, skipping")
 		return nil, nil
 	}
-	
+
 	// Get username from SSH session
 	username := s.User()
 	if username == "" {
 		username = "reader"
 	}
-	
+
 	m := initialModelWithUser(pty.Window.Width, pty.Window.Height, username)
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
 }
@@ -404,7 +438,7 @@ func getSeriesBooks() []BookInfo {
 			}
 		}
 	}
-	
+
 	var series SeriesInfo
 	if err := json.Unmarshal(data, &series); err != nil {
 		log.Printf("Error parsing series.json: %v", err)
@@ -417,7 +451,7 @@ func getSeriesBooks() []BookInfo {
 			Summary:   "Captain Zara leads her pirate crew through the lawless void.",
 		}}
 	}
-	
+
 	return series.Books
 }
 
@@ -430,7 +464,7 @@ func initialModelWithUser(width, height int, username string) model {
 		if err != nil {
 			log.Printf("Error loading book: %v", err)
 			book = &Book{
-				Title: "Error Loading Book",
+				Title:    "Error Loading Book",
 				Chapters: []Chapter{{Title: "Error", Content: fmt.Sprintf("Could not load book: %v", err)}},
 			}
 		}
@@ -450,7 +484,7 @@ func initialModelWithUser(width, height int, username string) model {
 	}
 
 	books := getSeriesBooks()
-	
+
 	// Build menu items from books
 	menuItems := []string{}
 	for _, book := range books {
@@ -473,7 +507,6 @@ func initialModelWithUser(width, height int, username string) model {
 		selectedBook:    0, // Start with first book selected
 	}
 }
-
 
 func (m model) Init() tea.Cmd {
 	return nil
@@ -580,7 +613,7 @@ func (m model) updateChapterList(msg tea.KeyMsg) (model, tea.Cmd) {
 
 func (m model) updateReading(msg tea.KeyMsg) (model, tea.Cmd) {
 	contentHeight := m.height - 4 // Leave space for header and footer
-	
+
 	switch msg.String() {
 	case "ctrl+c", "q", "esc":
 		m.state = menuView
@@ -614,7 +647,7 @@ func (m model) updateReading(msg tea.KeyMsg) (model, tea.Cmd) {
 			m.progress.CurrentChapter = m.currentChapter
 			m.progress.ScrollOffset = m.scrollOffset
 			m.progressManager.SaveProgress(m.progress)
-			
+
 			m.currentChapter--
 			m.scrollOffset = 0
 		}
@@ -625,7 +658,7 @@ func (m model) updateReading(msg tea.KeyMsg) (model, tea.Cmd) {
 			m.progress.CurrentChapter = m.currentChapter + 1
 			m.progress.ScrollOffset = 0
 			m.progressManager.SaveProgress(m.progress)
-			
+
 			m.currentChapter++
 			m.scrollOffset = 0
 		}
@@ -722,22 +755,22 @@ func (m model) viewMenu() string {
 		Align(lipgloss.Center).
 		Width(m.width).
 		Render("An AI-Generated Space Opera Series")
-	
+
 	// Calculate split widths
 	leftWidth := m.width / 3
 	rightWidth := m.width - leftWidth - 3 // Account for borders
-	
+
 	// Left panel - Book list
 	leftPanelStyle := lipgloss.NewStyle().
 		Width(leftWidth).
 		Height(m.height - 8).
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(lipgloss.Color("86"))
-	
+
 	var menuItems []string
 	menuItems = append(menuItems, lipgloss.NewStyle().Bold(true).Render("  BOOK LIBRARY"))
 	menuItems = append(menuItems, "")
-	
+
 	for i, book := range m.books {
 		item := fmt.Sprintf("Book %d: %s", book.Number, book.Title)
 		if i == m.menuCursor {
@@ -755,7 +788,7 @@ func (m model) viewMenu() string {
 			}
 		}
 	}
-	
+
 	// Add Exit option
 	menuItems = append(menuItems, "")
 	if m.menuCursor == len(m.menuItems)-1 {
@@ -763,36 +796,36 @@ func (m model) viewMenu() string {
 	} else {
 		menuItems = append(menuItems, normalStyle.Render("  🚪 Exit"))
 	}
-	
+
 	leftPanel := leftPanelStyle.Render(
 		lipgloss.JoinVertical(lipgloss.Left, menuItems...),
 	)
-	
+
 	// Right panel - Book details
 	rightPanelStyle := lipgloss.NewStyle().
 		Width(rightWidth).
-		Height(m.height - 8).
+		Height(m.height-8).
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(lipgloss.Color("86")).
 		Padding(1, 2)
-	
+
 	var rightContent string
 	if m.menuCursor < len(m.books) {
 		book := m.books[m.menuCursor]
-		
+
 		// Book title
 		bookTitle := lipgloss.NewStyle().
 			Bold(true).
 			Foreground(lipgloss.Color("86")).
 			Width(rightWidth - 6).
 			Render(fmt.Sprintf("BOOK %d: %s", book.Number, strings.ToUpper(book.Title)))
-		
+
 		// Subtitle
 		bookSubtitle := lipgloss.NewStyle().
 			Foreground(lipgloss.Color("241")).
 			Width(rightWidth - 6).
 			Render(book.Subtitle)
-		
+
 		// Status
 		var statusText string
 		statusStyle := lipgloss.NewStyle().Width(rightWidth - 6)
@@ -804,24 +837,24 @@ func (m model) viewMenu() string {
 			statusText = fmt.Sprintf("📅 %s", book.Status)
 		}
 		status := statusStyle.Render(statusText)
-		
+
 		// Summary
 		summaryTitle := lipgloss.NewStyle().
 			Bold(true).
 			Margin(1, 0, 0, 0).
 			Render("Synopsis:")
-		
+
 		summaryText := lipgloss.NewStyle().
 			Width(rightWidth - 6).
 			Render(book.Summary)
-		
+
 		// Options
 		var options string
 		if book.Available {
 			optionsStyle := lipgloss.NewStyle().
 				Foreground(lipgloss.Color("86")).
 				Margin(1, 0, 0, 0)
-			
+
 			optionsList := []string{
 				"[Enter] Start Reading",
 			}
@@ -830,7 +863,7 @@ func (m model) viewMenu() string {
 			}
 			options = optionsStyle.Render(strings.Join(optionsList, "\n"))
 		}
-		
+
 		rightContent = lipgloss.JoinVertical(
 			lipgloss.Left,
 			bookTitle,
@@ -851,9 +884,9 @@ func (m model) viewMenu() string {
 			Height(m.height - 12).
 			Render("\n\n\n🚪 Exit SSH Reader\n\nThank you for exploring\nThe Void Chronicles!")
 	}
-	
+
 	rightPanel := rightPanelStyle.Render(rightContent)
-	
+
 	// Combine panels
 	panels := lipgloss.JoinHorizontal(
 		lipgloss.Top,
@@ -861,10 +894,10 @@ func (m model) viewMenu() string {
 		"  ",
 		rightPanel,
 	)
-	
+
 	// Footer
 	footer := footerStyle.Width(m.width).Render("↑/↓: navigate • enter: read • c: continue • q: quit")
-	
+
 	// Combine all elements
 	return lipgloss.JoinVertical(
 		lipgloss.Center,
@@ -878,7 +911,7 @@ func (m model) viewMenu() string {
 }
 
 func (m model) viewChapterList() string {
-	header := headerStyle.Width(m.width-2).Render("📚 CHAPTERS")
+	header := headerStyle.Width(m.width - 2).Render("📚 CHAPTERS")
 
 	var items []string
 	for i, chapter := range m.book.Chapters {
@@ -891,7 +924,7 @@ func (m model) viewChapterList() string {
 	}
 
 	content := lipgloss.JoinVertical(lipgloss.Left, items...)
-	
+
 	footer := footerStyle.Width(m.width).Render("↑/↓: navigate • enter: read • esc: back • q: quit")
 
 	return lipgloss.JoinVertical(
@@ -907,12 +940,12 @@ func (m model) viewChapterList() string {
 func (m model) viewReading() string {
 	chapter := m.book.Chapters[m.currentChapter]
 	progress := fmt.Sprintf("Chapter %d of %d", m.currentChapter+1, len(m.book.Chapters))
-	
-	header := headerStyle.Width(m.width-2).Render(fmt.Sprintf("📖 %s (%s)", chapter.Title, progress))
+
+	header := headerStyle.Width(m.width - 2).Render(fmt.Sprintf("📖 %s (%s)", chapter.Title, progress))
 
 	contentHeight := m.height - 4 // Header + 2 empty lines + footer
 	lines := wrapText(chapter.Content, m.width-4)
-	
+
 	startLine := m.scrollOffset
 	endLine := startLine + contentHeight
 	if endLine > len(lines) {
@@ -939,7 +972,7 @@ func (m model) viewReading() string {
 }
 
 func (m model) viewAbout() string {
-	header := headerStyle.Width(m.width-2).Render("ℹ️  ABOUT VOID REAVERS")
+	header := headerStyle.Width(m.width - 2).Render("ℹ️  ABOUT VOID REAVERS")
 
 	aboutText := `🚀 Welcome to the Void Chronicles Universe! 🚀
 
@@ -975,7 +1008,7 @@ Set in a cosmos where quantum physics can tear reality apart and ancient alien A
 }
 
 func (m model) viewProgress() string {
-	header := headerStyle.Width(m.width-2).Render("📊 READING PROGRESS")
+	header := headerStyle.Width(m.width - 2).Render("📊 READING PROGRESS")
 
 	completion := m.progress.GetCompletionPercentage(len(m.book.Chapters))
 
@@ -987,7 +1020,7 @@ func (m model) viewProgress() string {
 📅 Last Read: %s
 🔖 Bookmarks: %d
 
-📚 Chapter Progress:`, 
+📚 Chapter Progress:`,
 		m.progress.Username,
 		completion,
 		m.progress.CurrentChapter+1,
@@ -1014,8 +1047,8 @@ func (m model) viewProgress() string {
 			if i >= 5 { // Show only first 5 bookmarks
 				break
 			}
-			progressText += fmt.Sprintf("\n  • Chapter %d - %s", 
-				bookmark.Chapter+1, 
+			progressText += fmt.Sprintf("\n  • Chapter %d - %s",
+				bookmark.Chapter+1,
 				bookmark.Created.Format("Jan 2 15:04"))
 		}
 	}
