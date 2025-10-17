@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -146,22 +148,68 @@ func TestValidatePassword(t *testing.T) {
 }
 
 func TestGenerateSSHKey(t *testing.T) {
-	tempDir := t.TempDir()
-	keyPath := tempDir + "/test_key"
+	t.Run("generates valid SSH key pair", func(t *testing.T) {
+		tempDir := t.TempDir()
+		keyPath := filepath.Join(tempDir, "test_key")
 
-	err := generateSSHKey(keyPath)
-	if err != nil {
-		t.Fatalf("generateSSHKey() error = %v", err)
-	}
+		err := generateSSHKey(keyPath)
+		if err != nil {
+			t.Fatalf("generateSSHKey() error = %v", err)
+		}
 
-	// Check if files were created
-	if _, err := os.Stat(keyPath); os.IsNotExist(err) {
-		t.Error("private key file was not created")
-	}
+		// Check that both private and public key files were created
+		privateKey, err := os.Stat(keyPath)
+		if os.IsNotExist(err) {
+			t.Fatal("Private key file was not created")
+		}
 
-	if _, err := os.Stat(keyPath + ".pub"); os.IsNotExist(err) {
-		t.Error("public key file was not created")
-	}
+		_, err = os.Stat(keyPath + ".pub")
+		if os.IsNotExist(err) {
+			t.Fatal("Public key file was not created")
+		}
+
+		// Check file permissions (private key should be 600)
+		if privateKey.Mode().Perm() != 0600 {
+			t.Errorf("Private key permissions should be 0600, got %v", privateKey.Mode().Perm())
+		}
+
+		// Verify key content starts correctly
+		privateContent, _ := os.ReadFile(keyPath)
+		if !strings.Contains(string(privateContent), "BEGIN OPENSSH PRIVATE KEY") {
+			t.Error("Private key doesn't have valid OpenSSH format")
+		}
+
+		publicContent, _ := os.ReadFile(keyPath + ".pub")
+		if !strings.HasPrefix(string(publicContent), "ssh-ed25519") {
+			t.Error("Public key doesn't have valid ed25519 format")
+		}
+	})
+
+	t.Run("can generate key at existing path", func(t *testing.T) {
+		tempDir := t.TempDir()
+		keyPath := filepath.Join(tempDir, "existing_key")
+
+		// Generate first key
+		err := generateSSHKey(keyPath)
+		if err != nil {
+			t.Fatalf("First generation failed: %v", err)
+		}
+
+		// Generate again - should succeed without error
+		err = generateSSHKey(keyPath)
+		if err != nil {
+			t.Fatalf("Second generation failed: %v", err)
+		}
+
+		// Verify keys still exist and are valid
+		if _, err := os.Stat(keyPath); os.IsNotExist(err) {
+			t.Error("Private key file should exist after regeneration")
+		}
+		
+		if _, err := os.Stat(keyPath + ".pub"); os.IsNotExist(err) {
+			t.Error("Public key file should exist after regeneration")
+		}
+	})
 }
 
 func TestServerStartup(t *testing.T) {
