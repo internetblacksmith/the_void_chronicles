@@ -70,9 +70,18 @@ TLS_KEY_PATH=/data/ssl/key.pem    # Path to TLS private key
 SSH_PORT=2222         # SSH server port (internal container port)
 SSH_HOST=0.0.0.0      # Bind address
 SSH_PASSWORD=Amigos4Life!  # Authentication password
+
+# Monitoring (Optional)
+# SENTRY_DSN=https://your-sentry-dsn@sentry.io/project-id  # Sentry error tracking
+# ENVIRONMENT=production                                    # Environment name
+# RELEASE=void-reader@1.0.0                                 # Release version
+# POSTHOG_API_KEY=phc_your_posthog_api_key                  # PostHog analytics
+# POSTHOG_HOST=https://app.posthog.com                      # PostHog host URL
 ```
 
 For Kamal deployment, secrets are managed via Doppler (see KAMAL_CONFIG_INSTRUCTIONS.md).
+
+**Optional Monitoring**: The application supports Sentry (error tracking) and PostHog (analytics) integration. If environment variables are not set, the application runs normally without monitoring.
 
 ## 🎯 Quick Start
 
