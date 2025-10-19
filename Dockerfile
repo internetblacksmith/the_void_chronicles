@@ -1,6 +1,7 @@
+# Build stage
 FROM golang:1.24-alpine AS builder
 
-RUN apk add --no-cache git openssh-keygen
+RUN apk add --no-cache git openssh-keygen curl
 
 WORKDIR /app
 
@@ -10,20 +11,27 @@ RUN go mod download
 
 COPY ssh-reader/*.go ./
 
+# Build binary
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o void-reader
 
+# Runtime stage
 FROM alpine:latest
 
-RUN apk --no-cache add ca-certificates openssh-keygen netcat-openbsd
+RUN apk --no-cache add ca-certificates openssh-keygen netcat-openbsd curl bash gnupg
 
 WORKDIR /app
 
+# Install Doppler CLI
+RUN curl -Ls --tlsv1.2 --proto "=https" --retry 3 \
+    https://cli.doppler.com/install.sh | sh
+
+# Copy binary from builder
 COPY --from=builder /app/void-reader .
 
-# Copy the actual book content
+# Copy the book content
 COPY book1_void_reavers_source ./book1_void_reavers_source
 
-# Create necessary directories (but don't generate SSH key - it will be stored in persistent volume)
+# Create necessary directories
 RUN mkdir -p .ssh .void_reader_data
 
 # Create non-root user
@@ -33,9 +41,12 @@ RUN addgroup -g 1001 -S voidreader && \
 
 USER voidreader
 
+# Expose both HTTP and SSH ports
 EXPOSE 8080 2222
 
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD nc -z localhost 8080 || exit 1
 
-CMD ["./void-reader"]
+# Use Doppler to inject secrets at runtime
+CMD ["doppler", "run", "--", "./void-reader"]

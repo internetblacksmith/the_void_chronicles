@@ -78,7 +78,7 @@ func TestProgressManager(t *testing.T) {
 		pm := &ProgressManager{dataDir: tempDir}
 
 		progress, err := pm.LoadProgress("nonexistent")
-		
+
 		// Should return empty progress, not error
 		if err != nil {
 			t.Errorf("Expected no error for missing user, got: %v", err)
@@ -150,7 +150,7 @@ func TestProgressManager(t *testing.T) {
 		}
 
 		percentage := progress.GetCompletionPercentage(4)
-		
+
 		// 2 out of 4 chapters = 50%
 		if percentage != 50.0 {
 			t.Errorf("Expected 50%% completion, got %.1f%%", percentage)

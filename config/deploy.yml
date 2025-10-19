@@ -24,11 +24,10 @@ servers:
       traefik.http.services.void-web.loadbalancer.server.port: 8080
     options:
       # Publish HTTP, HTTPS, and SSH ports directly to host
-      # Note: VPS SSH server on port 1447, so we use port 2222 for app SSH
       publish:
         - "80:8080"
         - "443:8443"
-        - "2222:2222"
+        - "22:2222"
     proxy: false
 
 # Readiness delay (no proxy, no healthcheck in config)
