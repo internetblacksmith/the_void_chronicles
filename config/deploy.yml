@@ -1,0 +1,62 @@
+# Service name (used for container naming)
+service: void-chronicles
+
+# Docker image (GitHub Container Registry - free private images)
+image: ghcr.io/internetblacksmith/void-chronicles
+
+# SSH configuration for connecting to VPS
+ssh:
+  user: root
+  port: 1447
+  keys:
+    - ~/.ssh/digitalocean_vps
+
+# Server configuration
+servers:
+  web:
+    hosts:
+      - 161.35.165.206
+    labels:
+      # Traefik routing for HTTP interface (when Traefik is set up)
+      traefik.http.routers.void-web.rule: Host(`vc.internetblacksmith.dev`)
+      traefik.http.routers.void-web.entrypoints: websecure
+      traefik.http.routers.void-web.tls.certresolver: letsencrypt
+      traefik.http.services.void-web.loadbalancer.server.port: 8080
+    options:
+      # Publish HTTP, HTTPS, and SSH ports directly to host
+      # Note: VPS SSH server on port 1447, so we use port 2222 for app SSH
+      publish:
+        - "80:8080"
+        - "443:8443"
+        - "2222:2222"
+    proxy: false
+
+# Readiness delay (no proxy, no healthcheck in config)
+readiness_delay: 10
+
+# Docker registry authentication (GitHub Container Registry)
+registry:
+  server: ghcr.io
+  username: internetblacksmith
+  password:
+    - KAMAL_REGISTRY_PASSWORD  # GitHub Personal Access Token with write:packages scope
+
+# Builder configuration
+builder:
+  arch: amd64
+
+# Environment variables
+env:
+  # Only the Doppler token is passed to container
+  # All other secrets are fetched by Doppler at runtime
+  secret:
+    - DOPPLER_TOKEN
+
+# DO NOT INCLUDE accessories section (no Redis needed)
+# DO NOT INCLUDE traefik section (already running from gcal-sinatra)
+# DO NOT INCLUDE proxy section (using Traefik instead of kamal-proxy)
+
+# Persistent volumes for user progress, SSH keys, and SSL certificates
+volumes:
+  - void-data:/data
+  - void-ssl:/data/ssl

@@ -2,60 +2,26 @@
 
 ## 🚀 Deployment Options
 
-### 1. Free Hosting Options
+### 1. Kamal Deployment (Recommended)
 
-#### **Railway** (Recommended for beginners)
-- **Free tier**: 500 hours/month (~20 days)
-- **Pros**: Easy deployment, automatic HTTPS, good performance
+**See [KAMAL_CONFIG_INSTRUCTIONS.md](KAMAL_CONFIG_INSTRUCTIONS.md) for complete setup guide.**
+
+#### Quick Overview
+- **Cost**: VPS pricing (~$6-12/month)
+- **Pros**: Zero-downtime deployments, Doppler secret management, Traefik SSL
+- **Requirements**: VPS with Docker, Doppler account, Traefik already deployed
 - **Setup**:
 ```bash
-# Install Railway CLI
-npm install -g @railway/cli
+# 1. Configure config/deploy.yml with your VPS details
+# 2. Setup Doppler secrets
+# 3. Deploy
+kamal deploy
 
-# Login and initialize
-railway login
-railway init
-
-# Deploy
-railway up
-
-# Get your app URL
-railway domain
+# Connect via SSH
+ssh -p 22 your-vps-ip
 ```
 
-#### **Fly.io** (Best free option)
-- **Free tier**: 3 shared VMs, 3GB persistent storage
-- **Pros**: Global deployment, persistent storage, IPv6 support
-- **Setup**:
-```bash
-# Install flyctl
-curl -L https://fly.io/install.sh | sh
-
-# Login and create app
-fly auth login
-fly launch
-
-# Deploy
-fly deploy
-
-# SSH will be available at: yourapp.fly.dev:22
-```
-
-#### **Google Cloud Run**
-- **Free tier**: 2 million requests/month
-- **Pros**: Scales to zero, Google infrastructure
-- **Note**: Requires containerization
-```bash
-# Build and push container
-docker build -t gcr.io/PROJECT_ID/void-reader .
-docker push gcr.io/PROJECT_ID/void-reader
-
-# Deploy
-gcloud run deploy void-reader \
-  --image gcr.io/PROJECT_ID/void-reader \
-  --port 2222 \
-  --allow-unauthenticated
-```
+### 2. Free/Budget Options
 
 ### 2. Budget VPS Options ($5-10/month)
 
@@ -95,6 +61,25 @@ build:
     web: Dockerfile
 run:
   web: ./void-reader
+```
+
+#### **Railway** (Recommended for simple deployments)
+- **Free tier**: 500 hours/month (~20 days)
+- **Pros**: Easy deployment, automatic HTTPS, good performance
+- **Setup**:
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login and initialize
+railway login
+railway init
+
+# Deploy
+railway up
+
+# Get your app URL
+railway domain
 ```
 
 #### **Render**
@@ -174,6 +159,31 @@ services:
 ```
 
 ## 🔒 Security Considerations
+
+### SSL/TLS Certificates
+
+The SSH reader supports native HTTPS:
+
+```bash
+# Generate self-signed certificates for testing
+mkdir -p /data/ssl
+openssl req -x509 -newkey rsa:4096 -nodes \
+  -keyout /data/ssl/key.pem \
+  -out /data/ssl/cert.pem \
+  -days 365 -subj "/CN=yourdomain.com"
+
+# Or use Let's Encrypt certificates
+certbot certonly --standalone -d yourdomain.com
+cp /etc/letsencrypt/live/yourdomain.com/fullchain.pem /data/ssl/cert.pem
+cp /etc/letsencrypt/live/yourdomain.com/privkey.pem /data/ssl/key.pem
+
+# Set environment variables
+export TLS_CERT_PATH=/data/ssl/cert.pem
+export TLS_KEY_PATH=/data/ssl/key.pem
+export HTTPS_PORT=8443
+```
+
+**Note**: If certificates are not found, the HTTPS server will not start and only HTTP will be available.
 
 ### Password Authentication
 The SSH reader now requires password authentication:

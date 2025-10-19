@@ -10,7 +10,7 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 - **Build**: `cd ssh-reader && go build` or `make build`
 - **Lint**: `cd ssh-reader && go fmt ./... && go vet ./...` or `make lint`
 - **Local dev**: `./run.sh` (HTTP:8080, SSH:2222, password: Amigos4Life!)
-- **Deploy Fly.io**: `fly deploy` (set SSH_PASSWORD secret first)
+- **Deploy Kamal**: `kamal deploy` (requires Doppler token and VPS setup per KAMAL_CONFIG_INSTRUCTIONS.md)
 - **Generate PDF**: `./markdown_to_kdp_pdf.rb book1_void_reavers_source void_reavers.pdf`
 - **Generate EPUB**: `./markdown_to_epub.rb book1_void_reavers_source void_reavers.epub`
 
@@ -29,7 +29,7 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 - Progress tracking: JSON persistence in `.void_reader_data/username.json`
 - Book loading: Markdown parser in `book.go` reads from `chapters/*.md`
 - Environment: Variables loaded via `godotenv` with fallback defaults
-- Fly.io: Multi-port support with persistent storage at `/data/void_reader_data`
+- Deployment: Kamal orchestration with Traefik SSL (HTTP), direct SSH port publishing (2222), Doppler secrets, persistent volumes for progress and SSH keys
 
 ## Critical Commit Policy
 **Documentation-First**: Before ANY commit, verify ALL documentation matches code (README, DEPLOYMENT.md, guides, file paths). Documentation drift is unacceptable. Workflow: (1) Code changes, (2) Update docs, (3) Verify accuracy, (4) Commit.

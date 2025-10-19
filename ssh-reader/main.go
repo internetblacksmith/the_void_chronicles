@@ -40,6 +40,7 @@ import (
 var (
 	host        string
 	httpPort    string
+	httpsPort   string
 	sshPort     string
 	rateLimiter *RateLimiter
 )
@@ -125,6 +126,9 @@ func main() {
 	// HTTP port: use HTTP_PORT env var or default
 	httpPort = getEnv("HTTP_PORT", "8080")
 
+	// HTTPS port: use HTTPS_PORT env var or default
+	httpsPort = getEnv("HTTPS_PORT", "8443")
+
 	// SSH port: use SSH_PORT env var or default
 	sshPort = getEnv("SSH_PORT", "2222")
 
@@ -134,6 +138,7 @@ func main() {
 	// Log startup configuration
 	log.Printf("=== Void Reader Starting ===")
 	log.Printf("HTTP Port: %s", httpPort)
+	log.Printf("HTTPS Port: %s", httpsPort)
 	log.Printf("SSH Port: %s", sshPort)
 	log.Printf("SSH Host: %s", host)
 	log.Printf("Rate limiting: 5 attempts per 5 minutes, 15 minute block")
@@ -162,12 +167,13 @@ func main() {
 	}
 
 	// Check for port conflicts
-	if httpPort == sshPort {
-		log.Fatalf("ERROR: Port conflict! Both HTTP and SSH are configured to use port %s.\nPlease set SSH_PORT to a different value (e.g., 8022)", httpPort)
+	if httpPort == sshPort || httpsPort == sshPort || httpPort == httpsPort {
+		log.Fatalf("ERROR: Port conflict! Ports must be unique. HTTP: %s, HTTPS: %s, SSH: %s", httpPort, httpsPort, sshPort)
 	}
 
-	// Start both HTTP and SSH servers
+	// Start both HTTP and HTTPS servers
 	go startHTTPServer()
+	go startHTTPSServer()
 
 	// Configure SSH server with more detailed logging
 	wishMiddleware := []wish.Middleware{
@@ -216,6 +222,7 @@ func main() {
 
 	// Log server configuration
 	log.Printf("HTTP server listening on 0.0.0.0:%s", httpPort)
+	log.Printf("HTTPS server listening on 0.0.0.0:%s (if certs available)", httpsPort)
 	log.Printf("SSH server listening on %s:%s", host, sshPort)
 	// Don't log the actual password for security
 	if os.Getenv("SSH_PASSWORD") != "" {
@@ -354,6 +361,138 @@ func startHTTPServer() {
 	log.Printf("Starting HTTP server on 0.0.0.0:%s", httpPort)
 	if err := http.ListenAndServe("0.0.0.0:"+httpPort, nil); err != nil {
 		log.Fatalf("FATAL: HTTP server failed to start: %v", err)
+	}
+}
+
+func startHTTPSServer() {
+	certFile := getEnv("TLS_CERT_PATH", "/data/ssl/cert.pem")
+	keyFile := getEnv("TLS_KEY_PATH", "/data/ssl/key.pem")
+
+	if _, err := os.Stat(certFile); os.IsNotExist(err) {
+		log.Printf("TLS certificate not found at %s, HTTPS server not started", certFile)
+		return
+	}
+	if _, err := os.Stat(keyFile); os.IsNotExist(err) {
+		log.Printf("TLS key not found at %s, HTTPS server not started", keyFile)
+		return
+	}
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		html := `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bob's Personal Homepage</title>
+    <style>
+        body {
+            background: #C0C0C0;
+            font-family: "Times New Roman", serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #000080;
+            font-size: 36px;
+            text-align: center;
+        }
+        .counter {
+            text-align: center;
+            margin: 20px;
+        }
+        .links {
+            background: #FFFF00;
+            border: 3px ridge #808080;
+            padding: 10px;
+            margin: 20px auto;
+            width: 500px;
+        }
+        a {
+            color: #0000FF;
+            text-decoration: underline;
+        }
+        .construction {
+            text-align: center;
+            color: #FF0000;
+            font-size: 18px;
+            blink: true;
+        }
+        hr {
+            border: none;
+            border-top: 3px double #333;
+            color: #333;
+            overflow: visible;
+            text-align: center;
+            height: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Bob's Homepage!</h1>
+    <hr>
+    <marquee behavior="scroll" direction="left">🚧 Under Construction Since 1997! 🚧</marquee>
+    
+    <center>
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" width="88" height="31" alt="Best viewed in Netscape Navigator">
+    </center>
+    
+    <div class="construction">
+        <p>🚧 This site is UNDER CONSTRUCTION 🚧</p>
+        <p>Last updated: January 15, 1998</p>
+    </div>
+    
+    <div class="links">
+        <h2>My Favorite Links:</h2>
+        <ul>
+            <li><a href="#">My Resume</a> (Coming Soon!)</li>
+            <li><a href="#">Pictures of my Cat</a> (Under Construction)</li>
+            <li><a href="#">Cool MIDI Files</a> (Broken Link)</li>
+            <li><a href="#">Guestbook</a> (Please Sign!)</li>
+            <li><a href="#">WebRing</a> (Join my WebRing!)</li>
+        </ul>
+    </div>
+    
+    <center>
+        <p>You are visitor number:</p>
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" alt="00001337">
+        <br><br>
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" width="88" height="31" alt="Made with Notepad">
+        <br>
+        <p>Best viewed at 800x600 resolution</p>
+        <p>© 1997-1998 Bob Smith. All rights reserved.</p>
+    </center>
+    
+    <hr>
+    <center>
+        <p><i>Email me at: webmaster@bobshomepage.geocities.com</i></p>
+    </center>
+</body>
+</html>
+`
+
+		w.Header().Set("Content-Type", "text/html")
+		fmt.Fprint(w, html)
+	})
+
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, "OK")
+	})
+
+	pm := NewProgressManager()
+	mux.HandleFunc("/api/storage/stats", pm.StorageStatsHandler)
+	mux.HandleFunc("/api/storage/cleanup", pm.CleanupHandler)
+
+	pm.StartCleanupScheduler()
+
+	log.Printf("Starting HTTPS server on 0.0.0.0:%s", httpsPort)
+	server := &http.Server{
+		Addr:    "0.0.0.0:" + httpsPort,
+		Handler: mux,
+	}
+
+	if err := server.ListenAndServeTLS(certFile, keyFile); err != nil {
+		log.Printf("WARNING: HTTPS server failed to start: %v", err)
 	}
 }
 

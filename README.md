@@ -2,13 +2,12 @@
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Go Version](https://img.shields.io/badge/Go-1.21%2B-00ADD8?logo=go)](https://go.dev/)
-[![Fly.io Deploy](https://img.shields.io/badge/Deploy-Fly.io-783EF9?logo=fly.io)](https://fly.io/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)](https://www.docker.com/)
 
 An innovative SSH-based book reader that lets you experience "The Void Chronicles" science fiction series through your terminal. Features a beautiful TUI interface, progress tracking, and a clever 90s-style web disguise.
 
 **🚀 Try it now:** 
-- SSH: `ssh vc.internetblacksmith.dev` (Password: `Amigos4Life!`)
+- SSH: `ssh -p 22 vc.internetblacksmith.dev` (Password: `Amigos4Life!`)
 - Web: https://vc.internetblacksmith.dev
 
 ## 🌟 Features
@@ -25,7 +24,7 @@ An innovative SSH-based book reader that lets you experience "The Void Chronicle
 - Complete with marquee tags, "Under Construction" notices, and broken links
 
 ### 🚀 Modern Deployment
-- **Fly.io Deployed**: Automatic deployment via GitHub Actions
+- **Kamal Deployment**: Zero-downtime deployments with Doppler secret management
 - **Docker Support**: Full containerization with docker-compose
 - **Systemd Integration**: Production-ready Linux service configuration
 
@@ -61,13 +60,18 @@ The application uses environment variables for configuration. Copy `.env.example
 # HTTP Server
 HTTP_PORT=8080         # HTTP server port
 
+# HTTPS Server
+HTTPS_PORT=8443        # HTTPS server port
+TLS_CERT_PATH=/data/ssl/cert.pem  # Path to TLS certificate
+TLS_KEY_PATH=/data/ssl/key.pem    # Path to TLS private key
+
 # SSH Server  
 SSH_PORT=2222         # SSH server port
 SSH_HOST=0.0.0.0      # Bind address
 SSH_PASSWORD=Amigos4Life!  # Authentication password
 ```
 
-For Fly.io deployment, use `fly secrets set` instead of a `.env` file.
+For Kamal deployment, secrets are managed via Doppler (see KAMAL_CONFIG_INSTRUCTIONS.md).
 
 ## 🎯 Quick Start
 
@@ -92,27 +96,26 @@ ssh localhost -p 2222
 
 # View the 90s homepage disguise
 open http://localhost:8080
+
+# HTTPS is available if you have SSL certificates in /data/ssl/
+# open https://localhost:8443
 ```
 
-### 🚢 Deploy to Fly.io
+### 🚢 Deploy with Kamal
 
 ```bash
-# Install Fly CLI
-curl -L https://fly.io/install.sh | sh
+# See KAMAL_CONFIG_INSTRUCTIONS.md for complete setup guide
 
-# Sign up and authenticate
-fly auth signup
-fly auth login
+# Quick deployment:
+# 1. Configure config/deploy.yml with your VPS details
+# 2. Set Doppler token: kamal secrets set DOPPLER_TOKEN="dp.st.prd.YOUR_TOKEN"
+# 3. Deploy: kamal deploy
 
-# Launch the app (first time only)
-fly launch
+# Connect via SSH
+ssh -p 22 your-vps-ip
+# Password: (from Doppler SSH_PASSWORD)
 
-# Deploy updates
-fly deploy
-
-# Connect via SSH (standard port 22!)
-ssh void-chronicles.fly.dev
-# Password: Amigos4Life!
+# HTTPS is available at https://your-domain (requires SSL certificates)
 ```
 
 ## 📖 The Void Chronicles Series
@@ -147,12 +150,11 @@ Captain Zara "Bloodhawk" Vega leads her crew through the lawless void between so
 
 ## 📚 Documentation
 
-- [Deployment Guide](DEPLOYMENT_GUIDE.md) - Deploy to 12+ platforms
-- [Fly.io Deployment](docs/fly-deployment.md) - Production deployment guide
+- [Kamal Deployment Guide](KAMAL_CONFIG_INSTRUCTIONS.md) - Complete Kamal/Doppler setup
+- [Deployment Options](DEPLOYMENT.md) - Alternative deployment methods
 - [Style Guide](MARKDOWN_STYLE_GUIDE.md) - Markdown formatting conventions
 - [Series Bible](void_chronicles_series_bible.md) - Complete series planning
 - [Contributing](CONTRIBUTING.md) - How to contribute
-- [API Reference](docs/api-reference.md) - Technical documentation
 
 ## 🛠️ Installation
 
@@ -184,11 +186,11 @@ docker-compose up -d
 
 ### Deploy to Production
 
-See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed guides on:
-- **Fly.io** (Currently deployed) - Native SSH and HTTP support
-- **DigitalOcean** - $6/month VPS with full control
-- **Fly.io** - Global edge deployment
-- **Self-hosting** - Raspberry Pi or home server
+See deployment documentation for detailed guides:
+- **Kamal** (Recommended) - Zero-downtime VPS deployment with Doppler secrets (see KAMAL_CONFIG_INSTRUCTIONS.md)
+- **Docker** - Containerized deployment with docker-compose
+- **Systemd** - Production Linux service (see deploy.sh)
+- **Alternative platforms** - See DEPLOYMENT.md for more options
 
 ## 🤝 Contributing
 
