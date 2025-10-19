@@ -7,8 +7,9 @@
 An innovative SSH-based book reader that lets you experience "The Void Chronicles" science fiction series through your terminal. Features a beautiful TUI interface, progress tracking, and a clever 90s-style web disguise.
 
 **🚀 Try it now:** 
-- SSH: `ssh -p 22 vc.internetblacksmith.dev` (Password: `Amigos4Life!`)
-- Web: https://vc.internetblacksmith.dev
+- SSH: `ssh vc.internetblacksmith.dev` (Password: `Amigos4Life!`)
+- HTTPS: https://vc.internetblacksmith.dev
+- HTTP: http://vc.internetblacksmith.dev
 
 ## 🌟 Features
 
@@ -66,7 +67,7 @@ TLS_CERT_PATH=/data/ssl/cert.pem  # Path to TLS certificate
 TLS_KEY_PATH=/data/ssl/key.pem    # Path to TLS private key
 
 # SSH Server  
-SSH_PORT=2222         # SSH server port
+SSH_PORT=2222         # SSH server port (internal container port)
 SSH_HOST=0.0.0.0      # Bind address
 SSH_PASSWORD=Amigos4Life!  # Authentication password
 ```
@@ -90,14 +91,14 @@ cp .env.example .env
 ./build.sh
 ./run.sh
 
-# In another terminal, connect via SSH
+# In another terminal, connect via SSH (internal port 2222)
 ssh localhost -p 2222
 # Password: Amigos4Life! (or your custom password from .env)
 
 # View the 90s homepage disguise
 open http://localhost:8080
 
-# HTTPS is available if you have SSL certificates in /data/ssl/
+# HTTPS available with SSL certificates in .ssl/ directory
 # open https://localhost:8443
 ```
 
@@ -111,11 +112,12 @@ open http://localhost:8080
 # 2. Set Doppler token: kamal secrets set DOPPLER_TOKEN="dp.st.prd.YOUR_TOKEN"
 # 3. Deploy: kamal deploy
 
-# Connect via SSH
-ssh -p 22 your-vps-ip
+# Connect via SSH (standard port 22 mapped to container port 2222)
+ssh your-domain.com
 # Password: (from Doppler SSH_PASSWORD)
 
-# HTTPS is available at https://your-domain (requires SSL certificates)
+# HTTPS available at https://your-domain.com (Let's Encrypt certificates)
+# HTTP available at http://your-domain.com
 ```
 
 ## 📖 The Void Chronicles Series
@@ -151,6 +153,7 @@ Captain Zara "Bloodhawk" Vega leads her crew through the lawless void between so
 ## 📚 Documentation
 
 - [Kamal Deployment Guide](KAMAL_CONFIG_INSTRUCTIONS.md) - Complete Kamal/Doppler setup
+- [SSL Certificate Renewal](docs/ssl-certificate-renewal.md) - HTTPS certificate management
 - [Deployment Options](DEPLOYMENT.md) - Alternative deployment methods
 - [Style Guide](MARKDOWN_STYLE_GUIDE.md) - Markdown formatting conventions
 - [Series Bible](void_chronicles_series_bible.md) - Complete series planning

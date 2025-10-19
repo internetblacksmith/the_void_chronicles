@@ -6,22 +6,52 @@
 
 **See [KAMAL_CONFIG_INSTRUCTIONS.md](KAMAL_CONFIG_INSTRUCTIONS.md) for complete setup guide.**
 
-#### Quick Overview
-- **Cost**: VPS pricing (~$6-12/month)
-- **Pros**: Zero-downtime deployments, Doppler secret management, Traefik SSL
-- **Requirements**: VPS with Docker, Doppler account, Traefik already deployed
-- **Setup**:
+#### Features
+- **Zero-downtime deployments** with Kamal orchestration
+- **Doppler secret management** for secure environment variables
+- **Native HTTPS support** with Let's Encrypt certificates
+- **Direct port mapping**: HTTP (80), HTTPS (443), SSH (22)
+- **Persistent volumes** for SSH keys, SSL certificates, and user progress
+
+#### Requirements
+- VPS with Docker and Docker Compose
+- Doppler account for secret management
+- Domain name with DNS configured
+- Let's Encrypt SSL certificates (or self-signed for testing)
+
+#### Quick Setup
 ```bash
-# 1. Configure config/deploy.yml with your VPS details
-# 2. Setup Doppler secrets
+# 1. Configure config/deploy.yml with your VPS IP and domain
+# 2. Setup Doppler secrets (SSH_PASSWORD, etc.)
 # 3. Deploy
 kamal deploy
 
-# Connect via SSH
-ssh -p 22 your-vps-ip
+# Connect via SSH (standard port 22 mapped to container port 2222)
+ssh your-domain.com
+# Password: (from Doppler SSH_PASSWORD)
+
+# HTTPS available at https://your-domain.com
+# HTTP available at http://your-domain.com
 ```
 
-### 2. Free/Budget Options
+#### SSL Certificate Setup
+See [docs/ssl-certificate-renewal.md](docs/ssl-certificate-renewal.md) for certificate generation and renewal:
+```bash
+# Generate Let's Encrypt certificate
+certbot certonly --standalone -d your-domain.com
+
+# Copy to Docker volume
+sudo cp /etc/letsencrypt/live/your-domain.com/fullchain.pem \
+  /var/lib/docker/volumes/void-ssl/_data/cert.pem
+sudo cp /etc/letsencrypt/live/your-domain.com/privkey.pem \
+  /var/lib/docker/volumes/void-ssl/_data/key.pem
+sudo chmod 644 /var/lib/docker/volumes/void-ssl/_data/*.pem
+
+# Auto-renewal with cron
+./renew-ssl-certs.sh
+```
+
+**Cost**: VPS pricing (~$6-12/month for DigitalOcean/Linode/Vultr)
 
 ### 2. Budget VPS Options ($5-10/month)
 
@@ -162,41 +192,52 @@ services:
 
 ### SSL/TLS Certificates
 
-The SSH reader supports native HTTPS:
+The SSH reader supports native HTTPS with graceful fallback:
 
+**For Kamal Deployment** (see [docs/ssl-certificate-renewal.md](docs/ssl-certificate-renewal.md)):
 ```bash
-# Generate self-signed certificates for testing
-mkdir -p /data/ssl
-openssl req -x509 -newkey rsa:4096 -nodes \
-  -keyout /data/ssl/key.pem \
-  -out /data/ssl/cert.pem \
-  -days 365 -subj "/CN=yourdomain.com"
-
-# Or use Let's Encrypt certificates
+# Let's Encrypt certificates (recommended)
 certbot certonly --standalone -d yourdomain.com
-cp /etc/letsencrypt/live/yourdomain.com/fullchain.pem /data/ssl/cert.pem
-cp /etc/letsencrypt/live/yourdomain.com/privkey.pem /data/ssl/key.pem
+cp /etc/letsencrypt/live/yourdomain.com/fullchain.pem \
+  /var/lib/docker/volumes/void-ssl/_data/cert.pem
+cp /etc/letsencrypt/live/yourdomain.com/privkey.pem \
+  /var/lib/docker/volumes/void-ssl/_data/key.pem
+chmod 644 /var/lib/docker/volumes/void-ssl/_data/*.pem
+```
+
+**For Local Development**:
+```bash
+# Self-signed certificates
+mkdir -p .ssl
+openssl req -x509 -newkey rsa:4096 -nodes \
+  -keyout .ssl/key.pem \
+  -out .ssl/cert.pem \
+  -days 365 -subj "/CN=localhost"
 
 # Set environment variables
-export TLS_CERT_PATH=/data/ssl/cert.pem
-export TLS_KEY_PATH=/data/ssl/key.pem
+export TLS_CERT_PATH=.ssl/cert.pem
+export TLS_KEY_PATH=.ssl/key.pem
 export HTTPS_PORT=8443
 ```
 
-**Note**: If certificates are not found, the HTTPS server will not start and only HTTP will be available.
+**Note**: If certificates are not found, HTTPS server gracefully skips startup and only HTTP is available.
 
 ### Password Authentication
-The SSH reader now requires password authentication:
+The SSH reader requires password authentication:
 - Default password: `Amigos4Life!`
-- Can be customized via `SSH_PASSWORD` environment variable
+- Customizable via `SSH_PASSWORD` environment variable (required for production)
 
 ```bash
-# Connect with password
-ssh yourserver.com -p 2222
+# Kamal deployment (standard SSH port 22)
+ssh your-domain.com
 # Enter password when prompted: Amigos4Life!
 
-# Or use custom password
-SSH_PASSWORD="YourSecurePassword" ./void-reader
+# Local development (internal port 2222)
+ssh localhost -p 2222
+
+# Set custom password via environment
+export SSH_PASSWORD="YourSecurePassword"
+./void-reader
 ```
 
 ### SSH Key Management
@@ -211,12 +252,16 @@ chmod 600 .ssh/id_ed25519
 
 ### Firewall Configuration
 ```bash
-# UFW (Ubuntu/Debian)
-sudo ufw allow 2222/tcp
+# UFW (Ubuntu/Debian) - Kamal deployment
+sudo ufw allow 80/tcp    # HTTP
+sudo ufw allow 443/tcp   # HTTPS
+sudo ufw allow 22/tcp    # SSH (mapped to container 2222)
 sudo ufw enable
 
 # firewalld (CentOS/RHEL)
-sudo firewall-cmd --permanent --add-port=2222/tcp
+sudo firewall-cmd --permanent --add-port=80/tcp
+sudo firewall-cmd --permanent --add-port=443/tcp
+sudo firewall-cmd --permanent --add-port=22/tcp
 sudo firewall-cmd --reload
 ```
 
