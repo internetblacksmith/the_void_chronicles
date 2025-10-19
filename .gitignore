@@ -44,3 +44,6 @@ coverage.html
 .env
 .env.local
 .env.production
+
+# Kamal deployment secrets
+.kamal/
