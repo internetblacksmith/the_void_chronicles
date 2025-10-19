@@ -84,7 +84,7 @@ func TestProgressValidation(t *testing.T) {
 
 	t.Run("trims excess bookmarks", func(t *testing.T) {
 		progress := &UserProgress{
-			Username: "testuser",
+			Username:  "testuser",
 			Bookmarks: make([]Bookmark, 25), // More than MaxBookmarksPerUser
 		}
 
@@ -135,7 +135,7 @@ func TestProgressValidation(t *testing.T) {
 
 	t.Run("enforces file size limit", func(t *testing.T) {
 		progress := &UserProgress{
-			Username: "testuser",
+			Username:  "testuser",
 			Bookmarks: make([]Bookmark, 100), // Way too many
 		}
 

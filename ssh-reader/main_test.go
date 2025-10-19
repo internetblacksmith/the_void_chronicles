@@ -101,34 +101,34 @@ func TestHTTPServer(t *testing.T) {
 
 func TestValidatePassword(t *testing.T) {
 	tests := []struct {
-		name         string
-		envPassword  string
+		name          string
+		envPassword   string
 		inputPassword string
-		expected     bool
+		expected      bool
 	}{
 		{
-			name:         "correct password with env var",
-			envPassword:  "TestPass123",
+			name:          "correct password with env var",
+			envPassword:   "TestPass123",
 			inputPassword: "TestPass123",
-			expected:     true,
+			expected:      true,
 		},
 		{
-			name:         "incorrect password with env var",
-			envPassword:  "TestPass123",
+			name:          "incorrect password with env var",
+			envPassword:   "TestPass123",
 			inputPassword: "WrongPass",
-			expected:     false,
+			expected:      false,
 		},
 		{
-			name:         "correct default password",
-			envPassword:  "",
+			name:          "correct default password",
+			envPassword:   "",
 			inputPassword: "Amigos4Life!",
-			expected:     true,
+			expected:      true,
 		},
 		{
-			name:         "incorrect default password",
-			envPassword:  "",
+			name:          "incorrect default password",
+			envPassword:   "",
 			inputPassword: "WrongPass",
-			expected:     false,
+			expected:      false,
 		},
 	}
 
@@ -205,7 +205,7 @@ func TestGenerateSSHKey(t *testing.T) {
 		if _, err := os.Stat(keyPath); os.IsNotExist(err) {
 			t.Error("Private key file should exist after regeneration")
 		}
-		
+
 		if _, err := os.Stat(keyPath + ".pub"); os.IsNotExist(err) {
 			t.Error("Public key file should exist after regeneration")
 		}
@@ -231,7 +231,7 @@ func TestServerStartup(t *testing.T) {
 			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte("test"))
 			})
-			
+
 			server := httptest.NewServer(mux)
 			defer server.Close()
 		}()
