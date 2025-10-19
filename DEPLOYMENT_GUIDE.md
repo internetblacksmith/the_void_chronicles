@@ -4,170 +4,316 @@
 
 Most Platform-as-a-Service (PaaS) providers like Railway, Heroku, and Render **only support HTTP/HTTPS traffic** on their standard plans. They do not expose arbitrary TCP ports needed for SSH connections.
 
-### Current Status on Railway
+**For SSH functionality, you must use a VPS or container platform with direct port mapping.**
 
-✅ **Working:**
-- HTTP server on port 80 (serves the 90s homepage)
-- Health endpoint for monitoring
-- Application builds and deploys successfully
+## Recommended Deployment Options
 
-❌ **Not Working:**
-- SSH connections (Railway doesn't expose port 23234)
-- Direct terminal access to the book reader
+### Option 1: Kamal Deployment (Recommended for Production)
 
-## Deployment Options
+**Complete guide:** [KAMAL_CONFIG_INSTRUCTIONS.md](KAMAL_CONFIG_INSTRUCTIONS.md)
 
-### Option 1: VPS Deployment (Recommended)
-Deploy to a Virtual Private Server where you control the networking:
+Deploy to a VPS using Kamal orchestration with Doppler secret management:
 
-**Providers that support SSH:**
-- DigitalOcean Droplets
-- AWS EC2
-- Linode
-- Vultr
-- Hetzner Cloud
+**Features:**
+- ✅ Zero-downtime deployments
+- ✅ Native HTTPS with Let's Encrypt
+- ✅ Direct port mapping (HTTP:80, HTTPS:443, SSH:22)
+- ✅ Persistent volumes for data and certificates
+- ✅ Doppler secret management
 
-**Quick Deploy to DigitalOcean:**
+**Providers:**
+- DigitalOcean Droplets ($6/month)
+- Linode ($5/month)
+- Vultr ($6/month)
+- Hetzner Cloud (€4/month)
+
+**Quick Deploy:**
 ```bash
-# 1. Create a droplet (Ubuntu 22.04)
-# 2. SSH into your droplet
-ssh root@your-droplet-ip
+# 1. Configure config/deploy.yml with your VPS details
+# 2. Setup Doppler secrets
+kamal secrets set DOPPLER_TOKEN="dp.st.prd.YOUR_TOKEN"
 
-# 3. Clone the repository
-git clone https://github.com/yourusername/space_pirate.git
-cd space_pirate
+# 3. Deploy
+kamal deploy
 
-# 4. Install Go
-wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
+# 4. Setup SSL certificates (see docs/ssl-certificate-renewal.md)
+# On VPS:
+certbot certonly --standalone -d your-domain.com
+sudo cp /etc/letsencrypt/live/your-domain.com/*.pem \
+  /var/lib/docker/volumes/void-ssl/_data/
+sudo chmod 644 /var/lib/docker/volumes/void-ssl/_data/*.pem
+
+# 5. Connect
+ssh your-domain.com  # Port 22, password: Amigos4Life!
+https://your-domain.com  # 90s homepage
+```
+
+### Option 2: Manual VPS Deployment
+
+Deploy directly to a VPS without Kamal:
+
+```bash
+# 1. SSH into your VPS
+ssh root@your-vps-ip
+
+# 2. Install Go
+wget https://go.dev/dl/go1.24.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.24.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
 source ~/.bashrc
 
-# 5. Build and run
+# 3. Clone repository
+git clone https://github.com/yourusername/space_pirate.git
+cd space_pirate
+
+# 4. Build and deploy
 ./build.sh
 sudo ./deploy.sh
 
-# 6. Open firewall ports
-ufw allow 80/tcp   # HTTP
-ufw allow 23234/tcp # SSH Reader
-ufw enable
+# 5. Configure firewall
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 2222/tcp
+sudo ufw enable
+
+# 6. Setup SSL (optional)
+mkdir -p .ssl
+certbot certonly --standalone -d your-domain.com
+cp /etc/letsencrypt/live/your-domain.com/fullchain.pem .ssl/cert.pem
+cp /etc/letsencrypt/live/your-domain.com/privkey.pem .ssl/key.pem
+
+# 7. Restart service
+sudo systemctl restart void-reader
 ```
 
-### Option 2: Docker with Port Forwarding
-Use Docker on any server with proper port mapping:
+### Option 3: Docker Compose
+
+For local or VPS deployment with Docker:
 
 ```bash
+# Clone repository
+git clone https://github.com/yourusername/space_pirate.git
+cd space_pirate/ssh-reader
+
+# Create .env file
+cp ../.env.example .env
+# Edit .env with your settings
+
+# Start services
 docker-compose up -d
-# Exposes both HTTP (80) and SSH (23234)
+
+# View logs
+docker-compose logs -f
+
+# Connect
+ssh localhost -p 2222  # SSH reader
+curl http://localhost:8080  # 90s homepage
 ```
 
-### Option 3: Tunneling Service (Development)
-For testing, use ngrok or similar to expose the SSH port:
+### Option 4: Local Network / Home Server
+
+Run on Raspberry Pi or home server:
 
 ```bash
-# Terminal 1: Run the app
-./run.sh
-
-# Terminal 2: Expose SSH port with ngrok
-ngrok tcp 23234
-
-# Users connect to the ngrok URL
-ssh ngrok-url.tcp.ngrok.io -p PORT_FROM_NGROK
-```
-
-### Option 4: Local Network Deployment
-Run on a Raspberry Pi or home server:
-
-```bash
-# On your local server
+# Build and run
 ./build.sh
 ./run.sh
 
-# Forward ports on your router:
-# - External 80 -> Internal 8080 (HTTP)
-# - External 23234 -> Internal 23234 (SSH)
+# Forward ports on router:
+# - External 80 → Internal 8080 (HTTP)
+# - External 2222 → Internal 2222 (SSH)
 
-# Use dynamic DNS for a stable hostname
+# Use dynamic DNS for stable hostname (DuckDNS, No-IP, etc.)
 ```
 
-## Railway Deployment (HTTP Only)
+### Option 5: Development/Testing with ngrok
 
-Railway is great for the HTTP frontend but cannot handle SSH connections. The current deployment:
+Expose local instance temporarily:
 
-1. **Serves the disguised 90s homepage** at your Railway URL
-2. **Provides health monitoring** at `/health`
-3. **Cannot accept SSH connections** due to platform limitations
+```bash
+# Terminal 1: Start app
+./run.sh
 
-To use Railway as a frontend while running SSH elsewhere:
-1. Deploy HTTP to Railway
-2. Run SSH server on a VPS
-3. Update the homepage to show the VPS SSH connection details
+# Terminal 2: Expose SSH port
+ngrok tcp 2222
 
-## Security Considerations
+# Terminal 3: Expose HTTP port
+ngrok http 8080
 
-1. **Change the default password** in production:
-   ```bash
-   export SSH_PASSWORD="your-secure-password"
-   ```
+# Connect using ngrok URLs
+ssh tcp.ngrok.io -p XXXXX  # From ngrok output
+```
 
-2. **Use SSH keys** instead of passwords when possible
+## What Works Where
 
-3. **Restrict access** by IP if running publicly:
-   ```bash
-   # iptables example
-   iptables -A INPUT -p tcp --dport 23234 -s YOUR_IP/32 -j ACCEPT
-   iptables -A INPUT -p tcp --dport 23234 -j DROP
-   ```
+| Feature | Kamal (VPS) | Manual VPS | Docker Compose | PaaS (Railway/Heroku) |
+|---------|-------------|------------|----------------|----------------------|
+| HTTP Server | ✅ | ✅ | ✅ | ✅ |
+| HTTPS Server | ✅ | ✅ | ✅ (manual cert) | ✅ (auto) |
+| SSH Reader | ✅ | ✅ | ✅ | ❌ No TCP ports |
+| Zero-downtime | ✅ | ❌ | ❌ | ✅ |
+| Auto SSL | ✅ (manual) | ❌ | ❌ | ✅ |
+| Cost | $5-12/mo | $5-12/mo | VPS/free | Free-$5/mo |
 
-4. **Monitor access logs** regularly:
-   ```bash
-   journalctl -u void-reader -f
-   ```
+## Security Best Practices
 
-## Recommended Production Setup
+### 1. Change Default Password
+```bash
+# In .env or Doppler
+SSH_PASSWORD="YourVerySecurePasswordHere123!"
+```
 
-For a production deployment:
+### 2. Use Strong SSL Certificates
+```bash
+# Let's Encrypt (recommended)
+certbot certonly --standalone -d your-domain.com
 
-1. **Frontend**: Railway or Vercel (serves the homepage)
-2. **SSH Server**: DigitalOcean Droplet ($6/month)
-3. **Monitoring**: UptimeRobot for both services
-4. **DNS**: Cloudflare for DDoS protection
+# Or self-signed for testing
+openssl req -x509 -newkey rsa:4096 -nodes \
+  -keyout .ssl/key.pem -out .ssl/cert.pem \
+  -days 365 -subj "/CN=your-domain.com"
+```
 
-This separates concerns and uses each platform's strengths.
+### 3. Configure Firewall
+```bash
+# Allow only necessary ports
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp    # VPS SSH (if different from app)
+sudo ufw allow 80/tcp    # HTTP
+sudo ufw allow 443/tcp   # HTTPS
+sudo ufw allow 2222/tcp  # SSH Reader (or 22 for Kamal)
+sudo ufw enable
+```
+
+### 4. Monitor Logs
+```bash
+# Kamal deployment
+kamal app logs --tail
+
+# Systemd service
+journalctl -u void-reader -f
+
+# Docker
+docker logs -f void-chronicles-web
+```
+
+### 5. Rate Limiting
+The SSH reader includes built-in rate limiting:
+- Max 3 failed login attempts
+- 1-minute cooldown
+- Session timeout after inactivity
+
+## SSL Certificate Management
+
+See [docs/ssl-certificate-renewal.md](docs/ssl-certificate-renewal.md) for complete guide.
+
+**Quick renewal:**
+```bash
+# Automated renewal script
+./renew-ssl-certs.sh
+
+# Setup cron for monthly renewal
+sudo crontab -e
+# Add: 0 3 1 * * /path/to/renew-ssl-certs.sh >> /var/log/ssl-renewal.log 2>&1
+```
 
 ## Testing Your Deployment
-
-After deployment, test both services:
 
 ```bash
 # Test HTTP
 curl http://your-domain.com/health
 
-# Test SSH
-ssh your-domain.com -p 23234
-# Password: Amigos4Life! (or your custom password)
+# Test HTTPS
+curl https://your-domain.com
+
+# Test SSH (interactive)
+ssh your-domain.com -p 22  # Kamal
+# or
+ssh your-domain.com -p 2222  # Manual/Docker
+
+# Test SSH (automated)
+sshpass -p "Amigos4Life!" ssh -o StrictHostKeyChecking=no \
+  your-domain.com -p 22 exit
 ```
 
 ## Troubleshooting
 
 ### SSH Connection Hangs
-- Platform doesn't support SSH (Railway, Heroku)
-- Firewall blocking port 23234
-- SSH server not running
+- **PaaS platforms**: Most don't support SSH (use VPS instead)
+- **Firewall**: Check ports are open
+- **Container**: Verify container is running
+
+### HTTPS Certificate Errors
+- **Self-signed**: Browser warns (expected), use `-k` with curl
+- **Let's Encrypt**: Check domain DNS and port 443 accessibility
+- **Permissions**: Ensure certificate files are readable (644)
 
 ### "Connection Refused"
-- Check if both servers are running
-- Verify ports are open
-- Check logs: `journalctl -u void-reader`
+```bash
+# Check if services are running
+docker ps | grep void-chronicles  # Kamal
+sudo systemctl status void-reader  # Systemd
+docker-compose ps  # Docker Compose
+
+# Check logs
+kamal app logs --tail  # Kamal
+journalctl -u void-reader -n 50  # Systemd
+docker-compose logs  # Docker Compose
+
+# Verify ports
+netstat -tlnp | grep -E '(80|443|2222)'
+```
 
 ### Build Failures
-- Ensure Go 1.21+ is installed
-- Run `go mod download` in ssh-reader directory
-- Check for missing dependencies
+```bash
+# Install dependencies
+cd ssh-reader
+go mod download
+
+# Clean build
+go clean -cache
+go build -v
+
+# Check Go version (need 1.21+)
+go version
+```
+
+## Monitoring
+
+### Health Checks
+```bash
+# HTTP health endpoint (returns "OK")
+curl http://your-domain.com/health
+
+# Check certificate expiry
+echo | openssl s_client -connect your-domain.com:443 2>/dev/null | \
+  openssl x509 -noout -enddate
+```
+
+### Uptime Monitoring
+- **UptimeRobot** - Free for 50 monitors
+- **Pingdom** - Free tier available
+- **StatusCake** - Free tier available
+
+Monitor both:
+- HTTP/HTTPS endpoint: `https://your-domain.com/health`
+- SSH port: TCP check on port 22 (or 2222)
+
+## Recommended Production Setup
+
+**Architecture:**
+1. **VPS**: DigitalOcean Droplet ($6/month)
+2. **Deployment**: Kamal with Doppler secrets
+3. **SSL**: Let's Encrypt with auto-renewal
+4. **Monitoring**: UptimeRobot for health checks
+5. **DNS/CDN**: Cloudflare for DDoS protection
+
+**Estimated monthly cost:** $6-12
 
 ## Support
 
-For deployment help, please check:
-- The logs in your deployment platform
-- The systemd journal if using Linux
-- Open an issue on GitHub with deployment logs
+For deployment help:
+- Check logs first (see monitoring section)
+- Review [KAMAL_CONFIG_INSTRUCTIONS.md](KAMAL_CONFIG_INSTRUCTIONS.md)
+- Open GitHub issue with deployment platform and logs
