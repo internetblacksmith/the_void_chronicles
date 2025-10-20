@@ -46,8 +46,10 @@ builder:
 
 # Environment variables
 env:
-  # Only the Doppler token is passed to container
-  # All other secrets are fetched by Doppler at runtime
+  # Doppler configuration for fetching secrets at runtime
+  clear:
+    DOPPLER_PROJECT: void-chronicles
+    DOPPLER_CONFIG: prd
   secret:
     - DOPPLER_TOKEN
 
