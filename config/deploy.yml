@@ -48,7 +48,7 @@ builder:
 env:
   # Doppler configuration for fetching secrets at runtime
   clear:
-    DOPPLER_PROJECT: void-chronicles
+    DOPPLER_PROJECT: void-reader
     DOPPLER_CONFIG: prd
   secret:
     - DOPPLER_TOKEN
