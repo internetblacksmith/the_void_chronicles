@@ -28,8 +28,9 @@ RUN curl -Ls --tlsv1.2 --proto "=https" --retry 3 \
 # Copy binary from builder
 COPY --from=builder /app/void-reader .
 
-# Copy the book content
+# Copy the book content and series metadata
 COPY book1_void_reavers_source ./book1_void_reavers_source
+COPY ssh-reader/series.json ./series.json
 
 # Create necessary directories
 RUN mkdir -p .ssh .void_reader_data
