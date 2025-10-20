@@ -48,6 +48,17 @@ var (
 	posthogClient posthog.Client
 )
 
+type posthogCallback struct{}
+
+func (p posthogCallback) Success(msg posthog.APIMessage) {
+	log.Println("PostHog: Successfully sent event batch")
+}
+
+func (p posthogCallback) Failure(msg posthog.APIMessage, err error) {
+	log.Printf("PostHog: Failed to send event: %v", err)
+	sentry.CaptureException(err)
+}
+
 func getEnv(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
 		return value
@@ -181,6 +192,7 @@ func main() {
 				Endpoint:  getEnv("POSTHOG_HOST", "https://us.i.posthog.com"),
 				BatchSize: 1,
 				Interval:  1 * time.Second,
+				Callback:  posthogCallback{},
 			},
 		)
 		if err != nil {
