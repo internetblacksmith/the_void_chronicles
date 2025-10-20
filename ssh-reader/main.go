@@ -34,15 +34,18 @@ import (
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
+	"github.com/getsentry/sentry-go"
 	"github.com/joho/godotenv"
+	"github.com/posthog/posthog-go"
 )
 
 var (
-	host        string
-	httpPort    string
-	httpsPort   string
-	sshPort     string
-	rateLimiter *RateLimiter
+	host          string
+	httpPort      string
+	httpsPort     string
+	sshPort       string
+	rateLimiter   *RateLimiter
+	posthogClient posthog.Client
 )
 
 func getEnv(key, defaultValue string) string {
@@ -87,6 +90,14 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 	addr := ctx.RemoteAddr()
 
 	if !rateLimiter.AllowConnection(addr) {
+		if posthogClient != nil {
+			posthogClient.Enqueue(posthog.Capture{
+				DistinctId: addr.String(),
+				Event:      "ssh_rate_limited",
+				Properties: posthog.NewProperties().
+					Set("username", ctx.User()),
+			})
+		}
 		return false
 	}
 
@@ -96,9 +107,29 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 	if success {
 		log.Printf("SSH authentication successful for user '%s'", ctx.User())
 		rateLimiter.RecordSuccessfulAuth(addr)
+
+		if posthogClient != nil {
+			posthogClient.Enqueue(posthog.Capture{
+				DistinctId: ctx.User(),
+				Event:      "ssh_login_success",
+				Properties: posthog.NewProperties().
+					Set("remote_addr", addr.String()),
+			})
+		}
 	} else {
 		log.Printf("SSH authentication failed for user '%s' (wrong password)", ctx.User())
 		rateLimiter.RecordFailedAuth(addr)
+
+		if posthogClient != nil {
+			posthogClient.Enqueue(posthog.Capture{
+				DistinctId: addr.String(),
+				Event:      "ssh_login_failed",
+				Properties: posthog.NewProperties().
+					Set("username", ctx.User()),
+			})
+		}
+
+		sentry.CaptureMessage("Failed SSH authentication attempt from " + addr.String())
 	}
 
 	return success
@@ -118,6 +149,46 @@ func main() {
 			log.Printf("Loaded environment from %s", path)
 			break
 		}
+	}
+
+	// Initialize Sentry for error tracking
+	sentryDSN := os.Getenv("SENTRY_DSN")
+	if sentryDSN != "" {
+		err := sentry.Init(sentry.ClientOptions{
+			Dsn:              sentryDSN,
+			Environment:      getEnv("ENVIRONMENT", "production"),
+			Release:          getEnv("RELEASE", "void-reader@1.0.0"),
+			TracesSampleRate: 1.0,
+		})
+		if err != nil {
+			log.Printf("Sentry initialization failed: %v", err)
+		} else {
+			log.Println("Sentry error tracking initialized")
+			defer sentry.Flush(2 * time.Second)
+		}
+	} else {
+		log.Println("SENTRY_DSN not set, skipping Sentry initialization")
+	}
+
+	// Initialize PostHog for analytics
+	posthogKey := os.Getenv("POSTHOG_API_KEY")
+	if posthogKey != "" {
+		client, err := posthog.NewWithConfig(
+			posthogKey,
+			posthog.Config{
+				Endpoint: getEnv("POSTHOG_HOST", "https://us.i.posthog.com"),
+			},
+		)
+		if err != nil {
+			log.Printf("PostHog initialization failed: %v", err)
+			sentry.CaptureException(err)
+		} else {
+			posthogClient = client
+			log.Println("PostHog analytics initialized")
+			defer posthogClient.Close()
+		}
+	} else {
+		log.Println("POSTHOG_API_KEY not set, skipping PostHog initialization")
 	}
 
 	// Configure ports
@@ -143,6 +214,18 @@ func main() {
 	log.Printf("SSH Host: %s", host)
 	log.Printf("Rate limiting: 5 attempts per 5 minutes, 15 minute block")
 	log.Printf("Session timeout: %d minutes", getEnvInt("SSH_SESSION_TIMEOUT", 30))
+
+	// Track application startup
+	if posthogClient != nil {
+		posthogClient.Enqueue(posthog.Capture{
+			DistinctId: "system",
+			Event:      "app_started",
+			Properties: posthog.NewProperties().
+				Set("environment", getEnv("ENVIRONMENT", "production")).
+				Set("http_port", httpPort).
+				Set("ssh_port", sshPort),
+		})
+	}
 
 	// Ensure SSH key exists - use persistent volume in production
 	var sshKeyPath string
@@ -182,13 +265,32 @@ func main() {
 				sessionTimeout := time.Duration(getEnvInt("SSH_SESSION_TIMEOUT", 30)) * time.Minute
 				log.Printf("SSH connection established from %s (user: %s)", s.RemoteAddr(), s.User())
 
+				if posthogClient != nil {
+					posthogClient.Enqueue(posthog.Capture{
+						DistinctId: s.User(),
+						Event:      "ssh_session_started",
+						Properties: posthog.NewProperties().
+							Set("remote_addr", s.RemoteAddr().String()),
+					})
+				}
+
 				done := make(chan struct{})
 				go func() {
 					defer func() {
 						if r := recover(); r != nil {
 							log.Printf("SSH session panic recovered: %v", r)
+							sentry.CaptureException(fmt.Errorf("SSH session panic: %v", r))
 						}
 						log.Printf("SSH connection closed for %s", s.RemoteAddr())
+
+						if posthogClient != nil {
+							posthogClient.Enqueue(posthog.Capture{
+								DistinctId: s.User(),
+								Event:      "ssh_session_ended",
+								Properties: posthog.NewProperties().
+									Set("remote_addr", s.RemoteAddr().String()),
+							})
+						}
 						close(done)
 					}()
 					h(s)
@@ -198,6 +300,17 @@ func main() {
 				case <-done:
 				case <-time.After(sessionTimeout):
 					log.Printf("Session timeout for %s after %v", s.RemoteAddr(), sessionTimeout)
+
+					if posthogClient != nil {
+						posthogClient.Enqueue(posthog.Capture{
+							DistinctId: s.User(),
+							Event:      "ssh_session_timeout",
+							Properties: posthog.NewProperties().
+								Set("remote_addr", s.RemoteAddr().String()).
+								Set("timeout_minutes", sessionTimeout.Minutes()),
+						})
+					}
+
 					s.Close()
 					<-done
 				}
@@ -214,6 +327,7 @@ func main() {
 		wish.WithMiddleware(wishMiddleware...),
 	)
 	if err != nil {
+		sentry.CaptureException(err)
 		log.Fatalln(err)
 	}
 
@@ -236,6 +350,7 @@ func main() {
 		log.Println("Starting SSH server...")
 		if err = s.ListenAndServe(); err != nil && err != ssh.ErrServerClosed {
 			log.Printf("SSH server error: %v", err)
+			sentry.CaptureException(err)
 			log.Fatalln(err)
 		}
 	}()
