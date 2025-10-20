@@ -120,7 +120,6 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 		rateLimiter.RecordSuccessfulAuth(addr)
 
 		if posthogClient != nil {
-			log.Printf("PostHog: Enqueuing ssh_login_success event for user %s", ctx.User())
 			posthogClient.Enqueue(posthog.Capture{
 				DistinctId: ctx.User(),
 				Event:      "ssh_login_success",
@@ -133,7 +132,6 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 		rateLimiter.RecordFailedAuth(addr)
 
 		if posthogClient != nil {
-			log.Printf("PostHog: Enqueuing ssh_login_failed event for IP %s", addr.String())
 			posthogClient.Enqueue(posthog.Capture{
 				DistinctId: addr.String(),
 				Event:      "ssh_login_failed",
@@ -233,7 +231,6 @@ func main() {
 
 	// Track application startup
 	if posthogClient != nil {
-		log.Println("PostHog: Enqueuing app_started event")
 		posthogClient.Enqueue(posthog.Capture{
 			DistinctId: "system",
 			Event:      "app_started",
