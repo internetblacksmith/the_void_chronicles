@@ -176,9 +176,7 @@ func main() {
 		client, err := posthog.NewWithConfig(
 			posthogKey,
 			posthog.Config{
-				Endpoint:  getEnv("POSTHOG_HOST", "https://eu.i.posthog.com"),
-				BatchSize: 1,
-				Interval:  1 * time.Second,
+				Endpoint: getEnv("POSTHOG_HOST", "https://eu.i.posthog.com"),
 			},
 		)
 		if err != nil {
