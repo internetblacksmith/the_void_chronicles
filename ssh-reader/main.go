@@ -637,7 +637,7 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 	}
 
 	m := initialModelWithUser(pty.Window.Width, pty.Window.Height, username)
-	return m, []tea.ProgramOption{tea.WithAltScreen()}
+	return m, bubbletea.MakeOptions(s)
 }
 
 type state int
