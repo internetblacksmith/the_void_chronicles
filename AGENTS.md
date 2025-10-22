@@ -33,5 +33,13 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 - HTTPS: Native TLS support with graceful fallback if certificates not found
 - Deployment: Kamal orchestration with direct port mapping (80→8080 HTTP, 443→8443 HTTPS, 22→2222 SSH), Doppler secrets, persistent volumes (void-data for progress, void-ssl for certificates)
 
+## Critical Rules
+
+### Rule 1: Always Use Doppler for Secrets
+**NEVER** remove Doppler integration from this project. All production secrets MUST be managed via Doppler. The Dockerfile MUST include Doppler CLI installation and `CMD ["doppler", "run", "--", "./void-reader"]`. The `config/deploy.yml` MUST have Doppler env configuration with `DOPPLER_TOKEN` as a secret.
+
+### Rule 2: SSH Port is 22
+The application SSH server listens on container port 2222, mapped to host port **22** (not 2222). System SSH runs on port 1447, so port 22 is available. Port mapping in `config/deploy.yml` MUST be `"22:2222"`.
+
 ## Critical Commit Policy
 **Documentation-First**: Before ANY commit, verify ALL documentation matches code (README, DEPLOYMENT.md, guides, file paths). Documentation drift is unacceptable. Workflow: (1) Code changes, (2) Update docs, (3) Verify accuracy, (4) Commit.
