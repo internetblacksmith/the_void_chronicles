@@ -78,7 +78,7 @@ docker-build:
 
 # Run Docker container
 docker-run:
-	docker run -p 8080:8080 -p 2222:2222 void-chronicles
+	docker run -it -p 8080:8080 -p 8443:8443 -p 2222:2222 --env-file .env void-chronicles ./void-reader
 
 # Run linting
 lint:

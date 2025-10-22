@@ -630,6 +630,13 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		return nil, nil
 	}
 
+	log.Printf("PTY detected: term=%s, width=%d, height=%d",
+		pty.Term, pty.Window.Width, pty.Window.Height)
+
+	renderer := lipgloss.NewRenderer(s)
+	log.Printf("Lipgloss color profile: %d (HasDarkBackground: %v)",
+		renderer.ColorProfile(), renderer.HasDarkBackground())
+
 	// Get username from SSH session
 	username := s.User()
 	if username == "" {
