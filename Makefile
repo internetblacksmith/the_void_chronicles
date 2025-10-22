@@ -1,5 +1,6 @@
 .PHONY: menu help test test-coverage test-verbose build run clean docker-build docker-run lint security-scan pre-commit
 .PHONY: deploy deploy-build deploy-logs deploy-restart deploy-rollback deploy-stop deploy-shell deploy-status deploy-env deploy-setup
+.PHONY: kamal-secrets-setup
 
 .DEFAULT_GOAL := menu
 
@@ -12,15 +13,16 @@ help:
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo ""
 	@echo "📦 Development Commands:"
-	@echo "  make test            - Run all tests"
-	@echo "  make test-coverage   - Run tests with coverage report"
-	@echo "  make test-verbose    - Run tests with verbose output"
-	@echo "  make build           - Build the Go binary"
-	@echo "  make run             - Run the application locally (./run.sh)"
-	@echo "  make lint            - Format and lint Go code"
-	@echo "  make security-scan   - Run security vulnerability scan"
-	@echo "  make pre-commit      - Run all checks before committing"
-	@echo "  make clean           - Clean build artifacts"
+	@echo "  make test                - Run all tests"
+	@echo "  make test-coverage       - Run tests with coverage report"
+	@echo "  make test-verbose        - Run tests with verbose output"
+	@echo "  make build               - Build the Go binary"
+	@echo "  make run                 - Run the application locally (./run.sh)"
+	@echo "  make lint                - Format and lint Go code"
+	@echo "  make security-scan       - Run security vulnerability scan"
+	@echo "  make pre-commit          - Run all checks before committing"
+	@echo "  make clean               - Clean build artifacts"
+	@echo "  make kamal-secrets-setup - Generate .kamal/secrets file for development"
 	@echo ""
 	@echo "🐳 Docker Commands:"
 	@echo "  make docker-build    - Build Docker image locally"
@@ -135,3 +137,21 @@ deploy-env:
 # Setup Kamal on new server
 deploy-setup:
 	doppler run --project void-reader --config prd -- kamal setup
+
+# Generate .kamal/secrets file for development
+kamal-secrets-setup:
+	@echo "📝 Generating .kamal/secrets file..."
+	@mkdir -p .kamal
+	@echo "# Kamal secrets file - uses variable substitution with Doppler" > .kamal/secrets
+	@echo "# This file is required by Kamal even when using environment variables" >> .kamal/secrets
+	@echo "# Doppler injects the actual values at runtime" >> .kamal/secrets
+	@echo "" >> .kamal/secrets
+	@echo "KAMAL_REGISTRY_PASSWORD=\$$KAMAL_REGISTRY_PASSWORD" >> .kamal/secrets
+	@echo "DOPPLER_TOKEN=\$$DOPPLER_TOKEN" >> .kamal/secrets
+	@echo "" >> .kamal/secrets
+	@echo "✅ .kamal/secrets file created successfully"
+	@echo ""
+	@echo "⚠️  This file uses variable substitution (\$$VAR_NAME) so Doppler can inject the actual secrets."
+	@echo "   Make sure you have the following secrets configured in Doppler:"
+	@echo "   - KAMAL_REGISTRY_PASSWORD (GitHub Personal Access Token)"
+	@echo "   - DOPPLER_TOKEN (Service token for container runtime)"
