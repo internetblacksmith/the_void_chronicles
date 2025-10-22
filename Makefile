@@ -1,4 +1,44 @@
-.PHONY: test test-coverage test-verbose build run clean docker-build docker-run lint security-scan
+.PHONY: menu help test test-coverage test-verbose build run clean docker-build docker-run lint security-scan pre-commit
+.PHONY: deploy deploy-build deploy-logs deploy-restart deploy-rollback deploy-stop deploy-shell deploy-status deploy-env deploy-setup
+
+.DEFAULT_GOAL := menu
+
+menu:
+	@bash scripts/menu.sh
+
+help:
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "  Void Chronicles - Makefile Commands"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo ""
+	@echo "📦 Development Commands:"
+	@echo "  make test            - Run all tests"
+	@echo "  make test-coverage   - Run tests with coverage report"
+	@echo "  make test-verbose    - Run tests with verbose output"
+	@echo "  make build           - Build the Go binary"
+	@echo "  make run             - Run the application locally (./run.sh)"
+	@echo "  make lint            - Format and lint Go code"
+	@echo "  make security-scan   - Run security vulnerability scan"
+	@echo "  make pre-commit      - Run all checks before committing"
+	@echo "  make clean           - Clean build artifacts"
+	@echo ""
+	@echo "🐳 Docker Commands:"
+	@echo "  make docker-build    - Build Docker image locally"
+	@echo "  make docker-run      - Run Docker container locally"
+	@echo ""
+	@echo "🚀 Deployment Commands (Kamal + Doppler):"
+	@echo "  make deploy          - Deploy to production"
+	@echo "  make deploy-build    - Build and push image only"
+	@echo "  make deploy-logs     - Stream production logs"
+	@echo "  make deploy-restart  - Restart production containers"
+	@echo "  make deploy-rollback - Rollback to previous version"
+	@echo "  make deploy-stop     - Stop production containers"
+	@echo "  make deploy-shell    - Open shell in production container"
+	@echo "  make deploy-status   - Show deployment status"
+	@echo "  make deploy-env      - Show production environment variables"
+	@echo "  make deploy-setup    - Setup Kamal on new server"
+	@echo ""
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Run tests
 test:
@@ -20,7 +60,7 @@ build:
 
 # Run the application locally
 run:
-	cd ssh-reader && go run .
+	./run.sh
 
 # Clean build artifacts
 clean:
@@ -53,3 +93,45 @@ security-scan:
 # Run all checks before committing
 pre-commit: lint test security-scan
 	@echo "All checks passed!"
+
+# Deploy to production using Doppler for secrets
+deploy:
+	@echo "🚀 Deploying to production with Doppler secrets..."
+	doppler run --project void-reader --config prd --command='bash -c "export KAMAL_REGISTRY_PASSWORD && export DOPPLER_TOKEN && kamal deploy"'
+
+# Build and push Docker image only
+deploy-build:
+	@echo "🔨 Building and pushing Docker image..."
+	doppler run --project void-reader --config prd -- kamal build push
+
+# Stream production logs
+deploy-logs:
+	doppler run --project void-reader --config prd -- kamal app logs -f
+
+# Restart production containers
+deploy-restart:
+	doppler run --project void-reader --config prd -- kamal app boot
+
+# Rollback to previous version
+deploy-rollback:
+	doppler run --project void-reader --config prd -- kamal rollback
+
+# Stop production containers
+deploy-stop:
+	doppler run --project void-reader --config prd -- kamal app stop
+
+# Open shell in production container
+deploy-shell:
+	doppler run --project void-reader --config prd -- kamal app exec -i bash
+
+# Show deployment status
+deploy-status:
+	doppler run --project void-reader --config prd -- kamal details
+
+# Show production environment variables
+deploy-env:
+	doppler run --project void-reader --config prd -- kamal app exec env | grep -v PASSWORD | grep -v TOKEN | sort
+
+# Setup Kamal on new server
+deploy-setup:
+	doppler run --project void-reader --config prd -- kamal setup
