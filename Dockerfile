@@ -17,9 +17,13 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o void-reader
 # Runtime stage
 FROM alpine:latest
 
-RUN apk --no-cache add ca-certificates openssh-keygen netcat-openbsd
+RUN apk --no-cache add ca-certificates openssh-keygen netcat-openbsd curl bash gnupg
 
 WORKDIR /app
+
+# Install Doppler CLI
+RUN curl -Ls --tlsv1.2 --proto "=https" --retry 3 \
+    https://cli.doppler.com/install.sh | sh
 
 # Copy binary from builder
 COPY --from=builder /app/void-reader .
@@ -45,4 +49,5 @@ EXPOSE 8080 2222
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD nc -z localhost 8080 || exit 1
 
-CMD ["./void-reader"]
+# Use Doppler to inject secrets at runtime
+CMD ["doppler", "run", "--", "./void-reader"]

@@ -47,5 +47,3 @@ coverage.html
 
 # Kamal deployment secrets
 .kamal/
-.kamal-env.sh
-.kamal/secrets
