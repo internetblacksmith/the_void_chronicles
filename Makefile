@@ -1,5 +1,5 @@
 .PHONY: menu help test test-coverage test-verbose build run clean docker-build docker-run lint security-scan pre-commit
-.PHONY: deploy deploy-build deploy-logs deploy-restart deploy-rollback deploy-stop deploy-shell deploy-status deploy-env deploy-setup
+.PHONY: deploy deploy-build deploy-logs deploy-restart deploy-rollback deploy-stop deploy-shell deploy-status deploy-env deploy-setup deploy-cleanup
 .PHONY: kamal-secrets-setup
 
 .DEFAULT_GOAL := menu
@@ -29,7 +29,8 @@ help:
 	@echo "  make docker-run      - Run Docker container locally"
 	@echo ""
 	@echo "🚀 Deployment Commands (Kamal + Doppler):"
-	@echo "  make deploy          - Deploy to production"
+	@echo "  make deploy          - Deploy to production (auto-cleanup)"
+	@echo "  make deploy-cleanup  - Stop old containers to free ports"
 	@echo "  make deploy-build    - Build and push image only"
 	@echo "  make deploy-logs     - Stream production logs"
 	@echo "  make deploy-restart  - Restart production containers"
@@ -96,9 +97,16 @@ security-scan:
 pre-commit: lint test security-scan
 	@echo "All checks passed!"
 
+# Stop old containers before deployment to avoid port conflicts
+deploy-cleanup:
+	@echo "🧹 Stopping old containers to free port 22..."
+	ssh root@161.35.165.206 -p 1447 "docker stop \$$(docker ps -q --filter 'name=void-chronicles-web') 2>/dev/null || true"
+	@echo "✅ Cleanup complete"
+
 # Deploy to production using Doppler for secrets
 deploy:
 	@echo "🚀 Deploying to production with Doppler secrets..."
+	@$(MAKE) deploy-cleanup
 	doppler run --project void-reader --config prd --command='bash -c "export KAMAL_REGISTRY_PASSWORD && export DOPPLER_TOKEN && kamal deploy"'
 
 # Build and push Docker image only
