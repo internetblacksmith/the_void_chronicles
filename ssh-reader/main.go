@@ -630,12 +630,13 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		return nil, nil
 	}
 
+	renderer := lipgloss.NewRenderer(s)
 	log.Printf("PTY detected: term=%s, width=%d, height=%d",
 		pty.Term, pty.Window.Width, pty.Window.Height)
-
-	renderer := lipgloss.NewRenderer(s)
 	log.Printf("Lipgloss color profile: %d (HasDarkBackground: %v)",
 		renderer.ColorProfile(), renderer.HasDarkBackground())
+
+	lipgloss.SetDefaultRenderer(renderer)
 
 	// Get username from SSH session
 	username := s.User()
@@ -644,6 +645,7 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 	}
 
 	m := initialModelWithUser(pty.Window.Width, pty.Window.Height, username)
+	m.renderer = renderer
 	return m, bubbletea.MakeOptions(s)
 }
 
@@ -687,6 +689,7 @@ type model struct {
 	username        string
 	books           []BookInfo
 	selectedBook    int
+	renderer        *lipgloss.Renderer
 }
 
 func getSeriesBooks() []BookInfo {
