@@ -318,7 +318,7 @@ func main() {
 			}
 		},
 		logging.Middleware(),
-		bubbletea.Middleware(teaHandler),
+		bubbletea.MiddlewareWithColorProfile(teaHandler, termenv.TrueColor),
 	}
 
 	serverOpts := []ssh.Option{
@@ -631,13 +631,8 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		return nil, nil
 	}
 
-	renderer := lipgloss.NewRenderer(s, termenv.WithProfile(termenv.TrueColor))
 	log.Printf("PTY detected: term=%s, width=%d, height=%d",
 		pty.Term, pty.Window.Width, pty.Window.Height)
-	log.Printf("Lipgloss color profile: %d (HasDarkBackground: %v)",
-		renderer.ColorProfile(), renderer.HasDarkBackground())
-
-	lipgloss.SetDefaultRenderer(renderer)
 
 	// Get username from SSH session
 	username := s.User()
@@ -646,7 +641,6 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 	}
 
 	m := initialModelWithUser(pty.Window.Width, pty.Window.Height, username)
-	m.renderer = renderer
 	return m, bubbletea.MakeOptions(s)
 }
 
@@ -690,7 +684,6 @@ type model struct {
 	username        string
 	books           []BookInfo
 	selectedBook    int
-	renderer        *lipgloss.Renderer
 }
 
 func getSeriesBooks() []BookInfo {
@@ -1027,17 +1020,9 @@ var (
 )
 
 func (m model) viewMenu() string {
-	titleStyle := m.renderer.NewStyle().
-		Foreground(lipgloss.Color("86")).
-		Bold(true).
-		Align(lipgloss.Center)
-
 	// Title bar
 	title := titleStyle.Width(m.width).Render("📚 THE VOID CHRONICLES 📚")
-	log.Printf("DEBUG: Color profile=%d, title length=%d, contains ANSI codes: %v",
-		m.renderer.ColorProfile(), len(title), strings.Contains(title, "\x1b["))
-
-	subtitle := m.renderer.NewStyle().
+	subtitle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("241")).
 		Align(lipgloss.Center).
 		Width(m.width).
