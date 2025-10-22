@@ -223,20 +223,24 @@ export HTTPS_PORT=8443
 **Note**: If certificates are not found, HTTPS server gracefully skips startup and only HTTP is available.
 
 ### Password Authentication
-The SSH reader requires password authentication:
+The SSH reader supports both password and public key authentication:
+- Default: Password authentication enabled
 - Default password: `Amigos4Life!`
 - Customizable via `SSH_PASSWORD` environment variable (required for production)
+- Can be disabled by setting `SSH_REQUIRE_PASSWORD=false` (allows any public key)
 
 ```bash
-# Kamal deployment (standard SSH port 22)
+# With password authentication (default)
 ssh your-domain.com
 # Enter password when prompted: Amigos4Life!
 
-# Local development (internal port 2222)
-ssh localhost -p 2222
+# Disable password authentication (allow any public key)
+export SSH_REQUIRE_PASSWORD=false
+./void-reader
 
 # Set custom password via environment
 export SSH_PASSWORD="YourSecurePassword"
+export SSH_REQUIRE_PASSWORD=true
 ./void-reader
 ```
 

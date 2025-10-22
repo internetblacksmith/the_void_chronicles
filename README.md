@@ -69,7 +69,8 @@ TLS_KEY_PATH=/data/ssl/key.pem    # Path to TLS private key
 # SSH Server  
 SSH_PORT=2222         # SSH server port (internal container port)
 SSH_HOST=0.0.0.0      # Bind address
-SSH_PASSWORD=Amigos4Life!  # Authentication password
+SSH_PASSWORD=Amigos4Life!  # Authentication password (if password auth enabled)
+SSH_REQUIRE_PASSWORD=true  # Set to "false" to disable password auth (allows any public key)
 
 # Monitoring (Optional)
 # SENTRY_DSN=https://your-sentry-dsn@sentry.io/project-id  # Sentry error tracking
@@ -118,8 +119,10 @@ open http://localhost:8080
 
 # Quick deployment:
 # 1. Configure config/deploy.yml with your VPS details
-# 2. Set Doppler token: kamal secrets set DOPPLER_TOKEN="dp.st.prd.YOUR_TOKEN"
-# 3. Deploy: kamal deploy
+# 2. Setup Doppler and authenticate: doppler login
+# 3. Setup project: doppler setup (select void-reader, config: prd)
+# 4. Set Kamal Doppler token: kamal secrets set DOPPLER_TOKEN="dp.st.prd.YOUR_TOKEN"
+# 5. Deploy: kamal deploy
 
 # Connect via SSH (standard port 22 mapped to container port 2222)
 ssh your-domain.com
@@ -128,6 +131,8 @@ ssh your-domain.com
 # HTTPS available at https://your-domain.com (Let's Encrypt certificates)
 # HTTP available at http://your-domain.com
 ```
+
+**Setting up on another PC**: See [KAMAL_CONFIG_INSTRUCTIONS.md](KAMAL_CONFIG_INSTRUCTIONS.md#setting-up-development-on-another-pc) for complete instructions on deploying from a new machine using Doppler.
 
 ## 📖 The Void Chronicles Series
 
@@ -227,10 +232,42 @@ git commit -m "feat: add amazing feature"
 git push origin feature/amazing-feature
 ```
 
+### How to Help Development
+
+The project uses AI coding assistance. To help the AI agent work effectively:
+
+**Build & Test Commands:**
+- Test: `cd ssh-reader && go test ./...` or `make test`
+- Single test: `cd ssh-reader && go test -run TestName`
+- Coverage: `make test-coverage`
+- Build: `cd ssh-reader && go build` or `make build`
+- Lint: `cd ssh-reader && go fmt ./... && go vet ./...` or `make lint`
+- Local dev: `./run.sh` (HTTP:8080, HTTPS:8443, SSH:2222, password: Amigos4Life!)
+
+**Code Style:**
+- All Go files start with AGPL-3.0 copyright header
+- Imports: Standard library first, blank line, then external packages
+- Naming: camelCase private, PascalCase exported
+- Errors: Always wrap with context: `fmt.Errorf("failed to load book: %w", err)`
+- Paths: Use `filepath.Join()` for cross-platform compatibility
+- Comments: Document exported functions only
+
+**Key Architecture:**
+- Triple servers: HTTP (8080), HTTPS (8443), SSH (2222) in `main.go`
+- TUI states: Main menu, chapter list, reading view, progress, about
+- Progress tracking: JSON persistence in `.void_reader_data/username.json`
+- Book loading: Markdown parser in `book.go` reads from `chapters/*.md`
+- Deployment: Kamal with direct port mapping, Doppler secrets, persistent volumes
+
+**Critical Policy:**
+- Documentation-First: Before ANY commit, verify ALL documentation matches code
+- NEVER commit changes unless explicitly requested
+- Always run lint and typecheck before committing
+
 ## 🔒 Security
 
-- SSH connections use password authentication (configurable)
-- No telemetry or data collection
+- SSH authentication: Password (default) or public key (configurable via `SSH_REQUIRE_PASSWORD`)
+- Optional monitoring: Sentry and PostHog (no data collection if not configured)
 - User progress stored locally in `.void_reader_data/`
 - Report security issues to: security@voidchronicles.space
 
