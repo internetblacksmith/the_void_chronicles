@@ -756,7 +756,7 @@ func initialModelWithUser(width, height int, username string) model {
 	for _, book := range books {
 		menuItems = append(menuItems, fmt.Sprintf("📚 Book %d: %s", book.Number, book.Title))
 	}
-	menuItems = append(menuItems, "", "🚪 Exit")
+	menuItems = append(menuItems, "", "ℹ️  About", "", "🚪 Exit")
 
 	return model{
 		state:           menuView,
@@ -841,6 +841,8 @@ func (m model) updateMenu(msg tea.KeyMsg) (model, tea.Cmd) {
 			m.progressManager.SaveProgress(m.progress)
 			m.quitting = true
 			return m, tea.Quit
+		} else if item == "ℹ️  About" {
+			m.state = aboutView
 		} else if m.menuCursor < len(m.books) && m.books[m.menuCursor].Available {
 			// Start reading the selected book
 			m.state = chapterListView
@@ -1055,7 +1057,15 @@ func (m model) viewMenu() string {
 		}
 	}
 
-	// Add Exit option
+	// Add About and Exit options
+	menuItems = append(menuItems, "")
+	aboutIndex := len(m.books)
+	if m.menuCursor == aboutIndex+1 {
+		menuItems = append(menuItems, selectedStyle.Render("▶ ℹ️  About"))
+	} else {
+		menuItems = append(menuItems, normalStyle.Render("  ℹ️  About"))
+	}
+
 	menuItems = append(menuItems, "")
 	if m.menuCursor == len(m.menuItems)-1 {
 		menuItems = append(menuItems, selectedStyle.Render("▶ 🚪 Exit"))
@@ -1142,6 +1152,37 @@ func (m model) viewMenu() string {
 			"",
 			options,
 		)
+	} else if m.menuItems[m.menuCursor] == "ℹ️  About" {
+		// About selected
+		rightContent = lipgloss.NewStyle().
+			Width(rightWidth - 6).
+			Render(`ℹ️  ABOUT THE VOID CHRONICLES
+
+This is an experimental SSH-based book reader for reading science fiction novels directly in your terminal.
+
+🚀 The Project:
+An open-source reading platform that combines classic terminal aesthetics with modern TUI frameworks.
+
+🌌 The Series:
+The Void Chronicles is a 10-book epic following humanity's evolution from chaotic space pirates to cosmic gardeners.
+
+✨ Built With:
+• Go programming language
+• Charm's Bubbletea TUI framework
+• Wish SSH server library
+• Lipgloss for styling
+
+🔧 Features:
+• Read books over SSH
+• Progress tracking
+• Bookmarks
+• Chapter navigation
+• No installation required
+
+📡 Connect: ssh vc.internetblacksmith.dev
+🐙 Source: github.com/internetblacksmith
+
+[Enter] Learn More`)
 	} else {
 		// Exit selected
 		rightContent = lipgloss.NewStyle().
@@ -1238,17 +1279,22 @@ func (m model) viewReading() string {
 }
 
 func (m model) viewAbout() string {
-	header := headerStyle.Width(m.width - 2).Render("ℹ️  ABOUT VOID REAVERS")
+	header := headerStyle.Width(m.width - 2).Render("ℹ️  ABOUT THE VOID CHRONICLES")
 
 	aboutText := `🚀 Welcome to the Void Chronicles Universe! 🚀
 
-Void Reavers is the first book in an epic 10-book science fiction series exploring humanity's evolution from chaotic space pirates to cosmic gardeners.
+Void Reavers is the first book in an epic 10-book science fiction series exploring 
+humanity's evolution from chaotic space pirates to cosmic gardeners.
 
 📖 The Story:
-Follow Captain Zara "Bloodhawk" Vega's fifty-year journey as she transforms from a young pirate forced into Rex Morrison's brutal crew to humanity's ambassador to alien civilizations.
+Follow Captain Zara "Bloodhawk" Vega's fifty-year journey as she transforms from 
+a young pirate forced into Rex Morrison's brutal crew to humanity's ambassador to 
+alien civilizations.
 
 🌌 The Universe:
-Set in a cosmos where quantum physics can tear reality apart and ancient alien Architects judge humanity's every move, pirates must evolve from raiders to protectors.
+Set in a cosmos where quantum physics can tear reality apart and ancient alien 
+Architects judge humanity's every move, pirates must evolve from raiders to 
+protectors.
 
 ✨ Themes:
 • Personal transformation mirrors species evolution
@@ -1256,9 +1302,26 @@ Set in a cosmos where quantum physics can tear reality apart and ancient alien A
 • Earning cosmic citizenship through wisdom
 • Honor among thieves in the vastness of space
 
+📡 The SSH Reader:
+This terminal-based reading experience is an experiment in making books accessible 
+through SSH. No installation required - just connect and read!
+
+Features:
+• Progress tracking across sessions
+• Bookmarks for favorite passages
+• Chapter navigation
+• Cross-platform (works anywhere SSH works)
+
+🔧 Technical Details:
+• Built with Go, Bubbletea, and Wish
+• Open source (AGPL-3.0)
+• Deployed with Kamal
+• Secrets managed with Doppler
+
 🎭 Author: Captain J. Starwind
 📅 Series: The Void Chronicles (Book 1 of 10)
-🔧 Reader: Built with Go, Bubbletea, and Wish`
+🐙 Source: github.com/internetblacksmith/void-chronicles
+📡 Connect: ssh vc.internetblacksmith.dev`
 
 	content := contentStyle.Render(aboutText)
 	footer := footerStyle.Width(m.width).Render("press any key to return to menu")
