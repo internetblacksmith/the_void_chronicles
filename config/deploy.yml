@@ -38,7 +38,7 @@ registry:
   server: ghcr.io
   username: internetblacksmith
   password:
-    - KAMAL_REGISTRY_PASSWORD  # GitHub Personal Access Token with write:packages scope
+    - KAMAL_REGISTRY_PASSWORD
 
 # Builder configuration
 builder:
