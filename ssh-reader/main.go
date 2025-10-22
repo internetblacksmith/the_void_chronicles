@@ -36,6 +36,7 @@ import (
 	"github.com/charmbracelet/wish/logging"
 	"github.com/getsentry/sentry-go"
 	"github.com/joho/godotenv"
+	"github.com/muesli/termenv"
 	"github.com/posthog/posthog-go"
 )
 
@@ -630,7 +631,7 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		return nil, nil
 	}
 
-	renderer := lipgloss.NewRenderer(s)
+	renderer := lipgloss.NewRenderer(s, termenv.WithProfile(termenv.TrueColor))
 	log.Printf("PTY detected: term=%s, width=%d, height=%d",
 		pty.Term, pty.Window.Width, pty.Window.Height)
 	log.Printf("Lipgloss color profile: %d (HasDarkBackground: %v)",
@@ -1026,9 +1027,17 @@ var (
 )
 
 func (m model) viewMenu() string {
+	titleStyle := m.renderer.NewStyle().
+		Foreground(lipgloss.Color("86")).
+		Bold(true).
+		Align(lipgloss.Center)
+
 	// Title bar
 	title := titleStyle.Width(m.width).Render("📚 THE VOID CHRONICLES 📚")
-	subtitle := lipgloss.NewStyle().
+	log.Printf("DEBUG: Rendered title with color profile %d, first 50 chars: %s",
+		m.renderer.ColorProfile(), title[:min(50, len(title))])
+
+	subtitle := m.renderer.NewStyle().
 		Foreground(lipgloss.Color("241")).
 		Align(lipgloss.Center).
 		Width(m.width).
