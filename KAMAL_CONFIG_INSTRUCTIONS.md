@@ -45,7 +45,8 @@ This document provides instructions for generating a complete Kamal deployment c
 
 ### Critical (Required for App to Function)
 ```bash
-SSH_PASSWORD               # Password for SSH access (e.g., "Amigos4Life!")
+SSH_PASSWORD               # Password for SSH access (e.g., "Amigos4Life!") - only if SSH_REQUIRE_PASSWORD=true
+SSH_REQUIRE_PASSWORD       # "true" to require password, "false" to allow any public key (default: "true")
 HTTP_PORT                  # Should be "8080"
 SSH_PORT                   # Should be "2222"
 SSH_HOST                   # Should be "0.0.0.0"
@@ -119,10 +120,10 @@ healthcheck:
   timeout: 5s
   max_attempts: 3
 
-# Persistent volumes for user progress and SSH keys
+# Persistent volumes for user progress, SSH keys, and SSL certificates
 volumes:
-  - void-data:/app/.void_reader_data
-  - void-ssh:/app/.ssh
+  - void-data:/data
+  - void-ssl:/data/ssl
 
 # Deployment hooks
 hooks:
@@ -729,6 +730,154 @@ doppler run -- go run .
 
 # Connect locally
 ssh -p 2222 localhost
+```
+
+## Setting Up Development on Another PC
+
+To develop and deploy from a different machine, follow these steps:
+
+### Prerequisites
+- Git access to the repository
+- Doppler CLI installed
+- Docker installed (for Kamal deployments)
+- Kamal installed: `gem install kamal`
+
+### Initial Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/YOUR_USERNAME/space_pirate.git
+cd space_pirate
+
+# 2. Install Doppler CLI
+# macOS
+brew install dopplerhq/cli/doppler
+
+# Linux
+curl -Ls --tlsv1.2 --proto "=https" --retry 3 \
+  https://cli.doppler.com/install.sh | sh
+
+# Windows (PowerShell as Admin)
+# Download from: https://cli.doppler.com/
+
+# 3. Authenticate with Doppler
+doppler login
+
+# 4. Setup the project
+doppler setup
+# When prompted, select:
+# - Project: void-reader (or void-chronicles)
+# - Config: dev (for local development) or prd (for production deployments)
+
+# 5. Verify access to secrets
+doppler secrets
+# Should list all secrets (values hidden for security)
+
+# 6. Test local development
+cd ssh-reader
+doppler run -- go run .
+
+# In another terminal, connect locally
+ssh -p 2222 localhost
+# Password: (from Doppler dev config)
+```
+
+### For Production Deployments
+
+```bash
+# 1. Setup production config
+cd space_pirate
+doppler setup --config prd
+
+# 2. Verify you have access to production secrets
+doppler secrets
+
+# 3. Set the Kamal Doppler token (one-time setup)
+# First, create a service token in Doppler dashboard or CLI:
+doppler configs tokens create kamal-deploy --project void-reader --config prd
+
+# Copy the token (starts with dp.st.prd.) and set it:
+kamal secrets set DOPPLER_TOKEN="dp.st.prd.YOUR_TOKEN_HERE"
+
+# 4. Verify Kamal configuration
+kamal config
+
+# 5. Deploy
+kamal deploy
+```
+
+### Important Notes
+
+1. **Doppler Authentication**: Each developer needs to authenticate with their own Doppler account
+2. **Access Permissions**: Project owner must grant access to the Doppler project (void-reader)
+3. **Service Token**: The DOPPLER_TOKEN for Kamal is project-wide (set once, used by all deployments)
+4. **SSH Keys**: Each developer needs SSH access to the VPS (add their public key to ~/.ssh/authorized_keys on VPS)
+5. **Environment Configs**: 
+   - Use `dev` config for local development
+   - Use `prd` config for production deployments
+   - Use `stg` config for staging (if applicable)
+
+### Granting Doppler Access to New Developers
+
+As the project owner:
+
+```bash
+# Login to Doppler dashboard: https://dashboard.doppler.com
+# Navigate to: void-reader project → Settings → Team Access
+# Click "Invite User" and enter developer's email
+# Set role: Developer (can read/write secrets in dev, read-only in prd)
+
+# Or via CLI:
+doppler workplace users add developer@example.com --project void-reader
+```
+
+### Switching Between Environments
+
+```bash
+# Switch to development
+doppler setup --config dev
+
+# Switch to production
+doppler setup --config prd
+
+# Switch to staging
+doppler setup --config stg
+
+# View current setup
+doppler setup --show
+```
+
+### Troubleshooting
+
+**"Project not found" error:**
+```bash
+# Make sure you're authenticated
+doppler login
+
+# List available projects
+doppler projects
+
+# If project is missing, contact project owner to grant access
+```
+
+**"Invalid token" error during Kamal deploy:**
+```bash
+# Recreate the service token
+doppler configs tokens create kamal-deploy --project void-reader --config prd
+
+# Update Kamal secret
+kamal secrets set DOPPLER_TOKEN="dp.st.prd.NEW_TOKEN_HERE"
+```
+
+**Can't SSH to VPS:**
+```bash
+# Check SSH key is added to VPS
+ssh-copy-id -i ~/.ssh/YOUR_KEY.pub -p 1447 root@VPS_IP
+
+# Or manually add to VPS authorized_keys
+cat ~/.ssh/YOUR_KEY.pub
+# Copy output and SSH to VPS, then:
+# echo "YOUR_PUBLIC_KEY" >> ~/.ssh/authorized_keys
 ```
 
 ## Additional Resources

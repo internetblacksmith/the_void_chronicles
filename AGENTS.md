@@ -27,11 +27,11 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 ## Key Architecture
 - Triple servers: HTTP (8080), HTTPS (8443), SSH (2222) all in `main.go`
 - TUI states: Main menu (split-view library), chapter list, reading view, progress, about
-- Progress tracking: JSON persistence in `.void_reader_data/username.json`
+- Progress tracking: JSON persistence in `/data/void_reader_data/username.json` (production) or `.void_reader_data/username.json` (local dev)
 - Book loading: Markdown parser in `book.go` reads from `chapters/*.md`
-- Environment: Variables loaded via `godotenv` with fallback defaults
+- Environment: Variables loaded via `godotenv` with fallback defaults, Doppler in production
 - HTTPS: Native TLS support with graceful fallback if certificates not found
-- Deployment: Kamal orchestration with direct port mapping (80→8080 HTTP, 443→8443 HTTPS, 22→2222 SSH), Doppler secrets, persistent volumes (void-ssh-keys, void-progress, void-ssl)
+- Deployment: Kamal orchestration with direct port mapping (80→8080 HTTP, 443→8443 HTTPS, 22→2222 SSH), Doppler secrets, persistent volumes (void-data for progress, void-ssl for certificates)
 
 ## Critical Commit Policy
 **Documentation-First**: Before ANY commit, verify ALL documentation matches code (README, DEPLOYMENT.md, guides, file paths). Documentation drift is unacceptable. Workflow: (1) Code changes, (2) Update docs, (3) Verify accuracy, (4) Commit.

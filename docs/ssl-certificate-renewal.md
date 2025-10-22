@@ -8,7 +8,7 @@ Void Chronicles uses Let's Encrypt SSL certificates for HTTPS. Certificates expi
 
 - **Let's Encrypt**: `/etc/letsencrypt/live/vc.internetblacksmith.dev/`
 - **Docker Volume**: `/var/lib/docker/volumes/void-ssl/_data/`
-- **Container Mount**: `/app/.ssl/` (inside container)
+- **Container Mount**: `/data/ssl/` (inside container)
 
 ## Manual Renewal
 

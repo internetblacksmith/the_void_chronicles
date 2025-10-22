@@ -320,12 +320,24 @@ func main() {
 		bubbletea.Middleware(teaHandler),
 	}
 
-	s, err := wish.NewServer(
+	serverOpts := []ssh.Option{
 		wish.WithAddress(net.JoinHostPort(host, sshPort)),
 		wish.WithHostKeyPath(sshKeyPath),
-		wish.WithPasswordAuth(passwordHandler),
 		wish.WithMiddleware(wishMiddleware...),
-	)
+	}
+
+	requirePassword := getEnv("SSH_REQUIRE_PASSWORD", "true")
+	if strings.ToLower(requirePassword) == "true" || requirePassword == "1" {
+		serverOpts = append(serverOpts, wish.WithPasswordAuth(passwordHandler))
+		log.Println("Password authentication: ENABLED")
+	} else {
+		serverOpts = append(serverOpts, wish.WithPublicKeyAuth(func(ctx ssh.Context, key ssh.PublicKey) bool {
+			return true
+		}))
+		log.Println("Password authentication: DISABLED (allowing all public key auth)")
+	}
+
+	s, err := wish.NewServer(serverOpts...)
 	if err != nil {
 		sentry.CaptureException(err)
 		log.Fatalln(err)
