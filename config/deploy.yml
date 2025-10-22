@@ -27,7 +27,7 @@ servers:
       publish:
         - "80:8080"
         - "443:8443"
-        - "2222:2222"
+        - "22:2222"
     proxy: false
 
 # Readiness delay (no proxy, no healthcheck in config)
@@ -46,15 +46,12 @@ builder:
 
 # Environment variables
 env:
+  # Doppler configuration for fetching secrets at runtime
   clear:
-    HTTP_PORT: 8080
-    SSH_HOST: 0.0.0.0
-    SSH_PORT: 2222
+    DOPPLER_PROJECT: void-reader
+    DOPPLER_CONFIG: prd
   secret:
-    - SSH_PASSWORD
-    - SSH_REQUIRE_PASSWORD
-    - SENTRY_DSN
-    - POSTHOG_API_KEY
+    - DOPPLER_TOKEN
 
 # DO NOT INCLUDE accessories section (no Redis needed)
 # DO NOT INCLUDE traefik section (already running from gcal-sinatra)
