@@ -27,7 +27,7 @@ servers:
       publish:
         - "80:8080"
         - "443:8443"
-        - "22:2222"
+        - "2222:2222"
     proxy: false
 
 # Readiness delay (no proxy, no healthcheck in config)
