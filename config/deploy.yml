@@ -46,12 +46,15 @@ builder:
 
 # Environment variables
 env:
-  # Doppler configuration for fetching secrets at runtime
   clear:
-    DOPPLER_PROJECT: void-reader
-    DOPPLER_CONFIG: prd
+    HTTP_PORT: 8080
+    SSH_HOST: 0.0.0.0
+    SSH_PORT: 2222
   secret:
-    - DOPPLER_TOKEN
+    - SSH_PASSWORD
+    - SSH_REQUIRE_PASSWORD
+    - SENTRY_DSN
+    - POSTHOG_API_KEY
 
 # DO NOT INCLUDE accessories section (no Redis needed)
 # DO NOT INCLUDE traefik section (already running from gcal-sinatra)
