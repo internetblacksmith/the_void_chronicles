@@ -4,13 +4,15 @@
 Dual-component project: (1) Science fiction book series source in Markdown, (2) SSH-based terminal reader application in Go. Markdown is canonical; PDF/EPUB generated from it. SSH reader loads books directly from `book1_void_reavers_source/chapters/`.
 
 ## Build/Test Commands
+- **Interactive Menu**: `make` or `make menu` (launches interactive menu with all commands)
 - **Test**: `cd ssh-reader && go test ./...` or `make test`
 - **Single test**: `cd ssh-reader && go test -run TestName`
 - **Coverage**: `make test-coverage`
 - **Build**: `cd ssh-reader && go build` or `make build`
 - **Lint**: `cd ssh-reader && go fmt ./... && go vet ./...` or `make lint`
-- **Local dev**: `./run.sh` (HTTP:8080, HTTPS:8443, SSH:2222, password: Amigos4Life!)
-- **Deploy Kamal**: `kamal deploy` (requires Doppler token and VPS setup per KAMAL_CONFIG_INSTRUCTIONS.md)
+- **Local dev**: `./run.sh` or `make run` (HTTP:8080, HTTPS:8443, SSH:2222, password: Amigos4Life!)
+- **Setup Kamal secrets**: `make kamal-secrets-setup` (generates `.kamal/secrets` file with variable substitution)
+- **Deploy Kamal**: `make deploy` or `doppler run --project void-reader --config prd -- kamal deploy`
 - **SSL renewal**: `./renew-ssl-certs.sh` (Let's Encrypt certificate renewal and Docker volume copy)
 - **Generate PDF**: `./markdown_to_kdp_pdf.rb book1_void_reavers_source void_reavers.pdf`
 - **Generate EPUB**: `./markdown_to_epub.rb book1_void_reavers_source void_reavers.epub`
@@ -40,6 +42,11 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 
 ### Rule 2: SSH Port is 22
 The application SSH server listens on container port 2222, mapped to host port **22** (not 2222). System SSH runs on port 1447, so port 22 is available. Port mapping in `config/deploy.yml` MUST be `"22:2222"`.
+
+### Rule 3: Kamal Secrets File Required
+Kamal requires a `.kamal/secrets` file even when using Doppler environment variables. This file MUST use variable substitution format (`$VAR_NAME`) so Doppler can inject actual values at runtime. Use `make kamal-secrets-setup` to generate this file. The secrets file contains:
+- `KAMAL_REGISTRY_PASSWORD=$KAMAL_REGISTRY_PASSWORD` (GitHub PAT)
+- `DOPPLER_TOKEN=$DOPPLER_TOKEN` (service token for container runtime)
 
 ## Critical Commit Policy
 **Documentation-First**: Before ANY commit, verify ALL documentation matches code (README, DEPLOYMENT.md, guides, file paths). Documentation drift is unacceptable. Workflow: (1) Code changes, (2) Update docs, (3) Verify accuracy, (4) Commit.

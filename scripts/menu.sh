@@ -19,22 +19,23 @@ show_menu() {
     echo "  7)  Run security scan"
     echo "  8)  Run all pre-commit checks"
     echo "  9)  Clean build artifacts"
+    echo "  10) Generate .kamal/secrets file"
     echo ""
     echo "🐳 Docker Commands:"
-    echo "  10) Build Docker image locally"
-    echo "  11) Run Docker container locally"
+    echo "  11) Build Docker image locally"
+    echo "  12) Run Docker container locally"
     echo ""
     echo "🚀 Deployment Commands (Kamal + Doppler):"
-    echo "  12) 🔥 Deploy to production"
-    echo "  13) Build and push image only"
-    echo "  14) Stream production logs"
-    echo "  15) Restart production containers"
-    echo "  16) Rollback to previous version"
-    echo "  17) Stop production containers"
-    echo "  18) Open shell in production container"
-    echo "  19) Show deployment status"
-    echo "  20) Show production environment variables"
-    echo "  21) Setup Kamal on new server"
+    echo "  13) 🔥 Deploy to production"
+    echo "  14) Build and push image only"
+    echo "  15) Stream production logs"
+    echo "  16) Restart production containers"
+    echo "  17) Rollback to previous version"
+    echo "  18) Stop production containers"
+    echo "  19) Open shell in production container"
+    echo "  20) Show deployment status"
+    echo "  21) Show production environment variables"
+    echo "  22) Setup Kamal on new server"
     echo ""
     echo "  0)  Exit"
     echo ""
@@ -80,14 +81,18 @@ execute_command() {
             make clean
             ;;
         10)
+            echo "▶️  Generating .kamal/secrets file..."
+            make kamal-secrets-setup
+            ;;
+        11)
             echo "▶️  Building Docker image..."
             make docker-build
             ;;
-        11)
+        12)
             echo "▶️  Running Docker container..."
             make docker-run
             ;;
-        12)
+        13)
             echo "🔥 Deploying to production..."
             echo ""
             read -p "⚠️  Are you sure you want to deploy to production? (yes/no): " confirm
@@ -97,19 +102,19 @@ execute_command() {
                 echo "❌ Deployment cancelled."
             fi
             ;;
-        13)
+        14)
             echo "▶️  Building and pushing image..."
             make deploy-build
             ;;
-        14)
+        15)
             echo "▶️  Streaming production logs (Ctrl+C to exit)..."
             make deploy-logs
             ;;
-        15)
+        16)
             echo "▶️  Restarting production containers..."
             make deploy-restart
             ;;
-        16)
+        17)
             echo "▶️  Rolling back to previous version..."
             read -p "⚠️  Are you sure you want to rollback? (yes/no): " confirm
             if [ "$confirm" = "yes" ]; then
@@ -118,7 +123,7 @@ execute_command() {
                 echo "❌ Rollback cancelled."
             fi
             ;;
-        17)
+        18)
             echo "▶️  Stopping production containers..."
             read -p "⚠️  Are you sure you want to stop production? (yes/no): " confirm
             if [ "$confirm" = "yes" ]; then
@@ -127,19 +132,19 @@ execute_command() {
                 echo "❌ Stop cancelled."
             fi
             ;;
-        18)
+        19)
             echo "▶️  Opening shell in production container..."
             make deploy-shell
             ;;
-        19)
+        20)
             echo "▶️  Showing deployment status..."
             make deploy-status
             ;;
-        20)
+        21)
             echo "▶️  Showing production environment variables..."
             make deploy-env
             ;;
-        21)
+        22)
             echo "▶️  Setting up Kamal on new server..."
             read -p "⚠️  Are you sure you want to setup a new server? (yes/no): " confirm
             if [ "$confirm" = "yes" ]; then
@@ -162,11 +167,11 @@ main() {
     while true; do
         show_header
         show_menu
-        read -p "Select an option (0-21): " choice
+        read -p "Select an option (0-22): " choice
         echo ""
         execute_command "$choice"
         echo ""
-        if [ "$choice" != "5" ] && [ "$choice" != "11" ] && [ "$choice" != "14" ] && [ "$choice" != "18" ]; then
+        if [ "$choice" != "5" ] && [ "$choice" != "12" ] && [ "$choice" != "15" ] && [ "$choice" != "19" ]; then
             read -p "Press Enter to continue..."
         fi
     done
