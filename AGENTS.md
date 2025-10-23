@@ -18,22 +18,25 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 - **Generate EPUB**: `./markdown_to_epub.rb book1_void_reavers_source void_reavers.epub`
 
 ## Code Style
-- **License**: All Go files start with AGPL-3.0 copyright header (see existing files)
+- **License Headers**: All Go files start with AGPL-3.0 copyright header (see existing files)
+- **Book Content License**: Books are CC BY-NC-SA 4.0 (see LICENSE-CONTENT.md)
 - **Imports**: Standard library first, blank line, then external packages (Bubbletea, Lipgloss, Wish, godotenv)
 - **Naming**: camelCase private, PascalCase exported; descriptive names (`LoadBook`, `UserProgress`)
 - **Errors**: Always wrap with context: `fmt.Errorf("failed to load book: %w", err)`
 - **Types**: Explicit struct tags: `json:"field_name"`, use `-` for non-persisted fields
 - **Comments**: Document exported functions only; no inline comments unless critical
 - **Paths**: Use `filepath.Join()` for cross-platform compatibility
+- **UI Consistency**: All content views must use consistent dimensions matching menu panels
 
 ## Key Architecture
 - Triple servers: HTTP (8080), HTTPS (8443), SSH (2222) all in `main.go`
-- TUI states: Main menu (split-view library), chapter list, reading view, progress, about
+- TUI states: Main menu (split-view library), chapter list, reading view, progress, about, license
 - Progress tracking: JSON persistence in `/data/void_reader_data/username.json` (production) or `.void_reader_data/username.json` (local dev)
 - Book loading: Markdown parser in `book.go` reads from `chapters/*.md`
 - Environment: Variables loaded via `godotenv` with fallback defaults, Doppler in production
 - HTTPS: Native TLS support with graceful fallback if certificates not found
 - Deployment: Kamal orchestration with direct port mapping (80→8080 HTTP, 443→8443 HTTPS, 22→2222 SSH), Doppler secrets, persistent volumes (void-data for progress, void-ssl for certificates)
+- UI Layout: All views use consistent dimensions (width - 6, height - 8) with rounded borders, padding (1, 2), and centered alignment
 
 ## Critical Rules
 
@@ -48,5 +51,12 @@ Kamal requires a `.kamal/secrets` file even when using Doppler environment varia
 - `KAMAL_REGISTRY_PASSWORD=$KAMAL_REGISTRY_PASSWORD` (GitHub PAT)
 - `DOPPLER_TOKEN=$DOPPLER_TOKEN` (service token for container runtime)
 
+## Licensing Structure
+This project uses a dual-license approach:
+- **Book Content**: Creative Commons BY-NC-SA 4.0 (see LICENSE-CONTENT.md, metadata.yaml, series.json)
+- **SSH Reader Code**: GNU AGPL-3.0 (see LICENSE, Go file headers)
+- License info is displayed in the SSH reader's License view (accessible from main menu)
+- Both licenses must be maintained and documented in all relevant locations
+
 ## Critical Commit Policy
-**Documentation-First**: Before ANY commit, verify ALL documentation matches code (README, DEPLOYMENT.md, guides, file paths). Documentation drift is unacceptable. Workflow: (1) Code changes, (2) Update docs, (3) Verify accuracy, (4) Commit.
+**Documentation-First**: Before ANY commit, verify ALL documentation matches code (README, DEPLOYMENT.md, AGENTS.md, guides, file paths). Documentation drift is unacceptable. Workflow: (1) Code changes, (2) Update docs, (3) Verify accuracy, (4) Commit.
