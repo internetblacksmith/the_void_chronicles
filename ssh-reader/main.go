@@ -1157,29 +1157,35 @@ func (m model) viewMenu() string {
 
 	// Left panel - Book list
 	leftPanelStyle := lipgloss.NewStyle().
-		Width(leftWidth).
+		MaxWidth(leftWidth).
 		Height(m.height-8).
 		Border(lipgloss.RoundedBorder()).
 		BorderForeground(lipgloss.Color("86")).
 		Padding(1, 2)
 
 	var menuItems []string
-	menuItems = append(menuItems, lipgloss.NewStyle().Bold(true).Render("BOOK LIBRARY"))
+	maxMenuWidth := leftWidth - 6
+	menuItems = append(menuItems, lipgloss.NewStyle().Bold(true).MaxWidth(maxMenuWidth).Render("BOOK LIBRARY"))
 	menuItems = append(menuItems, "")
 
+	maxTitleLen := maxMenuWidth - 12
 	for i, book := range m.books {
-		item := fmt.Sprintf("Book %d: %s", book.Number, book.Title)
+		title := book.Title
+		if len(title) > maxTitleLen {
+			title = title[:maxTitleLen-1] + "…"
+		}
+		item := fmt.Sprintf("Book %d: %s", book.Number, title)
 		if i == m.menuCursor {
 			if book.Available {
-				menuItems = append(menuItems, selectedStyle.Render("▶ "+item+" ✓"))
+				menuItems = append(menuItems, selectedStyle.MaxWidth(maxMenuWidth).Render("▶ "+item+" ✓"))
 			} else {
-				menuItems = append(menuItems, selectedStyle.Render("▶ "+item))
+				menuItems = append(menuItems, selectedStyle.MaxWidth(maxMenuWidth).Render("▶ "+item))
 			}
 		} else {
 			if book.Available {
-				menuItems = append(menuItems, normalStyle.Render("  "+item+" ✓"))
+				menuItems = append(menuItems, normalStyle.MaxWidth(maxMenuWidth).Render("  "+item+" ✓"))
 			} else {
-				statusStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("240"))
+				statusStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("240")).MaxWidth(maxMenuWidth)
 				menuItems = append(menuItems, statusStyle.Render("  "+item))
 			}
 		}
@@ -1189,30 +1195,28 @@ func (m model) viewMenu() string {
 	menuItems = append(menuItems, "")
 	aboutIndex := len(m.books)
 	if m.menuCursor == aboutIndex+1 {
-		menuItems = append(menuItems, selectedStyle.Render("▶ ℹ️  About"))
+		menuItems = append(menuItems, selectedStyle.MaxWidth(maxMenuWidth).Render("▶ ℹ️  About"))
 	} else {
-		menuItems = append(menuItems, normalStyle.Render("  ℹ️  About"))
+		menuItems = append(menuItems, normalStyle.MaxWidth(maxMenuWidth).Render("  ℹ️  About"))
 	}
 
 	licenseIndex := aboutIndex + 2
 	if m.menuCursor == licenseIndex {
-		menuItems = append(menuItems, selectedStyle.Render("▶ 📄 License"))
+		menuItems = append(menuItems, selectedStyle.MaxWidth(maxMenuWidth).Render("▶ 📄 License"))
 	} else {
-		menuItems = append(menuItems, normalStyle.Render("  📄 License"))
+		menuItems = append(menuItems, normalStyle.MaxWidth(maxMenuWidth).Render("  📄 License"))
 	}
 
 	menuItems = append(menuItems, "")
 	if m.menuCursor == len(m.menuItems)-1 {
-		menuItems = append(menuItems, selectedStyle.Render("▶ 🚪 Exit"))
+		menuItems = append(menuItems, selectedStyle.MaxWidth(maxMenuWidth).Render("▶ 🚪 Exit"))
 	} else {
-		menuItems = append(menuItems, normalStyle.Render("  🚪 Exit"))
+		menuItems = append(menuItems, normalStyle.MaxWidth(maxMenuWidth).Render("  🚪 Exit"))
 	}
 
-	menuContent := lipgloss.NewStyle().
-		Width(leftWidth - 6).
-		Render(lipgloss.JoinVertical(lipgloss.Left, menuItems...))
-
-	leftPanel := leftPanelStyle.Render(menuContent)
+	leftPanel := leftPanelStyle.Render(
+		lipgloss.JoinVertical(lipgloss.Left, menuItems...),
+	)
 
 	// Right panel - Book details
 	rightPanelStyle := lipgloss.NewStyle().
@@ -1380,24 +1384,35 @@ The SSH reader application is:
 }
 
 func (m model) viewChapterList() string {
-	header := headerStyle.Width(m.width - 2).Render("📚 CHAPTERS")
+	contentWidth := m.width - 6
+	contentHeight := m.height - 8
 
+	header := headerStyle.Width(contentWidth - 2).Render("📚 CHAPTERS")
+
+	maxItemWidth := contentWidth - 6
 	var items []string
 	for i, chapter := range m.book.Chapters {
 		prefix := fmt.Sprintf("%2d. ", i+1)
 		if i == m.chapterCursor {
-			items = append(items, selectedStyle.Render("▶ "+prefix+chapter.Title))
+			items = append(items, selectedStyle.MaxWidth(maxItemWidth).Render("▶ "+prefix+chapter.Title))
 		} else {
-			items = append(items, normalStyle.Render("  "+prefix+chapter.Title))
+			items = append(items, normalStyle.MaxWidth(maxItemWidth).Render("  "+prefix+chapter.Title))
 		}
 	}
 
-	content := lipgloss.JoinVertical(lipgloss.Left, items...)
+	chapterStyle := lipgloss.NewStyle().
+		Width(contentWidth).
+		Height(contentHeight).
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(lipgloss.Color("86")).
+		Padding(1, 2)
+
+	content := chapterStyle.Render(lipgloss.JoinVertical(lipgloss.Left, items...))
 
 	footer := footerStyle.Width(m.width).Render("↑/↓: navigate • enter: read • esc: back • q: quit")
 
 	return lipgloss.JoinVertical(
-		lipgloss.Top,
+		lipgloss.Center,
 		header,
 		"",
 		content,
@@ -1410,13 +1425,16 @@ func (m model) viewReading() string {
 	chapter := m.book.Chapters[m.currentChapter]
 	progress := fmt.Sprintf("Chapter %d of %d", m.currentChapter+1, len(m.book.Chapters))
 
-	header := headerStyle.Width(m.width - 2).Render(fmt.Sprintf("📖 %s (%s)", chapter.Title, progress))
+	contentWidth := m.width - 6
+	contentHeight := m.height - 8
 
-	contentHeight := m.height - 4 // Header + 2 empty lines + footer
-	lines := wrapText(chapter.Content, m.width-4)
+	header := headerStyle.Width(contentWidth - 2).Render(fmt.Sprintf("📖 %s (%s)", chapter.Title, progress))
 
+	lines := wrapText(chapter.Content, contentWidth-6)
+
+	visibleHeight := contentHeight - 4
 	startLine := m.scrollOffset
-	endLine := startLine + contentHeight
+	endLine := startLine + visibleHeight
 	if endLine > len(lines) {
 		endLine = len(lines)
 	}
@@ -1426,13 +1444,20 @@ func (m model) viewReading() string {
 		visibleLines = lines[startLine:endLine]
 	}
 
-	content := contentStyle.Render(lipgloss.JoinVertical(lipgloss.Left, visibleLines...))
+	readingStyle := lipgloss.NewStyle().
+		Width(contentWidth).
+		Height(contentHeight).
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(lipgloss.Color("86")).
+		Padding(1, 2)
+
+	content := readingStyle.Render(lipgloss.JoinVertical(lipgloss.Left, visibleLines...))
 
 	navHelp := "h/←: prev chapter • l/→: next chapter • ↑/↓: scroll • b: bookmark • space: page down • esc: menu"
 	footer := footerStyle.Width(m.width).Render(navHelp)
 
 	return lipgloss.JoinVertical(
-		lipgloss.Top,
+		lipgloss.Center,
 		header,
 		"",
 		content,
@@ -1441,7 +1466,10 @@ func (m model) viewReading() string {
 }
 
 func (m model) viewAbout() string {
-	header := headerStyle.Width(m.width - 2).Render("ℹ️  ABOUT THE VOID CHRONICLES")
+	contentWidth := m.width - 6
+	contentHeight := m.height - 8
+
+	header := headerStyle.Width(contentWidth - 2).Render("ℹ️  ABOUT THE VOID CHRONICLES")
 
 	aboutText := `🚀 Welcome to the Void Chronicles Universe! 🚀
 
@@ -1485,11 +1513,21 @@ Features:
 🐙 Source: github.com/internetblacksmith/void-chronicles
 📡 Connect: ssh vc.internetblacksmith.dev`
 
-	content := contentStyle.Render(aboutText)
+	wrappedLines := wrapText(aboutText, contentWidth-6)
+	wrappedText := strings.Join(wrappedLines, "\n")
+
+	aboutStyle := lipgloss.NewStyle().
+		Width(contentWidth).
+		Height(contentHeight).
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(lipgloss.Color("86")).
+		Padding(1, 2)
+
+	content := aboutStyle.Render(wrappedText)
 	footer := footerStyle.Width(m.width).Render("press any key to return to menu")
 
 	return lipgloss.JoinVertical(
-		lipgloss.Top,
+		lipgloss.Center,
 		header,
 		"",
 		content,
@@ -1499,7 +1537,10 @@ Features:
 }
 
 func (m model) viewProgress() string {
-	header := headerStyle.Width(m.width - 2).Render("📊 READING PROGRESS")
+	contentWidth := m.width - 6
+	contentHeight := m.height - 8
+
+	header := headerStyle.Width(contentWidth - 2).Render("📊 READING PROGRESS")
 
 	completion := m.progress.GetCompletionPercentage(len(m.book.Chapters))
 
@@ -1544,11 +1585,21 @@ func (m model) viewProgress() string {
 		}
 	}
 
-	content := contentStyle.Render(progressText)
+	wrappedLines := wrapText(progressText, contentWidth-6)
+	wrappedProgress := strings.Join(wrappedLines, "\n")
+
+	progressStyle := lipgloss.NewStyle().
+		Width(contentWidth).
+		Height(contentHeight).
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(lipgloss.Color("86")).
+		Padding(1, 2)
+
+	content := progressStyle.Render(wrappedProgress)
 	footer := footerStyle.Width(m.width).Render("press any key to return to menu")
 
 	return lipgloss.JoinVertical(
-		lipgloss.Top,
+		lipgloss.Center,
 		header,
 		"",
 		content,
@@ -1558,33 +1609,43 @@ func (m model) viewProgress() string {
 }
 
 func (m model) viewLicense() string {
-	header := headerStyle.Width(m.width - 2).Render("📄 LICENSE INFORMATION")
+	contentWidth := m.width - 6
+	contentHeight := m.height - 8
+
+	header := headerStyle.Width(contentWidth - 2).Render("📄 LICENSE INFORMATION")
 
 	licenseText := m.getLicenseText()
-	wrappedLines := wrapText(licenseText, m.width-4)
+	wrappedLines := wrapText(licenseText, contentWidth-6)
 
-	contentHeight := m.height - 4
+	visibleHeight := contentHeight - 4
 
 	visibleLines := wrappedLines
-	if len(wrappedLines) > contentHeight {
-		end := m.licenseScroll + contentHeight
+	if len(wrappedLines) > visibleHeight {
+		end := m.licenseScroll + visibleHeight
 		if end > len(wrappedLines) {
 			end = len(wrappedLines)
 		}
 		visibleLines = wrappedLines[m.licenseScroll:end]
 	}
 
-	content := contentStyle.Render(strings.Join(visibleLines, "\n"))
+	licenseStyle := lipgloss.NewStyle().
+		Width(contentWidth).
+		Height(contentHeight).
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(lipgloss.Color("86")).
+		Padding(1, 2)
+
+	content := licenseStyle.Render(strings.Join(visibleLines, "\n"))
 
 	scrollInfo := ""
-	if len(wrappedLines) > contentHeight {
-		scrollInfo = fmt.Sprintf(" (line %d/%d)", m.licenseScroll+1, len(wrappedLines)-contentHeight+1)
+	if len(wrappedLines) > visibleHeight {
+		scrollInfo = fmt.Sprintf(" (line %d/%d)", m.licenseScroll+1, len(wrappedLines)-visibleHeight+1)
 	}
 
 	footer := footerStyle.Width(m.width).Render("↑/↓: scroll • space/pgdn: page down • pgup: page up • esc: back" + scrollInfo)
 
 	return lipgloss.JoinVertical(
-		lipgloss.Top,
+		lipgloss.Center,
 		header,
 		"",
 		content,
