@@ -652,6 +652,7 @@ const (
 	readingView
 	aboutView
 	progressView
+	licenseView
 )
 
 type BookInfo struct {
@@ -684,6 +685,7 @@ type model struct {
 	username        string
 	books           []BookInfo
 	selectedBook    int
+	licenseScroll   int
 }
 
 func getSeriesBooks() []BookInfo {
@@ -760,7 +762,7 @@ func initialModelWithUser(width, height int, username string) model {
 	for _, book := range books {
 		menuItems = append(menuItems, fmt.Sprintf("📚 Book %d: %s", book.Number, book.Title))
 	}
-	menuItems = append(menuItems, "", "ℹ️  About", "", "🚪 Exit")
+	menuItems = append(menuItems, "", "ℹ️  About", "📄 License", "", "🚪 Exit")
 
 	return model{
 		state:           menuView,
@@ -801,6 +803,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m.updateAbout(msg)
 		case progressView:
 			return m.updateProgress(msg)
+		case licenseView:
+			return m.updateLicense(msg)
 		}
 	}
 
@@ -847,6 +851,9 @@ func (m model) updateMenu(msg tea.KeyMsg) (model, tea.Cmd) {
 			return m, tea.Quit
 		} else if item == "ℹ️  About" {
 			m.state = aboutView
+		} else if item == "📄 License" {
+			m.licenseScroll = 0
+			m.state = licenseView
 		} else if m.menuCursor < len(m.books) && m.books[m.menuCursor].Available {
 			// Start reading the selected book
 			m.state = chapterListView
@@ -958,9 +965,123 @@ func (m model) updateProgress(msg tea.KeyMsg) (model, tea.Cmd) {
 	return m, nil
 }
 
+func (m model) updateLicense(msg tea.KeyMsg) (model, tea.Cmd) {
+	contentHeight := m.height - 4
+
+	switch msg.String() {
+	case "ctrl+c", "q", "esc":
+		m.state = menuView
+		m.licenseScroll = 0
+	case "up", "k":
+		if m.licenseScroll > 0 {
+			m.licenseScroll--
+		}
+	case "down", "j":
+		maxScroll := m.getLicenseMaxScroll()
+		if m.licenseScroll < maxScroll {
+			m.licenseScroll++
+		}
+	case "page up", "ctrl+b":
+		m.licenseScroll -= contentHeight
+		if m.licenseScroll < 0 {
+			m.licenseScroll = 0
+		}
+	case "page down", "ctrl+f", " ":
+		maxScroll := m.getLicenseMaxScroll()
+		m.licenseScroll += contentHeight
+		if m.licenseScroll > maxScroll {
+			m.licenseScroll = maxScroll
+		}
+	case "home", "g":
+		m.licenseScroll = 0
+	case "end", "G":
+		m.licenseScroll = m.getLicenseMaxScroll()
+	}
+	return m, nil
+}
+
 func (m model) getMaxScroll() int {
 	chapter := m.book.Chapters[m.currentChapter]
 	lines := len(wrapText(chapter.Content, m.width-4))
+	contentHeight := m.height - 4
+	maxScroll := lines - contentHeight
+	if maxScroll < 0 {
+		maxScroll = 0
+	}
+	return maxScroll
+}
+
+func (m model) getLicenseText() string {
+	return `📄 BOOK CONTENT LICENSE
+
+The Void Chronicles book series is licensed under:
+
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 YOU ARE FREE TO:
+
+• Share — copy and redistribute the material in any medium or format
+• Adapt — remix, transform, and build upon the material
+
+The licensor cannot revoke these freedoms as long as you follow the license terms.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 UNDER THE FOLLOWING TERMS:
+
+Attribution (BY):
+You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
+NonCommercial (NC):
+You may not use the material for commercial purposes. Commercial use requires separate permission from the author.
+
+ShareAlike (SA):
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+
+No additional restrictions:
+You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ℹ️  NOTICES:
+
+You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation.
+
+No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💻 SSH READER LICENSE
+
+The SSH reader application is licensed under:
+
+GNU Affero General Public License v3.0 (AGPL-3.0)
+
+This is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+Source code: github.com/internetblacksmith/void-chronicles
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔗 FULL LICENSE TEXTS:
+
+CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
+AGPL-3.0: https://www.gnu.org/licenses/agpl-3.0.html
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📧 QUESTIONS OR COMMERCIAL USE?
+
+For commercial licensing inquiries or questions about the license, please contact the author.`
+}
+
+func (m model) getLicenseMaxScroll() int {
+	licenseText := m.getLicenseText()
+	lines := len(wrapText(licenseText, m.width-4))
 	contentHeight := m.height - 4
 	maxScroll := lines - contentHeight
 	if maxScroll < 0 {
@@ -985,6 +1106,8 @@ func (m model) View() string {
 		return m.viewAbout()
 	case progressView:
 		return m.viewProgress()
+	case licenseView:
+		return m.viewLicense()
 	}
 	return ""
 }
@@ -1187,6 +1310,31 @@ The Void Chronicles is a 10-book epic following humanity's evolution from chaoti
 🐙 Source: github.com/internetblacksmith
 
 [Enter] Learn More`)
+	} else if m.menuItems[m.menuCursor] == "📄 License" {
+		// License selected
+		rightContent = lipgloss.NewStyle().
+			Width(rightWidth - 6).
+			Render(`📄 LICENSE INFORMATION
+
+The Void Chronicles books are released under:
+
+📖 Creative Commons BY-NC-SA 4.0
+
+This means you can:
+• Share and remix the books
+• Create derivative works
+• Distribute freely
+
+As long as you:
+• Give appropriate credit
+• Don't use commercially
+• Share derivatives under same license
+
+The SSH reader application is:
+
+💻 GNU AGPL-3.0 (open source)
+
+[Enter] View Full License`)
 	} else {
 		// Exit selected
 		rightContent = lipgloss.NewStyle().
@@ -1388,6 +1536,42 @@ func (m model) viewProgress() string {
 
 	content := contentStyle.Render(progressText)
 	footer := footerStyle.Width(m.width).Render("press any key to return to menu")
+
+	return lipgloss.JoinVertical(
+		lipgloss.Top,
+		header,
+		"",
+		content,
+		"",
+		footer,
+	)
+}
+
+func (m model) viewLicense() string {
+	header := headerStyle.Width(m.width - 2).Render("📄 LICENSE INFORMATION")
+
+	licenseText := m.getLicenseText()
+	wrappedLines := wrapText(licenseText, m.width-4)
+
+	contentHeight := m.height - 4
+
+	visibleLines := wrappedLines
+	if len(wrappedLines) > contentHeight {
+		end := m.licenseScroll + contentHeight
+		if end > len(wrappedLines) {
+			end = len(wrappedLines)
+		}
+		visibleLines = wrappedLines[m.licenseScroll:end]
+	}
+
+	content := contentStyle.Render(strings.Join(visibleLines, "\n"))
+
+	scrollInfo := ""
+	if len(wrappedLines) > contentHeight {
+		scrollInfo = fmt.Sprintf(" (line %d/%d)", m.licenseScroll+1, len(wrappedLines)-contentHeight+1)
+	}
+
+	footer := footerStyle.Width(m.width).Render("↑/↓: scroll • space/pgdn: page down • pgup: page up • esc: back" + scrollInfo)
 
 	return lipgloss.JoinVertical(
 		lipgloss.Top,

@@ -273,11 +273,28 @@ The project uses AI coding assistance. To help the AI agent work effectively:
 
 ## 📄 License
 
-This project is licensed under the **GNU Affero General Public License v3.0** - see [LICENSE](LICENSE) for details.
+This project uses a dual-license structure:
 
-### Additional Terms
-- The Void Chronicles narrative content is also available under **CC-BY-SA 4.0**
-- Contributions are welcome under the same license terms
+### 📖 Book Content
+The Void Chronicles book series is licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
+
+**You are free to:**
+- Share and redistribute the books
+- Remix, transform, and build upon the material
+
+**Under these terms:**
+- **Attribution** - Give appropriate credit
+- **NonCommercial** - No commercial use without permission
+- **ShareAlike** - Derivatives must use the same license
+
+See [LICENSE-CONTENT.md](LICENSE-CONTENT.md) for full details.
+
+### 💻 SSH Reader Application
+The SSH reader software is licensed under **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+See [LICENSE](LICENSE) for full details.
+
+**Note:** Contributions to either the books or the software are welcome under their respective license terms
 
 ## 🙏 Acknowledgments
 
