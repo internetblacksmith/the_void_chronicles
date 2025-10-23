@@ -1034,8 +1034,8 @@ func (m model) viewMenu() string {
 
 	// Title bar
 	title := titleStyle.Width(m.width).Render("📚 THE VOID CHRONICLES 📚")
-	log.Printf("DEBUG: Rendered title with color profile %d, first 50 chars: %s",
-		m.renderer.ColorProfile(), title[:min(50, len(title))])
+	log.Printf("DEBUG: Color profile=%d, title length=%d, contains ANSI codes: %v",
+		m.renderer.ColorProfile(), len(title), strings.Contains(title, "\x1b["))
 
 	subtitle := m.renderer.NewStyle().
 		Foreground(lipgloss.Color("241")).
