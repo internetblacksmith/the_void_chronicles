@@ -1158,12 +1158,13 @@ func (m model) viewMenu() string {
 	// Left panel - Book list
 	leftPanelStyle := lipgloss.NewStyle().
 		Width(leftWidth).
-		Height(m.height - 8).
+		Height(m.height-8).
 		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color("86"))
+		BorderForeground(lipgloss.Color("86")).
+		Padding(1, 2)
 
 	var menuItems []string
-	menuItems = append(menuItems, lipgloss.NewStyle().Bold(true).Render("  BOOK LIBRARY"))
+	menuItems = append(menuItems, lipgloss.NewStyle().Bold(true).Render("BOOK LIBRARY"))
 	menuItems = append(menuItems, "")
 
 	for i, book := range m.books {
@@ -1184,13 +1185,20 @@ func (m model) viewMenu() string {
 		}
 	}
 
-	// Add About and Exit options
+	// Add About, License, and Exit options
 	menuItems = append(menuItems, "")
 	aboutIndex := len(m.books)
 	if m.menuCursor == aboutIndex+1 {
 		menuItems = append(menuItems, selectedStyle.Render("▶ ℹ️  About"))
 	} else {
 		menuItems = append(menuItems, normalStyle.Render("  ℹ️  About"))
+	}
+
+	licenseIndex := aboutIndex + 2
+	if m.menuCursor == licenseIndex {
+		menuItems = append(menuItems, selectedStyle.Render("▶ 📄 License"))
+	} else {
+		menuItems = append(menuItems, normalStyle.Render("  📄 License"))
 	}
 
 	menuItems = append(menuItems, "")
@@ -1200,9 +1208,11 @@ func (m model) viewMenu() string {
 		menuItems = append(menuItems, normalStyle.Render("  🚪 Exit"))
 	}
 
-	leftPanel := leftPanelStyle.Render(
-		lipgloss.JoinVertical(lipgloss.Left, menuItems...),
-	)
+	menuContent := lipgloss.NewStyle().
+		Width(leftWidth - 6).
+		Render(lipgloss.JoinVertical(lipgloss.Left, menuItems...))
+
+	leftPanel := leftPanelStyle.Render(menuContent)
 
 	// Right panel - Book details
 	rightPanelStyle := lipgloss.NewStyle().
