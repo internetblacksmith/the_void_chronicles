@@ -4,30 +4,34 @@ service: void-chronicles
 # Docker image (GitHub Container Registry - free private images)
 image: ghcr.io/internetblacksmith/void-chronicles
 
-# SSH configuration for connecting to VPS
+# SSH configuration for connecting to VPS (uses ~/.ssh/config)
 ssh:
-  user: root
-  port: 1447
-  keys:
-    - ~/.ssh/digitalocean_vps
+  config: true
 
 # Server configuration
 servers:
   web:
     hosts:
-      - 161.35.165.206
+      - digitalocean
     labels:
-      # Traefik routing for HTTP interface (when Traefik is set up)
+      # Traefik routing for HTTP/HTTPS (uses gcal-sinatra's Traefik instance)
+      traefik.enable: true
       traefik.http.routers.void-web.rule: Host(`vc.internetblacksmith.dev`)
       traefik.http.routers.void-web.entrypoints: websecure
       traefik.http.routers.void-web.tls.certresolver: letsencrypt
       traefik.http.services.void-web.loadbalancer.server.port: 8080
+      # HTTP to HTTPS redirect
+      traefik.http.routers.void-web-http.rule: Host(`vc.internetblacksmith.dev`)
+      traefik.http.routers.void-web-http.entrypoints: web
+      traefik.http.routers.void-web-http.middlewares: void-redirect-https
+      traefik.http.middlewares.void-redirect-https.redirectscheme.scheme: https
+      traefik.http.middlewares.void-redirect-https.redirectscheme.permanent: true
     options:
-      # Publish HTTP, HTTPS, and SSH ports directly to host
+      # Connect to Traefik's private network for HTTP/HTTPS
+      network: "private"
+      # Only publish SSH port directly (app's SSH server on 2222, exposed as port 22)
       publish:
-        - "80:8080"
-        - "443:8443"
-        - "22:2222"
+        - "22:2222"   # SSH
     proxy: false
 
 # Readiness delay (no proxy, no healthcheck in config)
