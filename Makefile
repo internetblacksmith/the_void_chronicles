@@ -1,4 +1,4 @@
-.PHONY: menu help test test-coverage test-verbose build run clean docker-build docker-run lint security-scan pre-commit
+.PHONY: menu help setup test test-coverage test-verbose build run clean docker-build docker-run lint security-scan pre-commit
 .PHONY: deploy deploy-build deploy-logs deploy-restart deploy-rollback deploy-stop deploy-shell deploy-status deploy-env deploy-setup deploy-cleanup
 .PHONY: kamal-secrets-setup
 
@@ -13,6 +13,7 @@ help:
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo ""
 	@echo "📦 Development Commands:"
+	@echo "  make setup               - Setup dev environment (install all dependencies)"
 	@echo "  make test                - Run all tests"
 	@echo "  make test-coverage       - Run tests with coverage report"
 	@echo "  make test-verbose        - Run tests with verbose output"
@@ -42,6 +43,39 @@ help:
 	@echo "  make deploy-setup    - Setup Kamal on new server"
 	@echo ""
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Setup development environment
+setup:
+	@echo "🚀 Setting up development environment..."
+	@echo ""
+	@echo "📦 Installing Go dependencies..."
+	cd ssh-reader && go mod download
+	cd ssh-reader && go mod tidy
+	@echo ""
+	@echo "💎 Installing Ruby and Bundler for Kamal deployment..."
+	@if ! command -v ruby > /dev/null; then \
+		echo "❌ Ruby not found. Please install Ruby first."; \
+		exit 1; \
+	fi
+	@if ! command -v bundle > /dev/null; then \
+		echo "Installing bundler..."; \
+		gem install bundler; \
+	fi
+	bundle install
+	@echo ""
+	@echo "🔧 Generating .kamal/secrets file..."
+	@$(MAKE) kamal-secrets-setup
+	@echo ""
+	@echo "🧪 Running tests to verify setup..."
+	@$(MAKE) test
+	@echo ""
+	@echo "✅ Development environment setup complete!"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Ensure Doppler CLI is installed and configured"
+	@echo "  2. Run 'make run' to start the local development server"
+	@echo "  3. Run 'make test' to run tests"
+	@echo "  4. Run 'make deploy' to deploy to production (requires Doppler secrets)"
 
 # Run tests
 test:
