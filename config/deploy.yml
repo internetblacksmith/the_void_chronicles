@@ -4,9 +4,10 @@ service: void-chronicles
 # Docker image (GitHub Container Registry - free private images)
 image: ghcr.io/internetblacksmith/void-chronicles
 
-# SSH configuration for connecting to VPS (uses ~/.ssh/config)
+# SSH configuration for connecting to VPS (uses deploy user, not root)
 ssh:
-  config: true
+  user: deploy
+  port: 1447
 
 # Server configuration
 servers:
