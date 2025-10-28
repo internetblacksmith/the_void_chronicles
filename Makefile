@@ -1,4 +1,4 @@
-.PHONY: menu help setup test test-coverage test-verbose build run clean docker-build docker-run lint security-scan pre-commit
+.PHONY: menu help setup setup-dev setup-deploy test test-coverage test-verbose build run clean docker-build docker-run lint security-scan pre-commit
 .PHONY: deploy deploy-build deploy-logs deploy-restart deploy-rollback deploy-stop deploy-shell deploy-status deploy-env deploy-setup deploy-cleanup
 .PHONY: kamal-secrets-setup
 
@@ -13,7 +13,8 @@ help:
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo ""
 	@echo "📦 Development Commands:"
-	@echo "  make setup               - Setup dev environment (install all dependencies)"
+	@echo "  make setup-dev           - Setup dev environment (Go dependencies)"
+	@echo "  make setup-deploy        - Setup deployment environment (Ruby/Kamal/Doppler)"
 	@echo "  make test                - Run all tests"
 	@echo "  make test-coverage       - Run tests with coverage report"
 	@echo "  make test-verbose        - Run tests with verbose output"
@@ -44,27 +45,21 @@ help:
 	@echo ""
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# Setup development environment
-setup:
+# Setup development environment (Go dependencies only)
+setup-dev:
 	@echo "🚀 Setting up development environment..."
+	@echo ""
+	@echo "📋 Checking Go installation..."
+	@if ! command -v go > /dev/null; then \
+		echo "❌ Go not found. Please install Go first."; \
+		echo "   Visit: https://golang.org/doc/install"; \
+		exit 1; \
+	fi
+	@echo "✅ Go $(shell go version | awk '{print $$3}') found"
 	@echo ""
 	@echo "📦 Installing Go dependencies..."
 	cd ssh-reader && go mod download
 	cd ssh-reader && go mod tidy
-	@echo ""
-	@echo "💎 Installing Ruby and Bundler for Kamal deployment..."
-	@if ! command -v ruby > /dev/null; then \
-		echo "❌ Ruby not found. Please install Ruby first."; \
-		exit 1; \
-	fi
-	@if ! command -v bundle > /dev/null; then \
-		echo "Installing bundler..."; \
-		gem install bundler; \
-	fi
-	bundle install
-	@echo ""
-	@echo "🔧 Generating .kamal/secrets file..."
-	@$(MAKE) kamal-secrets-setup
 	@echo ""
 	@echo "🧪 Running tests to verify setup..."
 	@$(MAKE) test
@@ -72,10 +67,68 @@ setup:
 	@echo "✅ Development environment setup complete!"
 	@echo ""
 	@echo "Next steps:"
-	@echo "  1. Ensure Doppler CLI is installed and configured"
-	@echo "  2. Run 'make run' to start the local development server"
-	@echo "  3. Run 'make test' to run tests"
-	@echo "  4. Run 'make deploy' to deploy to production (requires Doppler secrets)"
+	@echo "  1. Run 'make run' to start the local development server"
+	@echo "     (No Doppler needed for dev - app uses sensible defaults)"
+	@echo "  2. Run 'make test' to run tests"
+	@echo "  3. Run 'make setup-deploy' to configure deployment (optional)"
+
+# Setup deployment environment (Ruby, Kamal, Doppler)
+setup-deploy:
+	@echo "🚀 Setting up deployment environment..."
+	@echo ""
+	@echo "📋 Checking prerequisites..."
+	@if ! command -v ruby > /dev/null; then \
+		echo "❌ Ruby not found. Please install Ruby first."; \
+		echo "   On macOS: brew install ruby"; \
+		echo "   On Ubuntu: sudo apt install ruby-full"; \
+		exit 1; \
+	fi
+	@echo "✅ Ruby $(shell ruby --version | awk '{print $$2}') found"
+	@if ! command -v docker > /dev/null; then \
+		echo "❌ Docker not found. Please install Docker first."; \
+		echo "   Visit: https://docs.docker.com/get-docker/"; \
+		exit 1; \
+	fi
+	@echo "✅ Docker $(shell docker --version | awk '{print $$3}' | tr -d ',') found"
+	@if ! command -v doppler > /dev/null; then \
+		echo "❌ Doppler CLI not found. Please install Doppler first."; \
+		echo "   On macOS: brew install dopplerhq/cli/doppler"; \
+		echo "   On Linux: curl -sLf https://cli.doppler.com/install.sh | sh"; \
+		exit 1; \
+	fi
+	@echo "✅ Doppler CLI found"
+	@echo ""
+	@echo "💎 Installing deployment gems (Kamal)..."
+	@if ! command -v bundle > /dev/null; then \
+		echo "Installing bundler..."; \
+		gem install bundler; \
+	fi
+	bundle install --only deployment
+	@echo "✅ Kamal $(shell bundle exec kamal version 2>/dev/null || echo 'installed')"
+	@echo ""
+	@echo "🔐 Checking Doppler configuration..."
+	@if ! doppler configure get project --plain 2>/dev/null | grep -q "void-reader"; then \
+		echo "⚠️  Doppler not configured. You'll need to set up:"; \
+		echo "   - prd config (for deployment): doppler setup --project void-reader --config prd"; \
+	else \
+		echo "✅ Doppler project: void-reader"; \
+	fi
+	@echo ""
+	@echo "🔧 Generating .kamal/secrets file..."
+	@$(MAKE) kamal-secrets-setup
+	@echo ""
+	@echo "✅ Deployment environment setup complete!"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Configure Doppler for deployment:"
+	@echo "     doppler setup --project void-reader --config prd"
+	@echo "  2. Set deployment secret in Doppler prd config:"
+	@echo "     - KAMAL_REGISTRY_PASSWORD (GitHub Personal Access Token for ghcr.io)"
+	@echo "  3. Test VPS connection: ssh digitalocean-deploy"
+	@echo "  4. Deploy: make deploy"
+
+# Full setup (both dev and deploy)
+setup: setup-dev setup-deploy
 
 # Run tests
 test:
@@ -140,8 +193,9 @@ deploy-cleanup:
 # Deploy to production using Doppler for secrets
 deploy:
 	@echo "🚀 Deploying to production with Doppler secrets..."
+	@echo "🔐 Using Doppler prd environment..."
 	@$(MAKE) deploy-cleanup
-	doppler run --project void-reader --config prd --command='bash -c "export KAMAL_REGISTRY_PASSWORD && export DOPPLER_TOKEN && kamal deploy"'
+	doppler run --project void-reader --config prd -- kamal deploy
 
 # Build and push Docker image only
 deploy-build:
@@ -186,14 +240,12 @@ kamal-secrets-setup:
 	@mkdir -p .kamal
 	@echo "# Kamal secrets file - uses variable substitution with Doppler" > .kamal/secrets
 	@echo "# This file is required by Kamal even when using environment variables" >> .kamal/secrets
-	@echo "# Doppler injects the actual values at runtime" >> .kamal/secrets
+	@echo "# Doppler injects the actual values during deployment (not at runtime)" >> .kamal/secrets
 	@echo "" >> .kamal/secrets
 	@echo "KAMAL_REGISTRY_PASSWORD=\$$KAMAL_REGISTRY_PASSWORD" >> .kamal/secrets
-	@echo "DOPPLER_TOKEN=\$$DOPPLER_TOKEN" >> .kamal/secrets
 	@echo "" >> .kamal/secrets
 	@echo "✅ .kamal/secrets file created successfully"
 	@echo ""
 	@echo "⚠️  This file uses variable substitution (\$$VAR_NAME) so Doppler can inject the actual secrets."
-	@echo "   Make sure you have the following secrets configured in Doppler:"
-	@echo "   - KAMAL_REGISTRY_PASSWORD (GitHub Personal Access Token)"
-	@echo "   - DOPPLER_TOKEN (Service token for container runtime)"
+	@echo "   Make sure you have the following secret configured in Doppler prd:"
+	@echo "   - KAMAL_REGISTRY_PASSWORD (GitHub Personal Access Token for ghcr.io)"
