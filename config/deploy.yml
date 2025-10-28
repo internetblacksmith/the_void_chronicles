@@ -50,13 +50,11 @@ builder:
   arch: amd64
 
 # Environment variables
-env:
-  # Doppler configuration for fetching secrets at runtime
-  clear:
-    DOPPLER_PROJECT: void-reader
-    DOPPLER_CONFIG: prd
-  secret:
-    - DOPPLER_TOKEN
+# Note: Secrets are injected during deployment via Doppler on local machine,
+# not fetched at runtime. Add any runtime secrets here if needed.
+# env:
+#   secret:
+#     - EXAMPLE_SECRET
 
 # DO NOT INCLUDE accessories section (no Redis needed)
 # DO NOT INCLUDE traefik section (already running from gcal-sinatra)
