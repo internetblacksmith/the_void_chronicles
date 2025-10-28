@@ -29,16 +29,9 @@ echo "🔑 SSH Key: .ssh/id_ed25519"
 echo "💾 Data Dir: .void_reader_data/"
 echo ""
 
-# Load environment variables from .env if it exists
-if [ -f ".env" ]; then
-    echo "📋 Loading configuration from .env"
-    export $(grep -v '^#' .env | xargs)
-else
-    echo "⚠️  No .env file found, using defaults"
-    echo "   (Copy .env.example to .env to customize)"
-fi
-
-# Display connection info (read from env or defaults)
+# Environment variables can be set manually or via Doppler
+# No .env file support - use defaults for local dev, Doppler for production
+# Display connection info (read from env or use defaults)
 HTTP_PORT=${HTTP_PORT:-8080}
 SSH_PORT=${SSH_PORT:-2222}
 

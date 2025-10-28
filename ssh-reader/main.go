@@ -35,7 +35,6 @@ import (
 	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
 	"github.com/getsentry/sentry-go"
-	"github.com/joho/godotenv"
 	"github.com/muesli/termenv"
 	"github.com/posthog/posthog-go"
 )
@@ -137,28 +136,15 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 }
 
 func main() {
-	// Load .env file if it exists (for local development)
-	// Try multiple locations to find .env file
-	envPaths := []string{
-		".env",       // In ssh-reader directory
-		"../.env",    // In parent directory
-		".env.local", // Local overrides
-	}
-
-	for _, path := range envPaths {
-		if err := godotenv.Load(path); err == nil {
-			log.Printf("Loaded environment from %s", path)
-			break
-		}
-	}
+	// Environment variables are provided by Doppler (via doppler run) or system
+	// No .env file loading - use Doppler for all environments
 
 	// Initialize Sentry for error tracking
 	sentryDSN := os.Getenv("SENTRY_DSN")
 	if sentryDSN != "" {
 		err := sentry.Init(sentry.ClientOptions{
 			Dsn:              sentryDSN,
-			Environment:      getEnv("ENVIRONMENT", "production"),
-			Release:          getEnv("RELEASE", "void-reader@1.0.0"),
+			Environment:      getEnv("SENTRY_ENVIRONMENT", "production"),
 			TracesSampleRate: 1.0,
 		})
 		if err != nil {
@@ -177,7 +163,7 @@ func main() {
 		client, err := posthog.NewWithConfig(
 			posthogKey,
 			posthog.Config{
-				Endpoint: getEnv("POSTHOG_HOST", "https://eu.i.posthog.com"),
+				Endpoint: getEnv("POSTHOG_HOST", "https://app.posthog.com"),
 			},
 		)
 		if err != nil {
@@ -222,7 +208,7 @@ func main() {
 			DistinctId: "system",
 			Event:      "app_started",
 			Properties: posthog.NewProperties().
-				Set("environment", getEnv("ENVIRONMENT", "production")).
+				Set("environment", getEnv("SENTRY_ENVIRONMENT", "production")).
 				Set("http_port", httpPort).
 				Set("ssh_port", sshPort),
 		})
