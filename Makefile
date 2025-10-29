@@ -191,7 +191,10 @@ deploy-cleanup:
 	@echo "✅ Cleanup complete"
 
 # Deploy to production using Doppler for secrets
-deploy:
+deploy: pre-commit
+	@echo ""
+	@echo "✅ All pre-deployment checks passed!"
+	@echo ""
 	@echo "🚀 Deploying to production with Doppler secrets..."
 	@echo "🔐 Using Doppler prd environment..."
 	@$(MAKE) deploy-cleanup
