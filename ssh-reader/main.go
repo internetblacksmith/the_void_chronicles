@@ -322,10 +322,17 @@ func main() {
 		serverOpts = append(serverOpts, wish.WithPasswordAuth(passwordHandler))
 		log.Println("Password authentication: ENABLED")
 	} else {
-		serverOpts = append(serverOpts, wish.WithPublicKeyAuth(func(ctx ssh.Context, key ssh.PublicKey) bool {
-			return true
-		}))
-		log.Println("Password authentication: DISABLED (allowing all public key auth)")
+		// When password is not required, accept both public key auth and password auth
+		// This allows clients to connect with any key or even with a dummy password
+		serverOpts = append(serverOpts,
+			wish.WithPublicKeyAuth(func(ctx ssh.Context, key ssh.PublicKey) bool {
+				return true // Accept any public key
+			}),
+			wish.WithPasswordAuth(func(ctx ssh.Context, password string) bool {
+				return true // Accept any password
+			}),
+		)
+		log.Println("Password authentication: DISABLED (allowing all connections)")
 	}
 
 	s, err := wish.NewServer(serverOpts...)
