@@ -61,6 +61,21 @@ setup-dev:
 	cd ssh-reader && go mod download
 	cd ssh-reader && go mod tidy
 	@echo ""
+	@echo "🪝 Installing git pre-commit hook..."
+	@if [ -f .git-hooks/pre-commit ]; then \
+		mkdir -p .git/hooks 2>/dev/null || mkdir -p ../.git/modules/the_void_chronicles/hooks; \
+		if [ -d .git/hooks ]; then \
+			cp .git-hooks/pre-commit .git/hooks/pre-commit; \
+			chmod +x .git/hooks/pre-commit; \
+		else \
+			cp .git-hooks/pre-commit ../.git/modules/the_void_chronicles/hooks/pre-commit; \
+			chmod +x ../.git/modules/the_void_chronicles/hooks/pre-commit; \
+		fi; \
+		echo "✅ Git pre-commit hook installed (runs lint + tests + security scan before commits)"; \
+	else \
+		echo "⚠️  Pre-commit hook script not found at .git-hooks/pre-commit"; \
+	fi
+	@echo ""
 	@echo "🧪 Running tests to verify setup..."
 	@$(MAKE) test
 	@echo ""
@@ -71,6 +86,8 @@ setup-dev:
 	@echo "     (No Doppler needed for dev - app uses sensible defaults)"
 	@echo "  2. Run 'make test' to run tests"
 	@echo "  3. Run 'make setup-deploy' to configure deployment (optional)"
+	@echo ""
+	@echo "ℹ️  Git pre-commit hook is now active - it will run 'make pre-commit' before each commit"
 
 # Setup deployment environment (Ruby, Kamal, Doppler)
 setup-deploy:
