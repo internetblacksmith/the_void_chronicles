@@ -102,9 +102,25 @@ Before you begin, ensure you have the following installed on your local machine:
   - Windows: Install via [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) or [Git Bash](https://git-scm.com/downloads)
 
 #### Required for Deployment
-- **Ruby 3.0+** - Required for Kamal deployment tool
-  - macOS: `brew install ruby`
-  - Ubuntu: `sudo apt install ruby-full`
+- **Ruby 3.4.6** (via rbenv) - Required for Kamal deployment tool
+  - Install rbenv:
+    - macOS: `brew install rbenv ruby-build`
+    - Ubuntu: 
+      ```bash
+      curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+      ```
+  - Setup rbenv in your shell (add to `~/.bashrc` or `~/.zshrc`):
+    ```bash
+    eval "$(rbenv init -)"
+    ```
+  - Install Ruby 3.4.6:
+    ```bash
+    rbenv install 3.4.6
+    rbenv global 3.4.6  # or use 'rbenv local 3.4.6' in project directory
+    ```
+  - Verify: `ruby --version` (should show 3.4.6)
+  - Install bundler: `gem install bundler`
+  - [rbenv Documentation](https://github.com/rbenv/rbenv)
 - **Docker** - Container runtime (for Kamal deployment)
   - [Install Docker Desktop](https://docs.docker.com/get-docker/)
 - **Doppler CLI** - Secrets management for production
