@@ -55,10 +55,19 @@ builder:
 
 # Environment variables
 # Note: Secrets are injected during deployment via Doppler on local machine,
-# not fetched at runtime. Add any runtime secrets here if needed.
-# env:
-#   secret:
-#     - EXAMPLE_SECRET
+# not fetched at runtime. These are passed to the container at runtime.
+env:
+  secret:
+    - SSH_PASSWORD
+    - SSH_REQUIRE_PASSWORD
+    - SSH_HOST
+    - SSH_PORT
+    - HTTP_PORT
+    - HTTPS_PORT
+    - SENTRY_DSN
+    - SENTRY_ENVIRONMENT
+    - POSTHOG_API_KEY
+    - POSTHOG_HOST
 
 # DO NOT INCLUDE accessories section (no Redis needed)
 # DO NOT INCLUDE traefik section (already running from gcal-sinatra)
