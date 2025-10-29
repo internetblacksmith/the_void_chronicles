@@ -39,6 +39,7 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 - HTTPS: Native TLS support with graceful fallback if certificates not found
 - Deployment: Kamal orchestration with direct port mapping (80→8080 HTTP, 443→8443 HTTPS, 22→2222 SSH), Doppler secrets, persistent volumes (void-data for progress, void-ssl for certificates)
 - UI Layout: All views use consistent dimensions (width - 6, height - 8) with rounded borders, padding (1, 2), and centered alignment
+- Build Info: Build timestamp and git commit hash are injected via ldflags during build and displayed in About section for deployment verification
 
 ## Critical Rules
 
