@@ -120,7 +120,7 @@ setup-deploy:
 		echo "Installing bundler..."; \
 		gem install bundler; \
 	fi
-	bundle install --only deployment
+	bundle install
 	@echo "✅ Kamal $(shell bundle exec kamal version 2>/dev/null || echo 'installed')"
 	@echo ""
 	@echo "🔐 Checking Doppler configuration..."

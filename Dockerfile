@@ -21,10 +21,6 @@ RUN apk --no-cache add ca-certificates openssh-keygen netcat-openbsd curl bash g
 
 WORKDIR /app
 
-# Install Doppler CLI
-RUN curl -Ls --tlsv1.2 --proto "=https" --retry 3 \
-    https://cli.doppler.com/install.sh | sh
-
 # Copy binary from builder
 COPY --from=builder /app/void-reader .
 
@@ -49,5 +45,6 @@ EXPOSE 8080 2222
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD nc -z localhost 8080 || exit 1
 
-# Use Doppler to inject secrets at runtime
-CMD ["doppler", "run", "--", "./void-reader"]
+# Run the application directly
+# Secrets are injected as environment variables during deployment via Doppler (on local machine)
+CMD ["./void-reader"]
