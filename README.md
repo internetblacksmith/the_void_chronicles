@@ -86,6 +86,38 @@ For Kamal deployment, secrets are managed via Doppler (see KAMAL_CONFIG_INSTRUCT
 
 ## 🎯 Quick Start
 
+### Prerequisites
+
+Before you begin, ensure you have the following installed on your local machine:
+
+#### Required for Development
+- **Go 1.21+** - [Install Go](https://golang.org/doc/install)
+  - macOS: `brew install go`
+  - Ubuntu: `sudo apt install golang-go`
+  - Verify: `go version`
+- **Git** - Version control
+  - macOS: `brew install git`
+  - Ubuntu: `sudo apt install git`
+- **Make** - Build automation (usually pre-installed on macOS/Linux)
+  - Windows: Install via [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) or [Git Bash](https://git-scm.com/downloads)
+
+#### Required for Deployment
+- **Ruby 3.0+** - Required for Kamal deployment tool
+  - macOS: `brew install ruby`
+  - Ubuntu: `sudo apt install ruby-full`
+- **Docker** - Container runtime (for Kamal deployment)
+  - [Install Docker Desktop](https://docs.docker.com/get-docker/)
+- **Doppler CLI** - Secrets management for production
+  - macOS: `brew install dopplerhq/cli/doppler`
+  - Linux: `curl -sLf https://cli.doppler.com/install.sh | sh`
+  - [Doppler Installation Guide](https://docs.doppler.com/docs/install-cli)
+
+#### Optional Tools
+- **SSH client** - Usually pre-installed on macOS/Linux
+  - Windows: Use [Windows Terminal](https://aka.ms/terminal) or [PuTTY](https://www.putty.org/)
+- **gosec** - Security vulnerability scanner
+  - Install: `go install github.com/securego/gosec/v2/cmd/gosec@latest`
+
 ### Local Development
 
 ```bash
@@ -180,14 +212,25 @@ Captain Zara "Bloodhawk" Vega leads her crew through the lawless void between so
 
 ## 🛠️ Installation
 
-### Prerequisites
-- Go 1.21 or higher
-- Git
-- SSH client
+See the **Prerequisites** section above for required software, then use one of the following installation methods:
 
-### From Source
+### Quick Setup with Make (Recommended)
 
 ```bash
+# Clone and setup
+git clone https://github.com/yourusername/the-void-chronicles.git
+cd the-void-chronicles
+make setup-dev      # Install Go dependencies and run tests
+make run            # Build and run the application
+```
+
+### Manual Installation from Source
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/the-void-chronicles.git
+cd the-void-chronicles
+
 # Install dependencies
 cd ssh-reader
 go mod download
@@ -202,7 +245,7 @@ go build -o void-reader .
 ### Using Docker
 
 ```bash
-cd ssh-reader
+cd the-void-chronicles/ssh-reader
 docker-compose up -d
 ```
 
