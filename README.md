@@ -93,24 +93,29 @@ For Kamal deployment, secrets are managed via Doppler (see KAMAL_CONFIG_INSTRUCT
 git clone https://github.com/yourusername/the-void-chronicles.git
 cd the-void-chronicles
 
-# Set up environment variables
-cp .env.example .env
-# Edit .env to customize ports and password
+# Quick setup with make
+make setup-dev     # Setup Go dependencies and run tests
+make run           # Build and run application (./run.sh)
 
-# Build and run
+# Or manual setup
 ./build.sh
 ./run.sh
 
 # In another terminal, connect via SSH (internal port 2222)
 ssh localhost -p 2222
-# Password: Amigos4Life! (or your custom password from .env)
+# Password: Amigos4Life! (default, no secrets needed for dev)
 
 # View the 90s homepage disguise
 open http://localhost:8080
 
-# HTTPS available with SSL certificates in .ssl/ directory
+# HTTPS available with SSL certificates in .ssh/ directory
 # open https://localhost:8443
 ```
+
+**Setup Commands Explained:**
+- `make setup-dev`: Downloads Go dependencies, runs `go mod tidy`, runs tests to verify setup
+- `make setup-deploy`: Installs Ruby, Kamal gem, and Doppler CLI for production deployment
+- `make setup`: Runs both setup-dev and setup-deploy for complete environment setup
 
 ### 🚢 Deploy with Kamal
 
@@ -236,16 +241,54 @@ git push origin feature/amazing-feature
 
 The project uses AI coding assistance. To help the AI agent work effectively:
 
-**Build & Test Commands:**
-- Test: `cd ssh-reader && go test ./...` or `make test`
+**Makefile Commands:**
+
+#### Setup Commands
+```bash
+make setup-dev      # Setup dev environment (Go deps, go mod tidy, runs tests)
+make setup-deploy   # Setup deployment tools (Ruby, Kamal, Doppler CLI, .kamal/secrets)
+make setup          # Complete setup (both dev and deploy)
+```
+
+#### Development Commands
+```bash
+make               # Interactive menu with all options
+make run           # Run application locally (./run.sh - HTTP:8080, HTTPS:8443, SSH:2222)
+make test          # Run all Go tests
+make test-verbose  # Run tests with verbose output
+make test-coverage # Run tests with coverage report (generates coverage.html)
+make build         # Build the Go binary
+make lint          # Format and lint Go code (go fmt, go vet, go mod tidy)
+make security-scan # Run security vulnerability scan (gosec)
+make pre-commit    # Run lint + tests + security scan (recommended before committing)
+make clean         # Clean build artifacts
+```
+
+#### Docker Commands
+```bash
+make docker-build  # Build Docker image locally
+make docker-run    # Run Docker container locally
+```
+
+#### Deployment Commands
+```bash
+make deploy          # Deploy to production (runs pre-commit checks first!)
+make deploy-cleanup  # Stop old containers to free ports
+make deploy-build    # Build and push Docker image only
+make deploy-logs     # Stream production logs
+make deploy-restart  # Restart production containers
+make deploy-rollback # Rollback to previous version
+make deploy-stop     # Stop production containers
+make deploy-shell    # Open shell in production container
+make deploy-status   # Show deployment status
+make deploy-env      # Show production environment variables
+make deploy-setup    # Setup Kamal on new server
+```
+
+**Manual Build & Test:**
 - Single test: `cd ssh-reader && go test -run TestName`
-- Coverage: `make test-coverage`
-- Build: `cd ssh-reader && go build` or `make build`
-- Lint: `cd ssh-reader && go fmt ./... && go vet ./...` or `make lint`
-- Security scan: `make security-scan` (runs gosec)
-- Pre-commit: `make pre-commit` (runs lint + tests + security scan)
-- Deploy: `make deploy` (runs pre-commit checks first, then deploys)
-- Local dev: `./run.sh` (HTTP:8080, HTTPS:8443, SSH:2222, password: Amigos4Life!)
+- Manual build: `cd ssh-reader && go build`
+- Manual lint: `cd ssh-reader && go fmt ./... && go vet ./...`
 
 **Deployment Safety**: The `make deploy` command automatically runs `make pre-commit` first, which includes:
 - ✅ **Linting** (`go fmt`, `go vet`, `go mod tidy`) - Code formatting and vet checks
