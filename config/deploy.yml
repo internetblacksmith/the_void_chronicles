@@ -2,7 +2,8 @@
 service: void-chronicles
 
 # Docker image (GitHub Container Registry - free private images)
-image: ghcr.io/internetblacksmith/void-chronicles
+# Note: registry server (ghcr.io) is automatically prepended by Kamal
+image: internetblacksmith/void-chronicles
 
 # SSH configuration for connecting to VPS (uses deploy user, not root)
 ssh:
