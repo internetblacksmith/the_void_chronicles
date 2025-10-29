@@ -264,10 +264,22 @@ kamal-secrets-setup:
 	@echo "# This file is required by Kamal even when using environment variables" >> .kamal/secrets
 	@echo "# Doppler injects the actual values during deployment (not at runtime)" >> .kamal/secrets
 	@echo "" >> .kamal/secrets
+	@echo "# Deployment secrets (used only during deployment)" >> .kamal/secrets
 	@echo "KAMAL_REGISTRY_PASSWORD=\$$KAMAL_REGISTRY_PASSWORD" >> .kamal/secrets
+	@echo "" >> .kamal/secrets
+	@echo "# Runtime environment variables (passed to container)" >> .kamal/secrets
+	@echo "SSH_PASSWORD=\$$SSH_PASSWORD" >> .kamal/secrets
+	@echo "SSH_REQUIRE_PASSWORD=\$$SSH_REQUIRE_PASSWORD" >> .kamal/secrets
+	@echo "SSH_HOST=\$$SSH_HOST" >> .kamal/secrets
+	@echo "SSH_PORT=\$$SSH_PORT" >> .kamal/secrets
+	@echo "HTTP_PORT=\$$HTTP_PORT" >> .kamal/secrets
+	@echo "HTTPS_PORT=\$$HTTPS_PORT" >> .kamal/secrets
+	@echo "SENTRY_DSN=\$$SENTRY_DSN" >> .kamal/secrets
+	@echo "SENTRY_ENVIRONMENT=\$$SENTRY_ENVIRONMENT" >> .kamal/secrets
+	@echo "POSTHOG_API_KEY=\$$POSTHOG_API_KEY" >> .kamal/secrets
+	@echo "POSTHOG_HOST=\$$POSTHOG_HOST" >> .kamal/secrets
 	@echo "" >> .kamal/secrets
 	@echo "✅ .kamal/secrets file created successfully"
 	@echo ""
 	@echo "⚠️  This file uses variable substitution (\$$VAR_NAME) so Doppler can inject the actual secrets."
-	@echo "   Make sure you have the following secret configured in Doppler prd:"
-	@echo "   - KAMAL_REGISTRY_PASSWORD (GitHub Personal Access Token for ghcr.io)"
+	@echo "   Make sure you have all required secrets configured in Doppler prd config."
