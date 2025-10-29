@@ -49,6 +49,9 @@ registry:
 # Builder configuration
 builder:
   arch: amd64
+  args:
+    BUILD_TIME: "<%= Time.now.utc.iso8601 %>"
+    GIT_COMMIT: "<%= `git rev-parse --short HEAD 2>/dev/null || echo 'unknown'`.strip %>"
 
 # Environment variables
 # Note: Secrets are injected during deployment via Doppler on local machine,
