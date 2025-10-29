@@ -242,7 +242,17 @@ The project uses AI coding assistance. To help the AI agent work effectively:
 - Coverage: `make test-coverage`
 - Build: `cd ssh-reader && go build` or `make build`
 - Lint: `cd ssh-reader && go fmt ./... && go vet ./...` or `make lint`
+- Security scan: `make security-scan` (runs gosec)
+- Pre-commit: `make pre-commit` (runs lint + tests + security scan)
+- Deploy: `make deploy` (runs pre-commit checks first, then deploys)
 - Local dev: `./run.sh` (HTTP:8080, HTTPS:8443, SSH:2222, password: Amigos4Life!)
+
+**Deployment Safety**: The `make deploy` command automatically runs `make pre-commit` first, which includes:
+- ✅ **Linting** (`go fmt`, `go vet`, `go mod tidy`) - Code formatting and vet checks
+- ✅ **Tests** (all Go tests) - Ensures code works as expected
+- ✅ **Security scan** (`gosec`) - Checks for security vulnerabilities
+
+If any check fails, deployment is automatically cancelled. This prevents broken or vulnerable code from reaching production.
 
 **Code Style:**
 - All Go files start with AGPL-3.0 copyright header
