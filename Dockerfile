@@ -11,8 +11,14 @@ RUN go mod download
 
 COPY ssh-reader/*.go ./
 
-# Build binary
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o void-reader
+# Build arguments for version information
+ARG BUILD_TIME=unknown
+ARG GIT_COMMIT=unknown
+
+# Build binary with version information
+RUN CGO_ENABLED=0 GOOS=linux go build \
+    -ldflags="-s -w -X main.buildTime=${BUILD_TIME} -X main.gitCommit=${GIT_COMMIT}" \
+    -o void-reader
 
 # Runtime stage
 FROM alpine:latest

@@ -163,7 +163,9 @@ test-verbose:
 
 # Build the application
 build:
-	cd ssh-reader && go build -o void-reader
+	cd ssh-reader && go build \
+		-ldflags="-X main.buildTime=$$(date -u +%Y-%m-%dT%H:%M:%SZ) -X main.gitCommit=$$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown')" \
+		-o void-reader
 
 # Run the application locally
 run:

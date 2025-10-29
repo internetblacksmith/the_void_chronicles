@@ -40,6 +40,10 @@ import (
 )
 
 var (
+	// Build information (injected at build time via ldflags)
+	buildTime = "unknown"
+	gitCommit = "unknown"
+
 	host          string
 	httpPort      string
 	httpsPort     string
@@ -1493,6 +1497,10 @@ Features:
 • Open source (AGPL-3.0)
 • Deployed with Kamal
 • Secrets managed with Doppler
+
+📦 Deployment Info:
+• Build Time: ` + buildTime + `
+• Git Commit: ` + gitCommit + `
 
 🎭 Author: Captain J. Starwind
 📅 Series: The Void Chronicles (Book 1 of 10)
