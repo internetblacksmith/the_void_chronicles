@@ -50,8 +50,9 @@ Dual-component project: (1) Science fiction book series source in Markdown, (2) 
 The application SSH server listens on container port 2222, mapped to host port **22** (not 2222). System SSH runs on port 1447, so port 22 is available. Port mapping in `config/deploy.yml` MUST be `"22:2222"`.
 
 ### Rule 3: Kamal Secrets File Required
-Kamal requires a `.kamal/secrets` file even when using Doppler environment variables. This file MUST use variable substitution format (`$VAR_NAME`) so Doppler can inject actual values during deployment. Use `make kamal-secrets-setup` to generate this file. The secrets file contains:
-- `KAMAL_REGISTRY_PASSWORD=$KAMAL_REGISTRY_PASSWORD` (GitHub PAT for ghcr.io authentication)
+Kamal requires a `.kamal/secrets` file even when using Doppler environment variables. This file MUST use variable substitution format (`$VAR_NAME`) so Doppler can inject actual values during deployment. Run `make kamal-secrets-setup` to generate this file before first deployment or after adding new environment variables. The secrets file includes:
+- **Deployment secrets**: `KAMAL_REGISTRY_PASSWORD` (GitHub PAT for ghcr.io authentication)
+- **Runtime secrets**: `SSH_PASSWORD`, `SSH_REQUIRE_PASSWORD`, `SSH_HOST`, `SSH_PORT`, `HTTP_PORT`, `HTTPS_PORT`, `SENTRY_DSN`, `SENTRY_ENVIRONMENT`, `POSTHOG_API_KEY`, `POSTHOG_HOST`
 
 ### Rule 4: Standardized Environment Variables
 All environment variables follow naming conventions documented in `../../ENV_VAR_STANDARDS.md`:
