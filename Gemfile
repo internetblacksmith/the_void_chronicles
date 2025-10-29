@@ -2,6 +2,6 @@
 
 source "https://rubygems.org"
 
-# gem "rails"
-
-gem "kamal", "~> 2.8"
+group :deployment do
+  gem "kamal", "~> 2.8"
+end
