@@ -30,7 +30,7 @@ help:
 	@echo "  make docker-build    - Build Docker image locally"
 	@echo "  make docker-run      - Run Docker container locally"
 	@echo ""
-	@echo "🚀 Deployment Commands (Kamal + Doppler):"
+	@echo "🚀 Deployment Commands (Kamal):"
 	@echo "  make deploy          - Deploy to production (auto-cleanup)"
 	@echo "  make deploy-cleanup  - Stop old containers to free ports"
 	@echo "  make deploy-build    - Build and push image only"
@@ -209,77 +209,63 @@ deploy-cleanup:
 	ssh root@161.35.165.206 -p 1447 "docker stop \$$(docker ps -q --filter 'name=void-chronicles-web') 2>/dev/null || true"
 	@echo "✅ Cleanup complete"
 
-# Deploy to production using Doppler for secrets
+# Deploy to production via Kamal (secrets fetched by .kamal/secrets Doppler adapter)
 deploy: pre-commit
 	@echo ""
 	@echo "✅ All pre-deployment checks passed!"
 	@echo ""
-	@echo "🚀 Deploying to production with Doppler secrets..."
-	@echo "🔐 Using Doppler prd environment..."
+	@echo "🚀 Deploying to production..."
 	@$(MAKE) deploy-cleanup
-	doppler run --project void-reader --config prd -- kamal deploy
+	kamal deploy
 
 # Build and push Docker image only
 deploy-build:
 	@echo "🔨 Building and pushing Docker image..."
-	doppler run --project void-reader --config prd -- kamal build push
+	kamal build push
 
 # Stream production logs
 deploy-logs:
-	doppler run --project void-reader --config prd -- kamal app logs -f
+	kamal app logs -f
 
 # Restart production containers
 deploy-restart:
-	doppler run --project void-reader --config prd -- kamal app boot
+	kamal app boot
 
 # Rollback to previous version
 deploy-rollback:
-	doppler run --project void-reader --config prd -- kamal rollback
+	kamal rollback
 
 # Stop production containers
 deploy-stop:
-	doppler run --project void-reader --config prd -- kamal app stop
+	kamal app stop
 
 # Open shell in production container
 deploy-shell:
-	doppler run --project void-reader --config prd -- kamal app exec -i bash
+	kamal app exec -i bash
 
 # Show deployment status
 deploy-status:
-	doppler run --project void-reader --config prd -- kamal details
+	kamal details
 
 # Show production environment variables
 deploy-env:
-	doppler run --project void-reader --config prd -- kamal app exec env | grep -v PASSWORD | grep -v TOKEN | sort
+	kamal app exec env | grep -v PASSWORD | grep -v TOKEN | sort
 
 # Setup Kamal on new server
 deploy-setup:
-	doppler run --project void-reader --config prd -- kamal setup
+	kamal setup
 
-# Generate .kamal/secrets file for development
+# Generate .kamal/secrets file using Kamal's Doppler adapter
 kamal-secrets-setup:
 	@echo "📝 Generating .kamal/secrets file..."
 	@mkdir -p .kamal
-	@echo "# Kamal secrets file - uses variable substitution with Doppler" > .kamal/secrets
-	@echo "# This file is required by Kamal even when using environment variables" >> .kamal/secrets
-	@echo "# Doppler injects the actual values during deployment (not at runtime)" >> .kamal/secrets
+	@echo "# Fetch secrets from Doppler (void-reader/prd)" > .kamal/secrets
+	@echo 'SECRETS=$$(kamal secrets fetch --adapter doppler --from void-reader/prd KAMAL_REGISTRY_PASSWORD SSH_PASSWORD SSH_REQUIRE_PASSWORD SSH_HOST SSH_PORT HTTP_PORT HTTPS_PORT SENTRY_DSN SENTRY_ENVIRONMENT POSTHOG_API_KEY POSTHOG_HOST)' >> .kamal/secrets
 	@echo "" >> .kamal/secrets
-	@echo "# Deployment secrets (used only during deployment)" >> .kamal/secrets
-	@echo "KAMAL_REGISTRY_PASSWORD=\$$KAMAL_REGISTRY_PASSWORD" >> .kamal/secrets
-	@echo "" >> .kamal/secrets
-	@echo "# Runtime environment variables (passed to container)" >> .kamal/secrets
-	@echo "SSH_PASSWORD=\$$SSH_PASSWORD" >> .kamal/secrets
-	@echo "SSH_REQUIRE_PASSWORD=\$$SSH_REQUIRE_PASSWORD" >> .kamal/secrets
-	@echo "SSH_HOST=\$$SSH_HOST" >> .kamal/secrets
-	@echo "SSH_PORT=\$$SSH_PORT" >> .kamal/secrets
-	@echo "HTTP_PORT=\$$HTTP_PORT" >> .kamal/secrets
-	@echo "HTTPS_PORT=\$$HTTPS_PORT" >> .kamal/secrets
-	@echo "SENTRY_DSN=\$$SENTRY_DSN" >> .kamal/secrets
-	@echo "SENTRY_ENVIRONMENT=\$$SENTRY_ENVIRONMENT" >> .kamal/secrets
-	@echo "POSTHOG_API_KEY=\$$POSTHOG_API_KEY" >> .kamal/secrets
-	@echo "POSTHOG_HOST=\$$POSTHOG_HOST" >> .kamal/secrets
-	@echo "" >> .kamal/secrets
+	@for secret in KAMAL_REGISTRY_PASSWORD SSH_PASSWORD SSH_REQUIRE_PASSWORD SSH_HOST SSH_PORT HTTP_PORT HTTPS_PORT SENTRY_DSN SENTRY_ENVIRONMENT POSTHOG_API_KEY POSTHOG_HOST; do \
+		echo "$$secret=\$$(kamal secrets extract $$secret \$$SECRETS)" >> .kamal/secrets; \
+	done
 	@echo "✅ .kamal/secrets file created successfully"
 	@echo ""
-	@echo "⚠️  This file uses variable substitution (\$$VAR_NAME) so Doppler can inject the actual secrets."
-	@echo "   Make sure you have all required secrets configured in Doppler prd config."
+	@echo "ℹ️  This file uses Kamal's Doppler adapter to fetch secrets directly."
+	@echo "   No doppler run wrapper needed — just run 'make deploy'."
