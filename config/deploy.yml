@@ -14,7 +14,7 @@ ssh:
 servers:
   web:
     hosts:
-      - digitalocean
+      - digitalocean-vps-deploy
     labels:
       # Traefik routing for HTTP/HTTPS (uses gcal-sinatra's Traefik instance)
       traefik.enable: true
