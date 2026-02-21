@@ -471,8 +471,13 @@ func startHTTPServer() {
 	})
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		version := os.Getenv("KAMAL_VERSION")
+		if version == "" {
+			version = gitCommit
+		}
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, "OK")
+		json.NewEncoder(w).Encode(map[string]string{"status": "ok", "version": version})
 	})
 
 	// Storage monitoring endpoints
@@ -600,8 +605,13 @@ func startHTTPSServer() {
 	})
 
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		version := os.Getenv("KAMAL_VERSION")
+		if version == "" {
+			version = gitCommit
+		}
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, "OK")
+		json.NewEncoder(w).Encode(map[string]string{"status": "ok", "version": version})
 	})
 
 	pm := NewProgressManager()
