@@ -37,6 +37,9 @@ coverage.txt
 coverage.html
 *.coverprofile
 
+# Security scan reports
+gosec-report.json
+
 # Generated PDFs
 *.pdf
 
