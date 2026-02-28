@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	"crypto/subtle"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -81,12 +82,12 @@ func generateSSHKey(path string) error {
 
 // validatePassword checks if the provided password matches the required password
 func validatePassword(password string) bool {
-	// Get password from environment variable, or use default
 	requiredPassword := os.Getenv("SSH_PASSWORD")
 	if requiredPassword == "" {
-		requiredPassword = "Amigos4Life!"
+		log.Println("WARNING: SSH_PASSWORD not set, denying all connections")
+		return false
 	}
-	return password == requiredPassword
+	return subtle.ConstantTimeCompare([]byte(password), []byte(requiredPassword)) == 1
 }
 
 // passwordHandler validates the password for SSH connections

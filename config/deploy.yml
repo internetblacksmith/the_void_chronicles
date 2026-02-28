@@ -22,6 +22,11 @@ servers:
       traefik.http.routers.void-web.entrypoints: websecure
       traefik.http.routers.void-web.tls.certresolver: letsencrypt
       traefik.http.services.void-web.loadbalancer.server.port: 8080
+      # Rate limiting (brute-force protection)
+      traefik.http.routers.void-web.middlewares: void-ratelimit
+      traefik.http.middlewares.void-ratelimit.ratelimit.average: 20
+      traefik.http.middlewares.void-ratelimit.ratelimit.burst: 50
+      traefik.http.middlewares.void-ratelimit.ratelimit.period: 1s
       # HTTP to HTTPS redirect
       traefik.http.routers.void-web-http.rule: Host(`vc.internetblacksmith.dev`)
       traefik.http.routers.void-web-http.entrypoints: web
