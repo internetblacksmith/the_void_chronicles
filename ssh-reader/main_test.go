@@ -119,15 +119,9 @@ func TestValidatePassword(t *testing.T) {
 			expected:      false,
 		},
 		{
-			name:          "correct default password",
+			name:          "denies all when SSH_PASSWORD unset",
 			envPassword:   "",
-			inputPassword: "Amigos4Life!",
-			expected:      true,
-		},
-		{
-			name:          "incorrect default password",
-			envPassword:   "",
-			inputPassword: "WrongPass",
+			inputPassword: "AnyPassword",
 			expected:      false,
 		},
 	}
@@ -136,8 +130,10 @@ func TestValidatePassword(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.envPassword != "" {
 				os.Setenv("SSH_PASSWORD", tt.envPassword)
-				defer os.Unsetenv("SSH_PASSWORD")
+			} else {
+				os.Unsetenv("SSH_PASSWORD")
 			}
+			defer os.Unsetenv("SSH_PASSWORD")
 
 			result := validatePassword(tt.inputPassword)
 			if result != tt.expected {
