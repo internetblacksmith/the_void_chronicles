@@ -11,7 +11,7 @@ require (
 	github.com/getsentry/sentry-go v0.43.0
 	github.com/muesli/reflow v0.3.0
 	github.com/muesli/termenv v0.16.0
-	github.com/posthog/posthog-go v1.10.0
+	github.com/posthog/posthog-go v1.11.1
 )
 
 require (
