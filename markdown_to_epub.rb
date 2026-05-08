@@ -97,15 +97,18 @@ class MarkdownToEPUBConverter
       '--epub-chapter-level=1'
     ]
     
-    # Add metadata if available
-    if @metadata['isbn']
-      cmd << "--epub-metadata=<dc:identifier id=\"isbn\">#{@metadata['isbn']}</dc:identifier>"
+    # Add metadata via temp file if available
+    metadata_xml = Tempfile.new(['epub-metadata', '.xml'])
+    metadata_xml.puts '<dc:language>en-GB</dc:language>'
+    metadata_xml.puts "<dc:publisher>#{@metadata['publisher']}</dc:publisher>" if @metadata['publisher']
+    metadata_xml.puts "<dc:rights>#{@metadata['rights']}</dc:rights>" if @metadata['rights']
+    if @metadata['isbn'] && @metadata['isbn'] != 'YOUR-ISBN-HERE'
+      metadata_xml.puts "<dc:identifier id=\"isbn\">#{@metadata['isbn']}</dc:identifier>"
     end
-    
-    if @metadata['publisher']
-      cmd << "--epub-metadata=<dc:publisher>#{@metadata['publisher']}</dc:publisher>"
-    end
-    
+    metadata_xml.close
+    cmd << "--epub-metadata=#{metadata_xml.path}"
+    @epub_metadata_tempfile = metadata_xml  # prevent GC cleanup before pandoc runs
+
     cmd.join(' ')
   end
 end

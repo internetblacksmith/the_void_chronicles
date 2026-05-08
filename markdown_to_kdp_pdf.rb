@@ -289,13 +289,17 @@ trim_sizes = {
   '3' => 'large'
 }
 
-puts "\nSelect trim size:"
-puts "  1. Pocket (5\" x 8\")"
-puts "  2. Standard (6\" x 9\") [default]"
-puts "  3. Large (6.14\" x 9.21\")"
-print "Choice (1-3) [2]: "
-size_choice = gets.chomp
-size_choice = '2' if size_choice.empty?
+if ARGV[1]
+  size_choice = ARGV.delete_at(1)
+else
+  puts "\nSelect trim size:"
+  puts "  1. Pocket (5\" x 8\")"
+  puts "  2. Standard (6\" x 9\") [default]"
+  puts "  3. Large (6.14\" x 9.21\")"
+  print "Choice (1-3) [2]: "
+  size_choice = $stdin.gets.chomp
+  size_choice = '2' if size_choice.empty?
+end
 
 trim_size = trim_sizes[size_choice] || 'standard'
 
