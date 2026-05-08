@@ -9,7 +9,7 @@
 ## Major Alien Species
 
 ### The Architects
-*Formerly called "Watchers"*
+*Called "Watchers" by humans in Book 1. The name "Architects" may emerge in later books as understanding deepens.*
 - **Appearance**: Elongated humanoid forms with three eyes arranged in a triangle, able to shift through multiple dimensions
 - **Philosophy**: Order through careful guidance; believe in structured evolution
 - **Role**: Galactic probation officers who test younger species for cosmic citizenship
@@ -18,12 +18,11 @@
 - **History**: Ancient species that survived the universe's first epoch through discipline and restraint
 
 ### Shadow Entities
-- **Appearance**: Beings of living possibility that exist partially in multiple realities
-- **Philosophy**: Evolution through transcendence; embrace chaos as a creative force
-- **Role**: Offer alternative path to growth through dimensional shifting
-- **Communication**: Harmonic frequencies that bypass language
-- **Technology**: Reality-phasing, dimensional bridging, consciousness transfer
-- **Relationship with Architects**: Ancient philosophical opponents who respect each other
+- **Appearance**: Masses of shifting darkness — not shadow (absence of light) but absence of something more fundamental. Some shapeless, some with too many shapes. Hurt to perceive.
+- **Nature**: Remnants of the predecessor species from the Last War. Not alive in any way humans understand. They erase rather than destroy — ships, matter, possibly consciousness simply cease to exist on contact.
+- **Role in Book 1**: Breach through the Neptune rift when Jonas Steele's quantum drive tears reality (ch12). Sealed by combined Watcher/human effort. The Watchers quarantined this sector specifically because these scars from the Last War persist in the quantum substrate.
+- **Relationship with Architects/Watchers**: The Watchers quarantine sectors to prevent the shadow entities from breaching. The entities are what happens when quantum wounds go untreated.
+- **Note**: The original bible described these as "philosophical opponents who respect each other" and offered "alternative paths to growth." The revised Book 1 treats them as hostile cosmic horror — mindless remnants, not conscious beings. Later books may reveal more nuance, but Book 1 readers should experience them as pure threat.
 
 ### The Hegemony of Worlds
 - **Appearance**: Crystalline beings that sing rather than speak, shifting between matter states
@@ -53,31 +52,56 @@
 
 ## Book Series Timeline
 
-### Book 1: **Void Reavers** ✓ (Complete)
+### Book 1: **Void Reavers** ✓ (Revised)
 *A Tale of Space Pirates and Cosmic Plunder*
-**Timeline**: 2150-2200
-**Status**: Written
+**Timeline**: 2150–2180 (ch1-11 present day ~2175; ch12 five years later ~2180)
+**Status**: Revised — 12 chapters, ~34,000 words (novella). Ends at the start of probation, not the end.
 **Key Events**: 
-- Zara Vega's transformation from pirate to diplomat
-- First contact with Architects
-- Humanity's probation period
-- Formation of Pirate Code
-- End of probation and beginning of monitored expansion
+- Zara Vega's origin under Rex Morrison (ch3 flashback) and moral code formation
+- Lisa Park trade — the debt that defines Zara's ethics (ch3, paid off in ch12 closing image)
+- Crimson Brotherhood destroyed at Deadman's Port (ch2)
+- Alliance with Maria Rodriguez / Solar Wind Brotherhood (ch5)
+- Titan Station heist exposes corporate bank fraud (ch6)
+- Mutiny by Anton Vargas; crew halved from 82 to 43 (ch7)
+- *UES Prometheus* quantum drive incident; data saved (ch8)
+- First contact: alien scout destroyed by pirate fleet (ch9); Watcher foreshadowing thread (ch2→ch5→ch8→ch9)
+- Corporate Armada / Battle of Vesta, interrupted by Watcher arrival (ch10)
+- Humanity's probation terms accepted by 12-person delegation (ch11)
+- Five years later: Jonas Steele's True Brotherhood crisis, shadow-entity breach, Rodriguez's rebellion against Watcher sterilization order, rift sealed (ch12)
+- Diana Marsh revealed as Watcher agent (ch12)
+- Chen Wei leaves with the Watchers for quantum education (ch12)
+- Zara named Ambassador / liaison to the Monitoring Council (ch12)
+- Population-stabilization terms left deliberately harsh and unresolved
 
 **Main Characters**: 
-- Zara "Bloodhawk" Vega (protagonist)
-- Chen Wei (engineer → quantum specialist)
-- Jax Torren (first mate → captain)
-- Maria Rodriguez (pirate → admiral)
-- Rex Morrison (antagonist, deceased but influential)
+- Zara "Bloodhawk" Vega (protagonist — pirate → enforcer → ambassador)
+- Chen Wei (engineer → quantum specialist, leaves with Watchers at end)
+- Jax Torren (first mate, still first mate at end)
+- Maria Rodriguez (pirate → Admiral of Unified Patrol Fleet)
+- Rex Morrison (deceased mentor/antagonist, ch3 flashback only)
+- Bradford (corporate security chief → reluctant ally after Voss's death)
+- Diana Marsh (Watcher agent posing as corporate liaison)
+- Dr. Elena Vasquez (xenobiologist, introduced ch11)
+- Governor Sarah Kozel (Free Colony Alliance leader)
+- Elisabeth Chen (transport captain, POV ch4, alliance advisor ch10)
+- Jonas Steele (True Brotherhood leader, ch12, deceased)
 
-### Book 2: **Shadow Dancers** 
+**Dangling threads for Book 2**:
+- Shadow entities: remnants of the Last War predecessor species, breached through the Neptune rift. More may come.
+- Chen Wei's education among the Watchers
+- The Monitoring Council (mentioned, never described)
+- "The Last War between the predecessor species" — what happened, who fought, why the sector was quarantined
+- Population-stabilization tensions (Jonas Steele's wife died because of these policies)
+- Lisa Park and her daughter — Zara has never checked on them
+- Diana Marsh: "You won't see me again. The Watchers have other sectors."
+
+### Book 2: **Shadow Dancers** ⚠️ (Premise needs revision)
 *Echoes from Beyond*
 **Timeline**: 2180-2220
-**Protagonist**: Dr. Elena Vasquez (post-transcendence)
-**Plot**: Elena and other transcended humans explore interdimensional realms, discovering ruins of civilizations that predate the Architects. They uncover evidence of the Devourers' previous attacks and begin preparing humanity for future threats.
-**Themes**: Transcendence vs. humanity, exploration of consciousness, preparation for cosmic threats
-**Key Revelations**: The Architects aren't the oldest species; something destroyed their predecessors
+**Original Protagonist**: Dr. Elena Vasquez (post-transcendence)
+**Status**: Outline needs rewrite. Book 1 now ends with probation BEGINNING, not ending. The natural Book 2 covers the probation years: Chen Wei's education among the Watchers, Zara as Ambassador navigating human-Watcher relations, population-stabilization tensions (Jonas Steele was the symptom, not the cause), the shadow-entity threat still latent in the quantum substrate.
+**Open question**: Does Vasquez remain the protagonist, or does the story stay with Zara/Chen? The revised Book 1 sets up Vasquez as a voice but not a POV character.
+**Key Revelations to preserve**: The Watchers aren't the oldest species; something destroyed their predecessors (the Last War)
 
 ### Book 3: **The Quantum Academy**
 *Children of Two Realities*
