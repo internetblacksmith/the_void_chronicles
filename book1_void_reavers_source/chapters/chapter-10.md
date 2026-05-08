@@ -6,7 +6,7 @@ The boardroom of the Hyperion Transport Consortium occupied the entire top floor
 
 "With respect, Margaret," interjected Director Hamilton of Quantum Dynamics, "they did save my facility. And according to our deep space monitoring stations, something anomalous did occur in the asteroid belt three days ago."
 
-"Anomalous," scoffed Bradford, the security chief who'd once threatened Captain Elisabeth Chen. "Is that what we're calling pirate propaganda now?"
+"Per our threat assessment protocols," Bradford said — the security chief who'd once threatened Captain Elisabeth Chen — "the pirate activity in that sector doesn't correlate with any known anomalous events. Our risk matrix classifies the 'alien contact' claim as unverified hostile propaganda, confidence level ninety-two percent."
 
 Diana Marsh sat quietly at the far end of the table, her corporate liaison cover intact despite her dealings with the pirates. She watched the executives argue, filing away every detail for her real employers—whoever they were this week.
 
@@ -18,11 +18,19 @@ Diana chose her words carefully. "Captain Vega and her allied crews represent a 
 
 "Then perhaps it's time we did just that," Voss said quietly. "Mr. Bradford, what would it take to eliminate the pirate threat once and for all?"
 
-Bradford had clearly been waiting for this question. He activated a holographic display showing fleet distributions across human space. "I've run the simulations. With our combined corporate security forces—Hyperion, Quantum Dynamics, Titan Industrial, and the others—we could assemble an armada of two hundred vessels. More than enough to sweep the outer systems clean."
+Bradford had clearly been waiting for this question. He activated a holographic display — fleet distributions, logistics chains, operational timelines, all colour-coded by risk tier. "Per the mobilisation framework I submitted last quarter, with combined corporate security forces — Hyperion, Quantum Dynamics, Titan Industrial, TDI — we can assemble a fleet of two hundred vessels within six weeks. Commander Harrington at TDI has already indicated his corvette divisions are available for redeployment."
 
 "The cost?" someone asked.
 
-"Approximately eight hundred billion credits, including operational expenses and hazard pay for the crews." Bradford smiled coldly. "But considering the pirates cost us nearly that much annually in stolen cargo and increased insurance premiums, it would pay for itself within two years."
+"Eight hundred billion credits, inclusive of operational expenses, hazard differentials, and post-engagement liability provisions." Bradford pulled up a cost-benefit slide. "Annual piracy losses exceed that figure. ROI positive within twenty-four months, per the model."
+
+Hastings cut in. "Skip the spreadsheets, Bradford. Can you kill them or not?"
+
+"The model indicates—"
+
+"Yes or no."
+
+"Yes."
 
 "And the governments?" Diana asked. "Earth, Mars, the colony federations—they won't sit idle while we assemble a private military force that size."
 
@@ -70,13 +78,23 @@ Kozel was silent for a long moment. Then: "I've seen what happens when the corpo
 
 "I am. Here's the intelligence we've gathered." Zara transmitted the data Diana had provided, plus what pirate networks had uncovered. Ship movements, supply requisitions, mercenary contracts—all pointing to a massive military buildup.
 
-"Damn," Kozel breathed. "They're really doing it. The biggest private military force in history." She looked up at Zara. "What do you need from us?"
+"Damn," Kozel breathed. "They're really doing it." She looked up at Zara. "You know who else should see this? Captain Elisabeth Chen — Hyperion freighter captain, runs the *Stellar Mule* on the outer routes. She's been feeding the independent stations intel on corporate shipping patterns for months. Quietly. Using her own encryption."
 
-"Ships, supplies, and most importantly, legitimacy. If this is just pirates versus corporations, we lose. But if it's free colonies defending themselves against corporate aggression..."
+"I know Chen," Zara said. She didn't elaborate.
 
-"The narrative changes." Kozel nodded slowly. "I'll need to consult with the other independent governors. But I think... yes, I think they'll see the necessity. Give me two days."
+"She's docked here now. Said something about a psych eval she decided not to show up for." Kozel sent for her.
 
-Two days later, the Free Colony Alliance was born. Seventeen independent systems pledged ships and resources to resist the Corporate Armada. It wasn't enough to match the corporate forces, but it was a start.
+Elisabeth Chen walked into the conference room twenty minutes later. She stopped when she saw Zara, recognition crossing her face — not the pirate who'd robbed her, but the one who'd fixed her ship and left a two-word message.
+
+"Captain Vega."
+
+"Captain Chen."
+
+Neither of them said anything else about it. Elisabeth sat down, read the intelligence data, and said: "Hyperion's Commander Harrington from TDI is leading the corvette screening force. I served on a Hyperion ship with his second officer. She'll follow orders right up until the moment she thinks they're illegal."
+
+Kozel consulted the other independent governors. Two said no — New Shanghai and Barnard's Colony, both too dependent on corporate trade contracts to risk it. The rest said yes, some grudgingly, some with the relief of people who'd been waiting for someone to go first.
+
+The Free Colony Alliance took shape over four days — not two, because real diplomacy was slower than anyone wanted. It wasn't enough to match the corporate forces, but it was a start.
 
 More importantly, it changed the conversation. Media outlets across human space picked up the story. Suddenly, the corporations weren't just hunting pirates—they were threatening the independence of free colonies. Public opinion, already soured by decades of corporate scandals, began to shift.
 
@@ -84,15 +102,29 @@ In the Hyperion boardroom, Adrianus Voss watched the media coverage with cold fu
 
 "This was supposed to be a simple police action," he said, his voice dangerously quiet. "Now we're being painted as tyrants."
 
-"It's Vega," Bradford insisted. "She's orchestrated this entire propaganda campaign. Remove her, and the alliance crumbles."
+"It's Vega," Bradford said. "Per our network analysis, she's the single-point-of-failure in the alliance command structure. Neutralise her and the coalition fragments within seventy-two hours."
 
-"Then remove her," Voss commanded. "Whatever it takes."
+"Then neutralise her," Voss said. "Whatever it takes."
 
-The assassination attempt came five days later. Zara was meeting with colony representatives on Port Liberty when her security detail detected the threat—a corporate kill team disguised as maintenance workers.
+"I'll activate the standing contract. The Port Liberty operation will require—"
 
-The firefight was brief but vicious. Zara's people were ready, and the assassins found themselves outgunned and outmaneuvered. But the damage was done. The attempt on her life, captured on station security cameras, provided powerful evidence of corporate ruthlessness.
+"I said whatever it takes, Bradford. Don't bring me the process. Bring me the result."
 
-"They tried to murder a negotiator during peace talks," Governor Kozel announced to the assembled media. "Is this the future the corporations offer? Rule through assassination and fear?"
+The assassination attempt came five days later.
+
+Zara was walking from the conference room to the docking bay on Port Liberty, Jax two steps behind. The corridor was empty — maintenance shift, most of the station at dinner. She noticed the wrong thing first: the ventilation grille on the ceiling had been removed and replaced with the screws facing the wrong direction.
+
+"Down," she said, and dropped.
+
+The first shot hit the wall where her head had been. Jax was already firing, his shotgun booming in the narrow corridor. Two figures in maintenance coveralls came around the corner ahead, weapons up. Corporate-issue sidearms, the kind Hyperion Security carried.
+
+Jax killed the first one. Zara rolled behind a support strut and put three shots into the second. A third attacker came from behind the ventilation panel above — she'd been right about the screws — and Jax caught him with his off hand as the man dropped.
+
+Twelve seconds, start to finish. Three dead attackers. Station security cameras had caught everything.
+
+"Bradford's work," Jax said, checking the bodies. Hyperion employee IDs, badly scrubbed but readable under the right scanner.
+
+Governor Kozel broadcast the footage system-wide within the hour. "They tried to murder a negotiator during peace talks. Is this the future the corporations offer?"
 
 The Corporate Armada launched two weeks ahead of schedule, their plans disrupted but not derailed. One hundred and eighty-seven ships, the largest fleet assembled since the Colonial Wars, began moving toward the asteroid belt.
 
@@ -104,11 +136,11 @@ The two fleets met at Vesta, the second-largest asteroid in the belt. Zara had c
 
 The battle began at extreme range, corporate dreadnoughts launching waves of missiles while alliance ships used the asteroids for cover. The superior corporate firepower told immediately, several lighter pirate vessels vanishing in nuclear fire.
 
-But Zara had one more card to play.
+But Zara had one more card to play. Chen had spent three weeks in drydock after the mutiny reverse-engineering the Prometheus data — the targeted broadcast that had paralysed the alien scout had worked, but fried the comms array doing it. He'd figured out how to generate a smaller, portable version: not a weapon, but a disruption field that scrambled targeting systems. Rodriguez's engineers had replicated the design across the alliance fleet during the buildup.
 
 "Execute Prometheus Protocol," she commanded.
 
-Across the alliance fleet, modified quantum field generators came online. Based on the research data from the destroyed science ship, Chen and other engineers had developed a localized quantum disruption field. It couldn't fold space like a true quantum drive, but it could wreak havoc on enemy targeting systems.
+Across the alliance fleet, modified field generators came online. It couldn't fold space like a true quantum drive, but it could wreak havoc on enemy targeting systems.
 
 Suddenly, corporate weapons that never missed were flying wide. Sensor locks failed and reformed randomly. The organized Armada assault devolved into chaos as their technological advantage evaporated.
 
@@ -140,6 +172,10 @@ In the silence that followed, corporate and alliance ships drifted among the deb
 
 "Admiral Voss," Zara transmitted to the corporate flagship. "I think we need to talk."
 
-The response came after a long pause. Not from Voss, but from Bradford, his voice shaken: "Admiral Voss is dead. The alien weapon... he was on the forward observation deck. I'm... I'm in command now. And yes, Captain Vega, I think we need to talk."
+The response came after a long pause. Not from Voss, but from Bradford. His voice had lost the boardroom polish. He sounded like a man standing in a room where the air smelled like burned circuitry and dead people.
 
-The Battle of Vesta was over. The war for humanity's survival had just begun.
+"Admiral Voss is dead. The alien weapon — he was on the forward observation deck. I saw it happen." A breath. "I'm in command now. And yes, Captain Vega, I think we need to talk."
+
+Zara looked at the tactical display. Corporate ships and alliance ships, drifting together among the debris of their battle, all of them facing the empty space where the alien had been.
+
+"Then talk," she said.

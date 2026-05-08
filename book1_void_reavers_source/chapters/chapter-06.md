@@ -16,13 +16,13 @@ Zara smiled. "Six weeks ago, our friend Diana Marsh reached out with some intere
 
 "Not this time," Zara continued. "The bank's board of directors has a different plan. They're going to stage a robbery—blame it on pirates, collect the insurance, and disappear with the real treasure before anyone realizes the vault was already empty."
 
-Understanding dawned on Malik's face. "They're going to frame us. Pirates hit the bank, authorities crack down on everyone, and the executives walk away clean."
+Malik put it together. "They're going to frame us. Pirates hit the bank, authorities crack down on everyone, and the executives walk away clean."
 
 "Exactly. Which is why we're going to beat them to it." Zara expanded the projection, showing the station's docking rings. "In four days, during the Titan Day celebrations when security is focused on crowd control, a team of 'pirates' hired by the bank will hit the vault. They'll make a big show of it, lots of explosions and threats, while the executives quietly transfer the real assets off-station."
 
 "And we intercept those transfers," Jax said, beginning to see the plan.
 
-"Better. We replace their hired pirates." Zara's smile turned predatory. "They're expecting a crew of thugs to show up, cause chaos, and take the fall. Instead, they get us. We play along, let them think their plan is working, then take everything—the insurance scam loot and whatever else we can grab on the way out."
+"Better. We replace their hired pirates." Zara leaned forward. "They're expecting a crew of thugs to show up, cause chaos, and take the fall. Instead, they get us. We play along, let them think their plan is working, then take everything—the insurance scam loot and whatever else we can grab on the way out."
 
 "That's..." Kira paused, searching for words. "That's either brilliant or insane."
 
@@ -30,7 +30,7 @@ Understanding dawned on Malik's face. "They're going to frame us. Pirates hit th
 
 "Almost," Malik muttered, but he was smiling.
 
-The next three days were spent in meticulous preparation. The *Crimson Revenge* docked at a maintenance station two jumps away from Titan, officially undergoing repairs while Zara's crew made their actual preparations. False identities were crafted, equipment was sourced, and most importantly, contact was made with the bank's inside man.
+The next three days were all preparation. The *Crimson Revenge* docked at a maintenance station two jumps away from Titan, officially undergoing repairs while Zara's crew made their actual preparations. False identities were crafted, equipment was sourced, and most importantly, contact was made with the bank's inside man.
 
 Gerald Hoffman was everything Zara expected from a corrupt bank executive—soft, nervous, and utterly convinced of his own cleverness. They met in a seedy bar on the maintenance station, Zara playing the role of a pirate captain eager for an easy score.
 
@@ -38,7 +38,7 @@ Gerald Hoffman was everything Zara expected from a corrupt bank executive—soft
 
 "And our payment?" Zara asked, pitching her voice lower, rougher.
 
-"Half now, half when the job's done." Hoffman slid a credit chip across the table. "Fifty thousand credits. More than you'd make in a year of regular piracy."
+"Half now, half when the job's done." Hoffman slid a credit chip across the table. His hand shook — not from fear, Zara noticed, but from the stimulants keeping him functional. Up close, he looked like a man who hadn't slept in weeks. There was a shuttle ticket stub on the table next to his drink — Mars, economy class. Whatever he was getting out of this, it wasn't enough for first class. "Fifty thousand credits. More than you'd make in a year of regular piracy."
 
 Zara palmed the chip, noting the bank routing codes embedded in its encryption. Another piece of evidence for later. "And the vault codes?"
 
@@ -66,27 +66,19 @@ Zara's team moved through the maintenance tunnels like ghosts. Eight of her best
 
 They reached the service entrance to the bank right on schedule. As promised, the security systems were offline, doors opening at their approach. Too easy, but that was the point. This was supposed to be theater.
 
-The main vault was a massive circular chamber in the heart of the bank, its walls lined with safety deposit boxes and secured storage units. At its centre sat the primary cash reserve—or what was supposed to be the cash reserve. Even from across the room, Zara could tell the credit containers were props, their security seals obviously fake to a trained eye.
+The main vault was theater. Prop credit containers with fake security seals, guards who fell down on cue. Zara's crew played their parts — fake charges on walls, weapons waved at cameras — while she walked the perimeter looking for the real score.
 
-"Positions," she ordered. "Make it look good for the cameras."
+She found it in the corner. A terminal still active, executive access interface, recent transfer records Hoffman hadn't bothered to wipe. Massive amounts moving to off-station accounts. And a secondary transfer scheduled for thirty minutes from now — after the "robbers" were supposed to be dead.
 
-Her crew spread out, attaching fake charges to walls, waving weapons at non-existent threats. The few guards they encountered were clearly in on it, falling down at the slightest contact, their weapons firing harmlessly into walls.
+She downloaded everything.
 
-"Vault secure!" Jax announced loudly, playing to the security recordings. "Loading the goods!"
+"Captain," Chen's voice came over the comm, low and precise — his combat register, clipped of everything unnecessary. "Two security squads converging on the main corridor. Moving with purpose. They're not in on it."
 
-That's when Zara noticed the terminal in the corner, still active despite the supposed security shutdown. She moved closer, recognizing the executive access interface. Hoffman or one of his conspirators must have used it recently.
+Zara checked her chronometer. Twelve minutes ahead of schedule. The guards from earlier — the ones who'd fallen down on cue — had been wearing bank security patches. These new squads wore Titan Station Authority grey. Real police. Hoffman hadn't told station security the robbery was fake. He'd told them the robbery was *real*.
 
-A few quick commands and she was in, her years of forced education under Morrison finally paying off. The terminal showed recent transfers, massive amounts being moved to off-station accounts. But there was something else—a secondary transfer scheduled for thirty minutes from now, after the "robbers" were supposed to have fled.
+She ran the logic: Hoffman stages the robbery, his hired pirates take the prop money and run, station security catches them or kills them in the escape, the dead pirates become the cover story, and Hoffman's board walks away clean with the real assets already transferred. No witnesses, no loose ends, no pirate crew with leverage.
 
-"Interesting," she murmured, quickly downloading the data to her personal storage.
-
-"Captain," Chen's voice crackled over the comm. "We've got movement. Security's responding faster than expected."
-
-"Already?" Zara checked her chronometer. They were ahead of schedule. "How many?"
-
-"Two squads, moving with purpose. I don't think these guys got the memo about letting us go."
-
-A cold realization washed over Zara. Of course. Hoffman needed the pirates to take the fall, but he also needed them dead. No loose ends. The security forces converging on their position weren't in on the scam—they were doing their jobs, responding to a real bank robbery.
+The fifty thousand credits weren't payment. They were bait.
 
 "Change of plans," Zara announced. "This isn't theater anymore. Hoffman set us up to die here. Kira, Chen, get to the executive level. Find Hoffman before he rabbits. Everyone else, we're leaving. Now."
 
@@ -98,7 +90,7 @@ They burst out of the vault just as security arrived. These weren't the play-act
 
 "Suppress and move!" Zara ordered, laying down covering fire. "We push through to the service tunnels!"
 
-The running battle that followed was chaos incarnate. Zara's crew fought with desperate efficiency, using every trick and tactic learned in years of piracy. Security fought with determination, believing they were protecting their home from raiders.
+The running battle that followed was chaos incarnate. Zara's crew fought fast, using every corridor and doorway, using every trick and tactic learned in years of piracy. Security fought with determination, believing they were protecting their home from raiders.
 
 "Captain!" Kira's voice over comms. "We've got Hoffman! He was trying to access an executive escape pod!"
 
@@ -124,7 +116,7 @@ They emerged in a cargo processing area near the outer docks, alarms still blari
 
 "Now what?" Kira asked, checking her weapon's charge.
 
-Zara looked around, her mind racing. They needed a distraction, something big enough to draw security away. Her eyes fell on Hoffman, then on the cargo containers being loaded onto a massive freight hauler.
+Zara scanned the cargo processing area. They needed a distraction, something big enough to draw security away. Her eyes fell on Hoffman, then on the cargo containers being loaded onto a massive freight hauler.
 
 "Hoffman," she said sweetly. "You're going to make an announcement."
 
@@ -140,7 +132,7 @@ In the confusion, Zara's crew made their escape. They stole a maintenance shuttl
 
 "All hands prepare for emergency departure!" Zara shouted as she hit the bridge. "Chen, fire up the engines. Jax, tell the dock crew we're leaving with or without clearance."
 
-The *Crimson Revenge* pulled away from Titan Station like a bat out of hell, station security still too disorganized to mount an effective pursuit. It wasn't until they were well clear and preparing for their jump to hyperspace that Zara allowed herself to relax.
+The *Crimson Revenge* tore away from Titan Station at full burn, station security still too fragmented to mount pursuit. It wasn't until they were well clear and preparing for their jump to hyperspace that Zara allowed herself to relax.
 
 "Status report," she called out.
 
@@ -156,22 +148,22 @@ The *Crimson Revenge* pulled away from Titan Station like a bat out of hell, sta
 
 "The station authorities? Probably. But they'll have their hands full sorting out the mess at the bank. Every executive with dirty hands will be running for cover. By the time they get around to us, we'll be ghosts in the black."
 
-As the *Crimson Revenge* jumped to hyperspace, leaving the chaos of Titan Station behind, Zara reflected on the operation. It hadn't gone according to plan—they rarely did—but they'd adapted, survived, and come out ahead. More importantly, they'd exposed a corruption that would have devastated thousands of innocent colonists.
+"Set course for the belt," Zara ordered. "Time to disappear. And send Rodriguez a heads-up — the banking sector is about to have a bad week."
 
-"Captain," Kira said quietly. "What we did back there... exposing the bank fraud. That was the right thing to do."
+Twelve hours later, still running dark in the belt, Chen picked up a news feed from Titan Station. Zara put it on the main display.
 
-"Don't get used to it," Zara replied, but she was smiling. "We're pirates, not heroes. It just happened that doing the right thing aligned with robbing those bastards blind."
+The Titan Mercantile Bank had collapsed. Hoffman and three other executives were in custody, their faces on every screen in the outer system. Colonists who'd had their savings in the bank were forming emergency creditors' committees. The station authority had frozen all executive accounts pending investigation.
 
-But as she looked around at her crew, she saw something in their faces that hadn't been there before. Pride, not just in a successful score, but in having made a difference. They'd stopped powerful people from hurting the powerless, and gotten rich in the process.
+Hoffman's face on the feed was the same one Zara had seen across the bar — the stimulant tremors, the economy-class shuttle ticket. He'd been small and desperate, running a scheme too big for him, and now he was small and desperate in a holding cell instead.
 
-Maybe, Zara thought, there was room in the black for a different kind of pirate. One who took from the corrupt and gave... well, gave to themselves, mostly. But sometimes, when the stars aligned just right, they might accidentally do some good along the way.
+Zara watched for a while, then switched off the feed.
 
-The thought should have troubled her. Morrison had trained her to be ruthless, to care only for survival and profit. But Morrison was dead, and Zara was writing her own rules now.
+Her console chimed. Encrypted channel, routing pattern she recognised — Diana Marsh.
 
-"Set course for the belt," she ordered. "Time to disappear for a while and let things cool down. And somebody send a message to Rodriguez. Tell her the banking sector might be experiencing some instability. Could be opportunities for those paying attention."
+Text only, no voice: *Clean work. The Hyperion board is paying attention now. Not to the bank. To you. Be careful.*
 
-As her crew bent to their tasks, Zara allowed herself a moment of satisfaction. They'd pulled off an impossible heist, exposed massive corruption, and lived to tell the tale. Not bad for a girl from the Titan orphanages who was supposed to die young and forgotten.
+Zara deleted the message. She sat in her chair, looking at the 47M credit balance on her accounts screen. She closed that too.
 
-In the depths of space, word would spread. The Bloodhawk had struck again, but this time the story would be different. This time, the pirates were almost the good guys.
+"Kira, you have the watch. I'll be in my quarters."
 
-Almost.
+She left the bridge. Behind her, the belt's asteroid field drifted past the viewport, slow and dark and full of places to hide.

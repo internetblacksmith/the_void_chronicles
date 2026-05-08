@@ -26,19 +26,27 @@ Murmurs rippled through the crowd. Seventeen ships was a significant portion of 
 
 "That's what we thought initially," Krieger continued. "But our sources in the corporations report no major anti-piracy operations. In fact, they're as puzzled as we are. Three of their own security vessels have also vanished in the same regions."
 
-"So what's taking them?" asked Captain Volkov of the *Star Witch*. Unlike his deceased cousin Alexei, Ivan Volkov was a thoughtful man who preferred negotiation to violence.
+"So what's taking them?" asked Captain Ivan Volkov of the *Star Witch*. He was Alexei's cousin — the same Alexei Volkov Zara had pulled the power core from and sent spinning into vacuum at Deadman's Port. Ivan had never mentioned it. He met Zara's eyes across the chamber the way a man meets the eyes of someone who killed his family: steadily, with an understanding that the conversation would happen someday but not today.
 
 Krieger gestured to a holographic display that materialized above the chamber. It showed the asteroid belt, with red markers indicating where ships had disappeared.
 
 "Notice the pattern," he said. "All disappearances occurred in the outer belt, in regions with minimal traffic. Whatever's hunting us, it's smart. It's picking off isolated targets, avoiding witnesses."
 
-"Aliens?" The suggestion came from a younger captain Zara didn't recognise.
+"Aliens?" The suggestion came from a young captain at the back — Amara Iyer of the *Windrunner*, the woman Zara had saved from TDI. She said it without embarrassment, like she was reading off a list of possibilities.
 
-"Don't be ridiculous," snapped Captain Morse of the *Black Comet*. "We've been in space for two centuries and never found so much as a microbe. It's got to be some new government weapon."
+"Two centuries in space," Morse said. "Not a microbe. It's a government weapon. Has to be."
 
-"Or another pirate crew," suggested someone else. "Maybe someone's decided to thin the competition."
+"Based on what evidence?" Iyer asked.
 
-The chamber erupted in arguments, old rivalries and suspicions boiling over. Zara watched the chaos with growing concern. If they couldn't unite against this threat, they'd be picked off one by one.
+"Based on two hundred years of evidence that we're alone in the universe, kid." Morse turned his back on her.
+
+Iyer didn't sit down. "Captain Vega. You've been compiling anomaly data. Sensor ghosts in the Brotherhood's ship logs. TDI deep-space harmonics. A forty-year-old crew scratching on a bulkhead about something that 'moved wrong' outside a viewport. Do you want to tell the council about that, or should I?"
+
+The chamber went quiet. Zara looked at Iyer — twenty-two, standing in a room of veterans, holding a file she'd somehow obtained from Zara's own sensor archive. Rodriguez must have shared it.
+
+"She's right," Zara said. "I've been collecting data points that don't match any known drive system. Three incidents, three different locations, spanning forty years. I don't know what they mean. But 'government weapon' doesn't explain a scratched note from before most of us were born."
+
+The arguments started again, but different this time. Less certain. Zara watched the chaos with growing concern. If they couldn't unite against this threat, they'd be picked off one by one.
 
 "Enough!" Rodriguez's voice cut through the noise. "While we bicker, more of us die. Captain Vega has a suggestion."
 
@@ -80,100 +88,106 @@ The tactical display updated, showing the anomaly's approach. It moved like noth
 
 The viewscreen shifted to show empty space. Then, like a nightmare emerging from shadow, it appeared.
 
-The ship—if it could be called that—was wrong on every level. Its hull seemed to shift and flow like liquid metal, configurations changing moment to moment. Weapons ports opened where none had been before, then sealed seamlessly. It was technology beyond anything humanity had achieved, beyond anything they had imagined.
+The ship—if it could be called that—was wrong on every level. Its hull seemed to shift and flow like liquid metal, configurations changing moment to moment. Weapons ports opened where none had been before, then closed without seam or scar. It was technology beyond anything humanity had achieved, beyond anything they had imagined.
 
 "By the void," someone whispered. "What is that thing?"
 
-Before anyone could answer, the alien vessel struck. Beams of energy that shouldn't exist lashed out, and the *Star Witch*'s shields simply... weren't. The pirate vessel's hull began to dissolve, metal turning to dust under the alien assault.
+Before anyone could answer, the alien vessel struck.
 
-"Evasive maneuvers!" Zara shouted. "All weapons, fire!"
+A beam of energy — not light, not heat, something that made Zara's fillings ache and her vision double — lashed out at the *Star Witch*. Ivan Volkov's shields didn't fail. They simply weren't there anymore, as if the concept of shielding had been revoked. His hull began to dissolve, metal turning to grey dust that drifted in slow spirals.
 
-The *Crimson Revenge*'s guns spoke, plasma bolts and torpedoes streaking toward the alien ship. They hit—Zara was sure they hit—but the impacts simply vanished into that flowing hull, absorbed like raindrops into an ocean.
+"All ships, engage!" Zara shouted. "Everything we've got!"
 
-"Where the hell is our backup?" Jax demanded.
+The hidden pirate fleet burst from cover, eight ships firing simultaneously. The barrage converged on the alien vessel — plasma bolts, torpedoes, kinetic rounds. Every shot hit. Every shot vanished into that flowing hull without effect, like stones thrown into deep water.
 
-As if in answer, the hidden pirate ships burst from cover, weapons blazing. The alien vessel was caught in a crossfire of devastating firepower. For a moment, Zara dared to hope.
+On the comms, Ivan Volkov's voice, steady and technical even as his ship disintegrated around him: "Vega, I'm reading the thing's drive signature. It matches your anomaly data — same waveform as the gravity spike in the Brotherhood logs, same harmonics TDI detected. Transmitting the full sensor profile to your ship now. Whatever this thing is, it's been watching us for—"
 
-Then the alien ship unfolded.
+The *Star Witch* came apart. Not an explosion. A dissolution. The hull separated into its constituent atoms and drifted, a cloud of grey particles expanding in silence. Volkov's transmission cut to static mid-word.
 
-There was no other word for it. The flowing hull expanded, revealing structures that hurt to look at, geometries that shouldn't exist in three-dimensional space. Energy lashed out in all directions, and suddenly half the pirate fleet was drifting debris.
+"We just got his data," Chen said. His voice was the quiet one. "Full sensor profile of the alien's drive field."
 
-"Rodriguez!" Zara called out. "Pull back! Everyone pull back!"
+Zara didn't have time to grieve. The alien ship unfolded.
 
-But the *Solar Flare* was already engaged, Rodriguez using her ship's superior speed to dance around the alien's attacks. Her voice crackled over comms.
+There was no other word for it. The flowing hull expanded, revealing structures that hurt to look at — angles that existed in more dimensions than three, surfaces that seemed to be *behind* themselves. Energy lashed out in all directions. The *Black Comet* lost its aft section. Two smaller ships simply went dark, every system dead, their crews floating in dead hulls.
 
-"Zara, I'm reading massive quantum signatures from that thing. It's not from our space. It's from somewhere else, somewhere the laws of physics are different."
+"Rodriguez! Pull back!"
 
-"Can we stop it?"
+But the *Solar Flare* was already committed, Rodriguez using her ship's speed to stay inside the alien's turn radius. Her voice came over the comm, clipped and flat — the former-miner register stripped of everything except information.
 
-"Maybe. If we can disrupt its quantum field, force it back to wherever it came from. But we'd need—" Her transmission cut off as alien energy enveloped the *Solar Flare*.
+"Zara, this thing's field signature is resonant with the Prometheus data. Same frequency band Chen used for the counter-wave. If you can hit it with a targeted disruption — not random broadcast, targeted — you might lock its hull into a single configuration."
 
-"Maria!" Zara watched in horror as her ally's ship began to phase in and out of reality, crew screaming over open channels before they too cut out.
+"Maria, get clear—"
 
-The alien vessel turned toward the *Crimson Revenge*, and Zara felt death approaching with mathematical certainty. Their weapons were useless. Their shields were paper. They were insects challenging a god.
+"I'm buying you time. Chen, you hearing this?"
 
-"Chen," she said quietly. "Remember the quantum data from the *Prometheus*? The stuff we saved?"
+"I hear you. Working on it." Chen was already pulling up the Prometheus equations, cross-referencing with Volkov's sensor data. "I need sixty seconds."
 
-"Captain?"
+An alien beam caught the *Solar Flare* amidships. The ship shuddered, its hull phasing — solid, then translucent, then solid again, reality flickering like a bad signal. Through the translucent sections, Zara could see crew members moving in slow motion, caught between states of existence.
 
-"Upload it to our main computer. All of it. Then broadcast it at that thing. Wide-band transmission, every frequency we can generate."
+"Rodriguez!"
 
-"That's insane. We don't know what—"
+Rodriguez's voice came back, distorted, layered, as if she were speaking from several places at once: "I'm... still here. Hull integrity is... the word doesn't apply anymore. Chen, how long?"
 
-"Do it!"
+"Thirty seconds. Captain, I need the wide-band array at full power. This is going to fry every comm system we have."
 
-Chen's fingers flew over his console. The *Crimson Revenge*'s communication array lit up, broadcasting terabytes of quantum equations and failed experiments directly at the alien vessel.
+"Do it."
 
-For a heartbeat, nothing happened. Then the alien ship convulsed.
+"It's not just comms. The broadcast will overload the relay buffers. We lose the array permanently. No long-range communication until we can rebuild from scratch."
 
-Its flowing hull froze, locked into a single configuration. The impossible weapons powered down. And for the first time, it seemed vulnerable.
+Zara looked at the tactical display. Four ships destroyed. Two drifting dark. Rodriguez phasing in and out of reality. The alien turning toward the *Crimson Revenge*.
 
-"All ships, concentrate fire on my target!" Zara commanded. "Everything you've got!"
+"Do it, Chen."
 
-The surviving pirate vessels didn't need to be told twice. Plasma bolts, missiles, kinetic rounds, and mining lasers all converged on the paralyzed alien ship. This time, the impacts didn't vanish. They tore into the strange hull, ripping away sections that dissolved into quantum foam.
+Chen triggered the broadcast. The *Crimson Revenge*'s communication array lit white — every emitter, every dish, every antenna broadcasting the targeted disruption at maximum power. The console under Chen's hands sparked, then caught fire. He kept his fingers on the keys, feeding the frequency data as relays melted one by one.
 
-The alien vessel tried to unfold again, to shift back into its impossible configurations. But the quantum data flooding its systems kept it locked, trapped between dimensions. It was dying, and it knew it.
+The alien ship convulsed. Its flowing hull froze, locked into a single configuration — solid, vulnerable, *present*. The impossible weapons powered down. For the first time, it looked like a ship instead of a hallucination.
 
-A final pulse of energy erupted from the ship, but not directed at the pirates. Instead, it lanced out into deep space, a transmission of unimaginable power aimed at the galactic core.
+"All ships, fire! Everything!"
 
-Then the alien vessel imploded, folding in on itself until nothing remained but a rapidly dissipating quantum signature.
+The surviving pirate vessels converged. This time, the impacts didn't vanish. Plasma bolts cratered the frozen hull. Torpedoes tore sections away. The alien ship tried to unfold, to shift back — but Chen's disruption held it locked, trapped in three dimensions, dying.
 
-Silence filled the communications channels as the surviving pirates processed what had just happened. They'd encountered something from outside their reality and, against all odds, defeated it.
+A final pulse erupted from the alien — not aimed at the pirates but lanced deep into space, a transmission of staggering power directed along a specific vector that Chen's ruined console barely managed to log before it went completely dark.
 
-"Sound off," Zara commanded. "Who's still with us?"
+Then the alien vessel imploded, folding in on itself until nothing remained.
 
-The responses were sobering. Of the eleven ships that had engaged the alien, only six remained. The *Star Witch* was gone, Ivan Volkov with it. The *Solar Flare* was a drifting hulk, though scans showed some crew still alive in sealed compartments.
+"Where did that last transmission go?" Zara asked.
 
-"Get rescue shuttles to the *Solar Flare*," Zara ordered. "Save who we can."
+Chen pulled the vector from his smoking console. His hands were blistered from the relay fire. "Toward the galactic core. Specific coordinates. Not a random direction — it knew exactly where to send it."
 
-As search and rescue operations began, Jax approached Zara's command chair. "Captain, that last transmission the alien sent. Where do you think it was going?"
+"A distress call?"
 
-"Nowhere good," Zara replied. "I think we just killed a scout. And it called home before it died."
+"Or a report. 'Found them. They fight back.'" Chen looked at his burned hands. "Captain, our long-range comms are gone. Completely. I can rebuild, but we're talking weeks."
 
-The implications hung heavy in the recycled air. Humanity had thought itself alone in the universe, master of all it surveyed. But something else was out there, something that treated the laws of physics as suggestions and pirate fleets as minor annoyances.
+"Sound off," Zara said into the silence. "Who's still with us?"
 
-"What do we do?" Jax asked.
+Six ships out of eleven. The *Star Witch* was gone — Ivan Volkov with it, the conversation about Alexei that would never happen now. The *Solar Flare* was drifting, phased sections of hull still flickering between solid and translucent. Scans showed crew alive in the sealed compartments.
 
-"We survive," Zara said. "We warn everyone—pirates, corporations, governments. And we prepare. Because I don't think that thing came here by accident. Someone or something sent it, and they're going to want to know what happened to it."
+"Get rescue shuttles to the *Solar Flare*," Zara ordered. "Now."
 
-Back at Haven Station, the remaining pirate captains gathered once more. The mood was somber, victories bought with blood always were. But there was also a new unity, forged in the fire of combat against an enemy none of them understood.
+They pulled Rodriguez out two hours later. She was conscious, coherent, burned across one arm where her console had overloaded. The first thing she said was: "Did Chen's data work?"
 
-"The old rules are dead," Admiral Krieger announced. "We face a threat beyond anything we've imagined. Pirates, corporations, governments—these distinctions mean nothing if we're all dead. I propose a new charter. A mutual defence pact. When the aliens return—and they will return—we stand together or fall separately."
+"It worked."
 
-One by one, the captains signed. Even Morse, humbled by the near-destruction of his ship, added his name. Zara signed last, thinking of Rodriguez recovering in the medical bay, of Ivan Volkov who'd never see another sunrise.
+"Then it was worth it." She closed her eyes. "Ivan?"
 
-They'd won today, but it was just the beginning. In the shadows of the asteroid belt, humanity had learned it wasn't alone. And the universe had just become a much more dangerous place.
+"Gone. He transmitted the sensor profile that let Chen target the disruption. Without him—"
 
-As the council dispersed, each captain returning to their ship to spread the word, Zara stood alone in the chamber. Chen found her there an hour later.
+"I know." Rodriguez opened her eyes. "I know what he did."
 
-"Captain? The crew's asking about our next move."
+---
 
-"We do what pirates do best," Zara replied. "We adapt. We survive. And we get ready for war."
+Back at Haven Station, Krieger called for a mutual defence pact. The captains signed without speeches. Morse signed. Iyer signed. Zara signed last, looking at the list of names and thinking about the ones that weren't on it anymore.
 
-"Against aliens?"
+Chen found her in the chamber afterward, his hands wrapped in burn dressings.
 
-"Against anything that threatens our way of life. Human or otherwise." She turned to face him. "The game just changed, Chen. We're not just pirates anymore. We're humanity's early warning system. And I have a feeling we're going to be very busy."
+"The vector of that last transmission," he said. "I've been running the coordinates against stellar databases. It's aimed at a specific star system, Captain. Not a random direction. Whatever sent that scout knows exactly where it came from."
 
-As the *Crimson Revenge* departed Haven Station, carrying news of first contact to every pirate haven in the system, Zara couldn't shake the feeling that this was just the prologue. The real story, the real threat, was still out there in the dark between stars.
+Zara looked at him. His hands were shaking — not from the burns, but from the same thing that was making her jaw tight and her breathing shallow. For the first time in twenty years of piracy, she was afraid of something she couldn't outrun or outfight.
 
-Waiting. Watching. Coming.
+"Can you rebuild the comms?"
+
+"Three weeks. Maybe four."
+
+"Then we've got three weeks to figure out what we're dealing with." She stood. "Come on. Your hands need a medic, not a star chart."
+
+They walked out of the chamber together. Behind them, the lights went down one by one as Haven Station powered back to standby.

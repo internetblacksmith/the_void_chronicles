@@ -38,23 +38,31 @@ Finally, Zara proposed a compromise. "We attempt communication. A small delegati
 
 "And who leads this suicide mission?" Bradford asked.
 
-"I will," Zara said simply. "I've got experience with impossible odds."
+"I will," Zara said.
 
 "As will I," Dr. Vasquez added. "We need scientific representation."
 
 One by one, others volunteered. Bradford, perhaps shamed by the courage of his former enemies, stepped forward. Governor Kozel, Admiral Krieger, representatives from Earth and Mars. In the end, twelve humans would carry the hopes of their species into the unknown.
 
-They departed aboard the *Crimson Revenge*, its battle damage hastily repaired. As they moved toward the designated coordinates, Zara found herself on the observation deck with Dr. Vasquez.
+They departed aboard the *Crimson Revenge*, its battle damage hastily patched. Twelve humans in a ship built for pirates, heading toward a rendezvous that would decide whether their species continued to exist.
 
-"Scared?" the scientist asked.
+Zara found Bradford in the corridor outside the observation deck. He was standing with his hands flat against the bulkhead, breathing in a way that suggested he was trying not to be sick.
 
-"Terrified," Zara admitted. "I've faced death before, but this... if we fail, everyone dies. Every human everywhere."
+"You ordered the kill team on Port Liberty," Zara said.
 
-"Perhaps. Or perhaps they're testing us. Advanced civilizations might have non-violent ways to ensure compliance. The threat could be a bluff."
+He didn't turn around. "Yes."
 
-"You believe that?"
+"Three people. Maintenance coveralls. Hyperion sidearms with the serial numbers filed off."
 
-"I have to. The alternative is too horrible to contemplate."
+"Yes."
+
+"And now you're on my ship, flying to negotiate for the survival of the species, and I'm supposed to trust you to represent humanity."
+
+Bradford turned. He looked ten years older than the boardroom executive who'd threatened Elisabeth Chen. "I ordered three people to kill you because you were inconvenient to my company's profit margins. The standing assassination contract is still active — I don't have the authority to cancel it; only Voss could do that, and Voss is dead. That's who I was six weeks ago." He swallowed. "I don't know who I am now. But I know I'm here, and I know we need everyone we have."
+
+Zara looked at him for a long time. Then she said: "The observation deck is through there. Don't touch anything on the bridge."
+
+She walked away. It wasn't forgiveness. It was arithmetic.
 
 They dropped out of hyperspace at the coordinates specified in the alien message, finding empty space. For long minutes, nothing happened. Then reality twisted, and the alien vessel appeared.
 
@@ -70,13 +78,13 @@ Before them materialized three figures. They were vaguely humanoid but stretched
 
 Dr. Vasquez stepped forward, her voice remarkably steady. "We seek understanding. Why must we cease expansion? What is quantum contamination? We wish to comply but need clarification."
 
-The aliens tilted their heads in unison, a gesture disturbingly human yet wrong. "Your species accesses quantum fields without comprehension. Each use damages the substrate of reality. Continued expansion increases damage probability. This sector was quarantined after the Last War. You have violated quarantine."
+The aliens tilted their heads in unison, a gesture disturbingly human yet wrong. "Your species accesses quantum fields without comprehension. Each use damages the substrate of reality. Continued expansion increases damage probability. This sector was quarantined after the Last War between the predecessor species who inhabited it. You have violated quarantine."
 
 "We didn't know," Governor Kozel said. "We've never encountered other intelligences. We thought we were alone."
 
 "Ignorance is not absolution. Your quantum experiments have already created seventeen permanent wounds in local space-time. The survey unit you destroyed detected resonance patterns indicating imminent cascade failure. If unchecked, this sector will collapse within one hundred of your years."
 
-The humans exchanged horrified glances. Their fumbling with quantum technology wasn't just dangerous—it was threatening the fabric of space itself.
+The humans exchanged glances. Their fumbling with quantum technology was threatening the fabric of space itself.
 
 "Can it be stopped?" Zara asked. "The cascade failure—can we prevent it?"
 
@@ -90,11 +98,23 @@ The humans exchanged horrified glances. Their fumbling with quantum technology w
 
 "No." The alien voice was final. "Your species lacks wisdom to wield such knowledge. You discovered quantum fields and immediately weaponized them. You cannot be trusted with advanced technology."
 
-"Then teach us wisdom," Zara said suddenly. "Don't condemn us for ignorance then refuse to educate us. If we're children playing with fire, show us how to use it safely."
+"Then teach us," Zara said. "If we're children playing with fire, show us how to use it safely. Don't just punish us for burning ourselves."
 
 The aliens paused, their three-eyed gaze focusing on her with uncomfortable intensity. "You are the one who adapted quantum technology for warfare. Yet you also prevented a catastrophic experiment. Contradiction. Explain."
 
-"I'm a pirate," Zara said simply. "I steal, I fight, I survive. But I also protect those who can't protect themselves. I've killed, but I've also saved lives. Humans are contradictions. We're capable of both creation and destruction, often in the same breath. Judge us not by our worst or best, but by our potential to learn."
+Zara looked at the three-eyed faces. She thought about Morrison, about Lisa Park, about Rico's name on a frontier manifest.
+
+"I don't have an explanation. I did both things. Most of us do."
+
+"This is insufficient."
+
+"It's what I've got. We're not consistent. We're not going to become consistent. If that's what you need from us, sterilise the sector and move on."
+
+The chamber was silent. The harmonics that made human teeth ache faded to nothing.
+
+"You would accept species death rather than misrepresent your nature?"
+
+"I'd rather die honest than survive on a lie you'd catch eventually."
 
 "Learning requires time. Time increases risk of cascade failure."
 
@@ -140,18 +160,8 @@ Bradford was quiet for a moment. "They want us to choose quantum students. Peopl
 
 "I'll support his nomination. God help me, but you pirates might be our best hope." Bradford turned to leave, then paused. "Captain Vega? What you said to them, about humans being contradictions. You may have saved us all."
 
-After he left, Zara remained at the viewport, watching the stars. Humanity had been judged and found wanting, but not irredeemable. They had fifty years to prove they could change, evolve, become something worthy of the vast cosmos they'd stumbled into.
+After he left, Zara stood at the viewport. Through the glass, the Watcher monitoring station was already visible — a dark sphere materializing at the edge of the system, the first of many.
 
-It wouldn't be easy. Old habits, old hatreds would die hard. Corporations would chafe at restrictions, colonies at population limits. There would be those who'd try to cheat, to steal forbidden knowledge or expand in secret.
+She watched it until Chen came to tell her the Ceres Station docking approach was locked in. Then she went to her quarters, took the holo-projector from her jacket, and set it in the compartment under her armrest.
 
-But there would also be those who rose to the challenge. Scientists like Dr. Vasquez, seeking understanding. Leaders like Governor Kozel, building bridges. Engineers like Chen, learning to heal the wounds in reality. Even corporate men like Bradford, choosing species survival over profit.
-
-And pirates like her, enforcing the new rules with the same determination they'd once brought to breaking the old ones.
-
-The stars looked different now, Zara realised. No longer empty spaces to be conquered, but inhabited by watchers who'd judge humanity's every step. The age of reckless expansion was over. The age of probation had begun.
-
-But humans were nothing if not adaptable. They'd survived ice ages and nuclear wars, plagues and their own worst impulses. They'd survive this too, maybe even thrive.
-
-And if the aliens thought they had humanity figured out, they were in for surprises. Because humans did their best work when the odds were impossible and the stakes were everything.
-
-The game had changed. Time to learn the new rules.
+The *Crimson Revenge* docked. The delegation dispersed. Zara sat on the bridge alone, listening to the station's docking clamps lock into place, one by one.

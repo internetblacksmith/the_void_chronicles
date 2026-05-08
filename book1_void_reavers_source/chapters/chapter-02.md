@@ -1,10 +1,10 @@
 # Chapter 2: The Crimson Nebula
 
-Deadman's Port hung in the shadow of the Crimson Nebula like a metallic tumor, its haphazard construction a testament to decades of unregulated growth. The station had started life as a mining outpost, processing the exotic gases that swirled within the nebula's heart. But when the mines played out and the corporations moved on, the criminals moved in.
+Deadman's Port hung in the shadow of the Crimson Nebula, its haphazard construction the result of decades of unregulated growth. The station had started life as a mining outpost, processing the exotic gases that swirled within the nebula's heart. But when the mines played out and the corporations moved on, the criminals moved in.
 
 Now it was the largest pirate haven in the outer systems, a place where stolen goods could be fenced, ships could be repaired with no questions asked, and the law was whatever the strongest crew said it was. The nebula's interference made it invisible to long-range sensors, and its location at the confluence of three major shipping lanes made it the perfect base for those who preyed on interstellar commerce.
 
-Captain Zara Vega stood at the viewport of the *Crimson Revenge*'s observation deck, watching as they approached the station. The nebula's gases painted everything in shades of red and orange, like flying through the heart of a dying star. It was beautiful and terrible at the same time, much like the life she'd chosen.
+Captain Zara Vega stood at the viewport of the *Crimson Revenge*'s observation deck, watching as they approached the station. The nebula's gases painted everything in shades of red and orange. Through the viewport, the station looked like something that had grown rather than been built.
 
 "Deadman's Port Control, this is the *Crimson Revenge* requesting docking clearance," Jax's voice crackled over the intercom.
 
@@ -12,7 +12,7 @@ Captain Zara Vega stood at the viewport of the *Crimson Revenge*'s observation d
 
 "Understood, Control. Tell him we'll make it worth his while."
 
-Zara smiled grimly. The Harbourmaster—nobody knew his real name—took twenty percent of everything that moved through Deadman's Port. It was highway robbery, but it was also the cost of doing business in a place where the authorities couldn't reach.
+Zara shook her head. The Harbourmaster—nobody knew his real name—took twenty percent of everything that moved through Deadman's Port. It was highway robbery, but it was also the cost of doing business in a place where the authorities couldn't reach.
 
 As the ship maneuvered toward their assigned berth, Zara made her way to the cargo hold. Her crew was already there, taking inventory of their haul. Crates of rare earth metals were stacked to the ceiling, each one worth a small fortune on the black market.
 
@@ -58,13 +58,13 @@ Krieger finally looked up, his steel-grey eyes studying her. "Perhaps. But his c
 
 Krieger sighed, suddenly looking every one of his seventy years. "No. But actions have consequences. The Crimson Brotherhood is mobilizing. They see Kellerman's death as an attack on all of them."
 
-The Crimson Brotherhood. Zara had heard of them—a loose alliance of the most violent pirate crews, united by their belief that mercy was weakness. Kellerman had been one of their rising stars.
+The Crimson Brotherhood. Kellerman had been one of their rising stars.
 
 "How many ships?" she asked.
 
 "Three confirmed, possibly more. They're gathering at Nexus Station, two days' jump from here. My sources say they're planning to make an example of you."
 
-Zara's mind raced. Three ships, maybe more, against her single vessel. Those weren't good odds, even for the *Crimson Revenge*.
+Three ships, maybe more, against her single vessel. Not good odds.
 
 "What do you suggest?"
 
@@ -86,7 +86,7 @@ Krieger shook his head. "You're going to get yourself killed, Zara. And your cre
 
 "See that you live long enough to remember," he called after her.
 
-Back in the corridor, Zara's mind was already working on the problem. Three ships against one wasn't impossible odds, but it would require careful planning and more than a little luck. She needed information—ship specifications, crew complements, weaknesses she could exploit.
+Back in the corridor, she started listing what she'd need. Ship specifications, crew complements, weaknesses. Three ships against one meant she couldn't win a straight fight. She'd have to change the math.
 
 Her communicator buzzed. It was Kira, her weapons officer.
 
@@ -100,7 +100,7 @@ Interesting. "Keep her there. I'm on my way."
 
 The Supernova Cantina was a step up from the Broken Compass, which meant the bloodstains were cleaned up daily and the drinks were only mildly toxic. Zara found Kira at a corner booth, sitting across from a woman who immediately set off every alarm in Zara's head.
 
-She was too clean, too composed for Deadman's Port. Her clothes were high-quality but nondescript, designed to blend in anywhere. But it was her eyes that gave her away—cold, calculating, constantly scanning for threats. This was no pirate or trader. This was something else entirely.
+She was too clean for Deadman's Port. Her clothes were high-quality but nondescript, designed to blend in anywhere. She sat with her back to the wall and one hand resting near a small device behind her right ear — not a comm piece, something else, something Zara didn't recognise. Her eyes moved in a pattern Zara had seen before in bodyguards and intelligence officers: walls, exits, hands, repeat.
 
 "Captain Vega," the woman said as Zara slid into the booth. "My name is Diana Marsh. I represent certain interests that would prefer to remain anonymous."
 
@@ -134,19 +134,27 @@ Zara studied the woman, weighing her options. It was obviously a trap of some ki
 
 Diana stood. "You don't. But ask yourself this—what do I gain by giving you false information? If you die, the Brotherhood grows stronger, which is exactly what my employers don't want." She turned to leave, then looked back. "The first ship will arrive at Deadman's Port in thirty-six hours. I'd suggest you be ready."
 
-After she left, Kira picked up the data chip, turning it over in her fingers. "This feels like a devil's bargain, Captain."
+After she left, Kira picked up the data chip, turning it over in her fingers. "Devil's bargain."
 
-"They all are, out here." Zara pocketed the chip. "Come on. We need to get back to the ship and start planning."
+"They all are." Zara pocketed the chip. "Come on. Back to the ship."
 
-As they made their way through the station's crowded corridors, Zara couldn't shake the feeling that she was being watched. Diana Marsh's appearance was too convenient, too perfectly timed. Someone was playing a larger game here, and Zara and her crew were just pieces on the board.
+As they walked, Zara replayed the conversation. The device behind Marsh's ear. The way she'd tracked the exits. The things she hadn't said — who her employers actually were, how she'd gotten Brotherhood ship specs that even Krieger didn't have.
 
-But that was a worry for another day. Right now, she had a ship to prepare and a crew to rally. The Crimson Brotherhood wanted a war? She'd give them one they'd never forget.
+Zara didn't have answers. She had a chip full of data and thirty-six hours to use it.
 
 Back aboard the *Crimson Revenge*, Zara called a meeting of her senior staff. They gathered in the ship's war room, a converted cargo bay that now housed tactical displays and planning tables.
 
-"Here's the situation," she began, uploading the data from Diana's chip to the main display. "The Brotherhood is coming for us. Three ships confirmed—the *Ravager*, the *Blood Moon*, and the *Void Reaper*. All heavy raiders, all captained by Kellerman's old associates."
+"Here's the situation," she began, uploading the data from Diana's chip to the main display. "The Brotherhood is coming for us. Three ships confirmed — the *Ravager*, the *Blood Moon*, and the *Void Reaper*. All heavy raiders, all captained by Kellerman's associates."
 
-The specifications scrolled across the screen, and Zara heard several sharp intakes of breath. Each ship was a match for the *Crimson Revenge* individually. Together, they could tear her apart.
+The specifications scrolled across the screen — shield frequencies, weapon loadouts, engine profiles. Each ship was a match for the *Crimson Revenge* individually. Together, they'd tear her apart.
+
+Chen frowned at a secondary readout. "Captain, there's something else on this chip. Buried in the *Ravager*'s performance logs — a sensor anomaly from three weeks ago. Their gravity readings spike for about six seconds, then normalise. No cause listed."
+
+"Malfunction?" Jax asked.
+
+"Maybe. But the waveform is strange. It doesn't match any drive signature I know." Chen shrugged and closed the file. "Probably nothing."
+
+Zara filed it away. They had bigger problems.
 
 "The *Ravager* is captained by Marcus Steele," Jax said, studying the data. "Fast, heavily armed, but light on armour. He likes to get in close and overwhelm with firepower."
 
@@ -154,7 +162,7 @@ The specifications scrolled across the screen, and Zara heard several sharp inta
 
 "And the *Void Reaper*?" Zara asked.
 
-"Captain Alexei Volkov," Malik said grimly. "Former Spetsnaz. His crew is mostly ex-military. They board hard and fast, no survivors."
+"Captain Alexei Volkov," Malik said. "Former Spetsnaz. His crew is mostly ex-military. They board hard and fast, no survivors."
 
 "So we've got a brawler, a sniper, and a boarding specialist." Zara studied the tactical display. "They'll try to box us in—Steele coming in close while Kowalski pins us down from range, then Volkov moves in for the kill."
 
@@ -168,7 +176,7 @@ Zara smiled. "By not fighting fair. They expect us to meet them in open space, s
 
 She pulled up a different schematic, this one showing the station itself. "Before it was a pirate haven, this was a mining station. They processed volatile gases from the nebula. The old processing systems are still here, dormant but functional."
 
-Understanding dawned on Jax's face. "You want to turn the station into a weapon."
+Jax started to grin. "You want to turn the station into a weapon."
 
 "Exactly. We lure them in close, then vent the processed gases. One spark and half the docking ring goes up in flames."
 
@@ -188,17 +196,17 @@ The room was silent for a moment as her crew digested the plan. It was risky, bo
 
 No one moved.
 
-"All right then." Zara felt a surge of pride. This was why she'd survived so long—not just because she was smart or tough, but because she'd assembled a crew that would follow her into hell itself. "Let's get to work. We have thirty-six hours to turn this station into a deathtrap."
+"All right then." She looked around the room. Nobody had left. Not one. "Let's get to work. We have thirty-six hours to turn this station into a deathtrap."
 
-As her crew dispersed to begin preparations, Zara remained behind, staring at the tactical display. Three ships, three captains who wanted her dead. The odds were stacked against them, but she'd beaten long odds before.
+As her crew dispersed, Zara stayed at the tactical display, running scenarios until the crimson light of the nebula had shifted from the viewport to the far wall.
 
-In the crimson light of the nebula, she began to plan. The Brotherhood thought they were hunting a lone wolf, separated from the pack. They were about to learn that even a lone wolf could have teeth.
+The next thirty-six hours were all work.
 
-The next thirty-six hours passed in a blur of activity. Under the cover of normal maintenance, Zara's crew worked with sympathetic station personnel to prepare their trap. Ancient gas lines were reconnected, emergency vents were reversed, and explosive charges were carefully placed at key structural points.
+Vargas and a team of four spent the first twelve hours in Section C's crawlspaces, reconnecting the ancient gas lines. The connections were forty years old, the seals brittle, and Vargas burned through three welding rods getting the main trunk line to hold pressure. He reported to Zara at hour fourteen, grease to his elbows: "It'll work. Once. After that, there's no Section C."
 
-The evacuation was handled with equal care. A "radiation leak" in Section C provided the perfect excuse to clear out the area where they planned to spring their trap. Most of the station's inhabitants were happy to relocate temporarily—radiation was one of the few things that scared hardened pirates.
+"Once is all we need."
 
-Through it all, Zara coordinated with Krieger, who grumbled about the damage to his station but ultimately agreed that the Brotherhood needed to be stopped. He even provided some of his own people to help with the preparations, though he made it clear that Zara would owe him a substantial favour if she survived.
+The evacuation went cleaner. A "radiation leak" in Section C cleared the residents — radiation was one of the few things that scared hardened pirates. Krieger's people helped with the relays and charge placement, though Krieger made it clear Zara would owe him if she survived.
 
 As the deadline approached, long-range sensors detected three ships dropping out of hyperspace at the edge of the system. The Brotherhood had arrived.
 
@@ -214,17 +222,17 @@ The crew's battle cry echoed through the ship. In the weapons bays, gunners made
 
 The main screen split into three sections, showing the faces of her enemies. Marcus Steele was a brute of a man, all scars and cybernetic enhancements. Vera Kowalski was beautiful in a cold, deadly way, her eyes like chips of ice. Alexei Volkov looked like he'd stepped out of a military recruitment poster, all sharp angles and discipline.
 
-"Captain Vega," Steele growled. "You killed our brother. Time to pay the price."
+"Vega!" Steele slammed something off-screen. "You killed our brother. You think you can—"
 
-"Kellerman was no one's brother," Zara replied. "He was a mad dog, and I put him down. If you're smart, you'll turn around and leave before I do the same to you."
+"Marcus." Kowalski's voice cut through like a blade. She hadn't moved. "Let me." She turned to the camera, and when she spoke, her voice was almost warm. "Captain Vega. You've put us in an uncomfortable position. We can't let this stand — you understand that. But I'm a practical woman. Surrender the *Crimson Revenge*, and your crew walks. You have my word."
 
-Kowalski laughed, a sound like breaking glass. "Brave words for someone outnumbered three to one."
+"Your word," Zara said. "Like Kellerman's word to the crews he slaughtered?"
 
-"Numbers aren't everything," Zara said. "Ask Kellerman. Oh wait, you can't."
+Kowalski's warmth didn't flicker. "Kellerman was undisciplined. I'm not."
 
-Volkov spoke for the first time, his accent thick but his words clear. "Enough talk. You have one hour to surrender. After that, we take you by force."
+"One hour," Volkov said. He hadn't raised his voice. He didn't need to. "After that, we come aboard. Resist, don't resist — the outcome is the same. Volkov out."
 
-"Come and try," Zara said, cutting the connection.
+The screen went dark.
 
 She turned to her bridge crew. "Chen, take us out. Make it look like we're running for open space. Kira, prep a spread of torpedoes—I want them to think we're desperate. Jax, signal our people on the station. It's showtime."
 
@@ -238,7 +246,7 @@ The weapons streaked away from the *Crimson Revenge*, forcing the pursuing ships
 
 "New course," Zara commanded. "Bring us around, back toward the station. Make it look like we're trying to use it as cover."
 
-The ship banked hard, its hull groaning under the stress of the maneuver. The Brotherhood ships adjusted their pursuit, closing in like wolves on wounded prey.
+The ship banked hard, hull groaning under the stress. The Brotherhood ships adjusted their pursuit, tightening the formation.
 
 "Distance to Section C?" Zara asked.
 
@@ -268,7 +276,7 @@ The torpedo launched, streaking back toward the expanding gas cloud. The Brother
 
 The torpedo detonated.
 
-The explosion was visible from half the system away, a new star born in the shadow of the Crimson Nebula. The processed gases ignited in a chain reaction, the fireball expanding outward with devastating force. The *Ravager*, closest to the epicentre, simply ceased to exist, vaporised in an instant. The *Blood Moon* and *Void Reaper*, further out, were caught by the shockwave, their shields overwhelmed, their hulls buckled and torn.
+The explosion was visible from half the system away, a new star born in the shadow of the Crimson Nebula. The processed gases ignited in a chain reaction, the fireball expanding outward hard enough to light up the system. The *Ravager*, closest to the epicentre, simply ceased to exist, vaporised in an instant. The *Blood Moon* and *Void Reaper*, further out, were caught by the shockwave, their shields overwhelmed, their hulls buckled and torn.
 
 On the bridge of the *Crimson Revenge*, alarms screamed as the shockwave reached them. The ship bucked like a wild animal, throwing crew members against bulkheads. But Zara had timed it perfectly—they were just far enough away to survive, though not without damage.
 
@@ -310,7 +318,7 @@ But it was on deck nine that the real battle was fought. Volkov himself led the 
 
 "Then we meet him halfway," Zara decided. "Jax, Chen, with me. Everyone else, hold the bridge."
 
-They met Volkov's squad in the main corridor of deck seven. It was brutal, close-quarters combat, the kind where skill mattered less than luck and sheer determination. Zara saw Chen go down, a plasma bolt taking him in the chest. Jax roared in fury, his shotgun thundering as he charged the enemy position.
+They met Volkov's squad in the main corridor of deck seven. It was brutal, close-quarters combat, the kind where skill mattered less than luck and sheer determination. Zara saw Chen stagger — a plasma bolt had grazed his shoulder, melting through his suit's outer layer. He dropped to one knee, still firing with his off hand. Jax roared in fury, his shotgun thundering as he charged the enemy position.
 
 And then she was face to face with Volkov himself.
 
@@ -324,7 +332,7 @@ A flicker of uncertainty in those cold eyes. "What are you talking about?"
 
 "This is deck seven. The same deck that suffered a hull breach earlier." Zara smiled. "The same deck where my engineers have been very busy."
 
-Realization dawned just as Zara triggered the emergency beacon in her pocket. Behind Volkov, explosive bolts fired, and a massive section of the hull blew out into space. The decompression was instant and violent, sucking everything not secured toward the breach.
+Volkov saw it a second too late. Zara triggered the emergency beacon in her pocket. Behind Volkov, explosive bolts fired, and a massive section of the hull blew out into space. The decompression was instant and violent, sucking everything not secured toward the breach.
 
 Volkov's armour was too heavy, his magnetic boots too strong. He stood firm as his unarmoured squadmates were pulled screaming into the void. But Zara had counted on that. As he stood there, alone and off-balance, she didn't try to shoot him.
 
@@ -346,12 +354,14 @@ Zara barely managed to grab onto a support strut, the emergency force field flic
 
 "The *Void Reaper* is pulling back. What's left of her, anyway. No signs of other boarders—I think we got them all."
 
-Zara nodded, suddenly exhausted. They'd won, but at a cost. Good people had died today, and a section of Deadman's Port was nothing but floating debris. But the Crimson Brotherhood had been broken, their three best ships destroyed or crippled.
+Zara nodded. Her hands were shaking. She put them flat on the armrest. They'd won, but at a cost. Good people had died today, and a section of Deadman's Port was nothing but floating debris. But the Crimson Brotherhood had been broken, their three best ships destroyed or crippled.
 
 "Get us back to dock," she ordered. "And someone check on Chen."
 
-As the battered *Crimson Revenge* limped back to Deadman's Port, Zara reflected on the day's events. Diana Marsh had been right—the information she'd provided had been crucial. But Zara knew there would be a price to pay eventually. Corporate spooks didn't do favours for free.
+The *Crimson Revenge* limped back to Deadman's Port trailing debris and venting atmosphere from two decks. Krieger's repair crews were waiting at the dock, already shouting about structural damage to Section C.
 
-But that was a problem for tomorrow. Today, she'd survived. She'd protected her crew and her way of life. In the pirate havens across the outer systems, word would spread. Zara "Bloodhawk" Vega had taken on the Crimson Brotherhood and won. The old ways—theft without unnecessary murder—had been vindicated.
+Zara sat in the captain's chair and watched the damage reports scroll. Hull breaches on three decks. Weapons systems at twelve percent. Chen in the med bay with a plasma burn across his shoulder, refusing painkillers because they made him slow.
 
-As the ship docked and her crew began the long process of repairs and recovery, Zara allowed herself a moment of satisfaction. In the lawless void between the stars, reputation was everything. And hers had just become legend.
+She pulled up Diana Marsh's data chip on her console, scrolled past the Brotherhood specs to that sensor anomaly Chen had flagged — the six-second gravity spike in the *Ravager*'s logs. She stared at the waveform for a while. It didn't match anything in the ship's database.
+
+She saved the file and shut the console down.

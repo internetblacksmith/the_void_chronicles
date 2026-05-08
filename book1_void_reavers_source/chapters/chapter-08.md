@@ -26,7 +26,13 @@ An hour later, Zara led the boarding team through the *Prometheus*'s main airloc
 
 "Atmosphere's stable," Chen reported, checking his scanner. "But I'm reading massive power draws from the engineering section. Whatever they installed back there, it's still running."
 
-They moved deeper into the ship, past crew quarters that hadn't been touched in decades. Dust motes danced in their helmet lights, and personal effects lay scattered where they'd been abandoned forty years ago. Photos of families who'd never made it to their new world, children's toys, half-finished letters home.
+They moved deeper into the ship, past crew quarters that hadn't been touched in decades. Dust motes danced in their helmet lights, and personal effects lay scattered where they'd been abandoned forty years ago. Photos of families who'd never made it to their new world, children's toys, half-finished letters home. In one bunk, a child's drawing — crayon on recycled paper, a house and a sun and a stick-figure family. The colony they'd never reached.
+
+Chen stopped at a maintenance panel in corridor six. Someone had scratched words into the metal with a stylus, the letters rough and unsteady: *Day 312. Saw something outside viewport 7. Moved wrong. Not debris. Not a ship. Asked the captain. He said space makes you see things. Didn't look again.*
+
+"Forty years old," Chen said, running his fingers over the scratches.
+
+"Move on," Zara said. But she photographed it with her helmet cam before she followed.
 
 "Captain," one of the boarding party called out. "You need to see this."
 
@@ -82,21 +88,25 @@ The firefight was brief but intense. The corridors of the *Prometheus* became a 
 
 More corporate soldiers were pushing forward, trying to flank Zara's position. But pirates knew how to fight dirty in close quarters, and the *Prometheus*'s maze-like corridors favoured defenders.
 
-"Captain," Chen's voice crackled over comms. "I'm in engineering. You're not going to believe this, but the quantum drive... it's beautiful. The theoretical work alone is decades ahead of anything published. If we could stabilize it—"
+"Captain," Chen's voice came over comms. Quiet, the way it got when something was either very bad or very good. "I'm in engineering. The drive system is... I don't have words for the theoretical work. Decades ahead of anything published."
 
 "Can you shut it down?"
 
-"Maybe. But Captain, with some modifications, I think I could actually make it work. The researchers were close, so close. They just needed someone who understood field harmonics from a practical standpoint."
+"I've been trying. The code is a mess — seventeen different approaches layered on top of each other, no documentation. I can read maybe sixty percent of it." A pause. "Captain, I need help. Hamilton's chief researcher — the one with the grey hair — she wrote the resonance equations. Without her, I'm guessing."
 
-"Chen, I need a yes or no. Can you shut it down safely?"
+"Jax, find Hamilton's lead researcher and get her to engineering. Now."
 
-A pause. "Not without triggering a cascade. The quantum field is already building. If I just cut power, it'll release all at once. Best case, it fries everything within a million kilometers. Worst case..."
+Three minutes later, Chen came back on. "She's here. Name's Dr. Okoro. She says the shutdown protocol was never finished — they ran out of funding before they could test it." His voice hardened. "She also says she told Hamilton that. He ran the experiments anyway."
+
+"Can the two of you shut it down safely?"
+
+"Not without triggering a cascade. The quantum field is already building. If I just cut power, it'll release all at once. Best case, it fries everything within a million kilometers. Worst case..."
 
 "Rip in space-time."
 
 "Yeah."
 
-Zara's mind raced. They couldn't shut it down, couldn't leave it running, and now they were pinned down by corporate mercenaries who clearly didn't care about the risks.
+They couldn't shut it down. Couldn't leave it running. And now they were pinned down by mercenaries who didn't care about the risks.
 
 "New plan," she decided. "Chen, can you modify the system? Not to shut down, but to redirect?"
 
@@ -146,7 +156,7 @@ Director Hamilton appeared at the end of the corridor, flanked by heavily armed 
 
 "Director Hamilton. The executive with a death wish, apparently."
 
-His jaw tightened. "This research could change everything. Faster-than-light travel without the limitations of jump gates. Humanity could expand beyond our current boundaries, explore galaxies we can barely imagine."
+His jaw tightened. "This research could change everything. Faster-than-light travel without the limitations of conventional FTL. Humanity could expand beyond our current boundaries, explore galaxies we can barely imagine."
 
 "If you don't destroy the galaxies we already have."
 
@@ -198,7 +208,7 @@ And then it was gone. Not an explosion, not a collapse. Simply gone, taking a sm
 
 "Sealed. Chen's counter-wave worked. The quantum field collapsed in on itself instead of spreading."
 
-Zara slumped in her chair, exhaustion hitting her all at once. They'd just prevented a disaster that could have unraveled local space. And barely anyone would ever know.
+Zara sat in her chair and didn't move for a long time. They'd just prevented a disaster that could have unraveled local space. And barely anyone would ever know.
 
 "Captain," Jax said. "Incoming transmission from Director Hamilton."
 
@@ -222,12 +232,10 @@ The connection ended, and Zara watched as the corporate ship jumped to hyperspac
 
 "What's that?"
 
-"Proof that we're more than just thieves. When it mattered, when the stakes were highest, we chose to protect rather than profit." She stood. "That's the kind of pirates we are now. The kind that even corporate directors thank."
+"Proof that some things cost more than they're worth." She stood. "Chen, send the research data to every major university in human space. Anonymised. Let someone else figure out how to do it safely."
 
-As the *Crimson Revenge* jumped to hyperspace, leaving the empty coordinates where the *Prometheus* had met its end, Zara reflected on how far they'd come. From raiders and thieves to something approaching heroes, though she'd never use that word herself.
+"Already done, sir." He caught himself. Set his jaw. Didn't correct it this time.
 
-In the black between stars, legends were growing. Stories of pirates who robbed from the corrupt but saved the innocent. Who faced down impossible odds and universe-ending threats with equal determination.
+The *Crimson Revenge* jumped to hyperspace. On her personal console, Zara pulled up the photo from the *Prometheus* — the scratched words on corridor six's maintenance panel. *Saw something outside viewport 7. Moved wrong.* She added it to the file with the gravity spike from Diana Marsh's data chip and Harrington's harmonic signatures from the TDI encounter.
 
-The age of the old pirates was ending. Something new was being born in the void.
-
-And Captain Zara "Bloodhawk" Vega was writing its rules, one impossible decision at a time.
+Three anomalies. Three different locations. She still didn't know what they meant. But the file was getting thicker.

@@ -6,17 +6,17 @@ Captain Zara Vega stood in The Rock's makeshift tavern, watching her crew celebr
 
 "You're looking troubled for someone who just pulled off the score of the decade," a voice said behind her.
 
-Zara turned to find Marcus Chen—not her pilot Chen, but an older pirate captain she'd known since her early days. His ship, the *Stellar Wanderer*, was docked two bays over.
+Zara turned to find Captain Reyes — an older pirate she'd known since her early days. His ship, the *Stellar Wanderer*, was docked two bays over.
 
-"Marcus," she acknowledged. "Didn't expect to see you in this part of the belt."
+"Reyes."
 
-"Times are changing, Zara. Pirates are gathering, talking about your alliance with Rodriguez. Some think it's the future. Others..." He shrugged. "Others think you've gotten too big for your boots."
+"Zara." He leaned against the bar, not looking at her. "Word in the ports is your alliance with Rodriguez has people talking. Some think it's the future. Others think you're getting too big for the black."
 
-"And which camp are you in?"
+"And you?"
 
-"I'm in the camp that stays alive by minding its own business." He paused, then leaned closer. "But if I were you, I'd watch my back. Word is there's been talk. The kind of talk that happens before blood gets spilled."
+"I mind my own business. But if I were you, I'd watch my crew tonight. Not the ones who are drinking — the ones who aren't."
 
-Before Zara could respond, Marcus was gone, melting back into the crowd. She scanned the room, seeing her crew with new eyes. Most were deep in their cups, guard down, weapons secured. Too comfortable. Too trusting.
+Before Zara could respond, Reyes was gone. She scanned the room, seeing her crew with new eyes. Most were deep in their cups, guard down, weapons secured. Too comfortable. Too trusting.
 
 Her gaze found Jax at the bar, but her first mate wasn't drinking. He was watching the room just as she was, hand never straying far from his sidearm. Their eyes met, and she saw her own concerns reflected there.
 
@@ -26,21 +26,31 @@ It started three hours later, back on the *Crimson Revenge*. Zara was in her qua
 
 "Come."
 
-The door opened to reveal Anton Vasquez, her master-at-arms. He was a newer addition to the crew, picked up after the Brotherhood fight, but he'd proven himself competent. Now he stood in her doorway with two other crew members behind him, all armed.
+The door opened to reveal Anton Vargas, her master-at-arms. The man who'd run the breach charges on the *Stellar Mule*. The man who'd rigged the gas lines at Deadman's Port without complaint. He stood in her doorway with two other crew members behind him, all armed.
 
-"Captain," Anton said, and his voice carried none of its usual deference. "We need to talk about the future of this ship."
+"Captain," Anton said. No deference. No "sir." "We need to talk."
 
-Zara's hand moved casually to her desk drawer where she kept a pistol. "Do we? And what future would that be, Anton?"
+Zara's hand moved to her desk drawer. "About what, Anton?"
 
-"The one where we stop pretending to be heroes and go back to being proper pirates." He stepped into the room, his companions following. "This alliance with Rodriguez, saving transport crews, exposing corruption—it's not what we signed up for."
+"About Patel." He stepped into the room. "You remember Patel? Kid from the escape pod with Osei? Nineteen years old, cargo loader, scared out of his mind?"
 
-"You signed up to follow my orders," Zara said evenly. "Has that changed?"
+Zara's stomach tightened. She remembered Patel.
 
-"Everything's changed. You've changed." Anton's face twisted with frustration. "Do you know what they're calling us in the ports? Vega's Vigilantes. The Bloodhawk's Heroes. We're becoming a joke!"
+"He died three weeks ago. Did you even know? Ruptured suit seal during the *Windrunner* rescue — the one where we burned our sail system saving Rodriguez's strangers. Patel was on the EVA team. His seal failed because we'd used the replacement stock on the sails. On someone else's fight."
 
-"We're becoming rich," Zara countered. "Or did you forget the millions we just scored?"
+"I didn't—"
 
-"Money isn't everything. Respect matters. Fear matters." Anton took another step forward. "The crew's been talking, Captain. More than half think it's time for new leadership. Someone who remembers what piracy is really about."
+"You didn't know. That's the problem." Anton's voice cracked. Not rehearsed — raw. "I rigged your charges at Deadman's Port. I ran your breach on the *Stellar Mule*. I've done everything you've asked. And Patel is dead because you spent our supplies on a ship full of people whose names you don't know."
+
+"We saved twenty-two lives on the *Windrunner*."
+
+"And lost one. But you didn't even notice which one." He was breathing hard now. "The crew's been talking. More than half want new leadership. Someone who counts their own people first."
+
+Zara looked at him. He'd been good. He'd been reliable. He'd been the man she trusted with the charges because his hands didn't shake. Now his hands were shaking, and it wasn't from fear.
+
+"You want to leave, Anton, take whoever wants to go."
+
+"I don't want to leave. I want the ship."
 
 "And I suppose you're volunteering?"
 
@@ -66,7 +76,7 @@ Anton was still alive, crawling toward the door, leaving a trail of blood. Zara 
 
 "How many?" she demanded.
 
-He coughed, blood speckling his lips. "Enough. You're finished, Vega. The age of the soft pirate is over."
+He coughed, blood speckling his lips. "Enough. You're finished, Vega. Your crew knows it even if you don't."
 
 "We'll see about that." She triggered her comm unit. "Jax, Kira, anyone loyal—we have mutineers aboard. Secure the bridge and engineering. Shoot anyone who tries to stop you."
 
@@ -74,7 +84,7 @@ The response was immediate. "Already on it, Captain. They tried to take the brid
 
 Through the ship's corridors, Zara could hear the sounds of combat. Plasma fire, shouting, the distinctive thud of bodies hitting deck plating. Her ship had become a battleground.
 
-She stepped over Anton's body and into the corridor, weapon ready. Two mutineers rounded the corner ahead, saw her, and opened fire. Zara dropped to one knee, returning fire with practiced precision. One went down immediately. The other ducked back around the corner.
+She stepped over Anton's body and into the corridor, weapon ready. Two mutineers rounded the corner ahead, saw her, and opened fire. Zara dropped to one knee, returning fire fast. One went down immediately. The other ducked back around the corner.
 
 "McKenzie!" the hidden mutineer called out. "The captain's in corridor seven!"
 
@@ -82,7 +92,7 @@ More footsteps, running from multiple directions. They were trying to box her in
 
 She found Chen and three loyal crew members holding a defensive position near the lift. They'd overturned cargo containers for cover and were exchanging fire with a larger group of mutineers.
 
-"Captain!" Chen called out, relief evident in his voice. "Thought they might have gotten you."
+"Captain!" Chen called out. He was firing left-handed — the shoulder he'd burned at Deadman's Port still wouldn't take the recoil of a rifle brace. "Thought they might have gotten you."
 
 "Not yet." Zara slid into cover beside him. "Status?"
 
@@ -110,7 +120,7 @@ McKenzie laughed. "Trial? For what? For wanting to be pirates instead of your pe
 
 "Pretty words. But words won't save you when we blow the bridge airlocks. Oh yes," he continued, hearing her sharp intake of breath. "We've got charges planted throughout the ship. Amazing what you can do when half the security team is on your side. Surrender, or I start spacing your loyalists."
 
-Zara's mind raced. If McKenzie had rigged the critical sections with explosives, he could cripple the ship. Even if she won the firefight, they'd all die when life support failed.
+If McKenzie had rigged the critical sections, he could cripple the ship. Even if she won the firefight, they'd all die when life support failed.
 
 "You've got ten minutes to decide," McKenzie added. "After that, people start dying."
 
@@ -156,58 +166,48 @@ In zero-g combat, everything changed. Cover became less important than momentum.
 
 Zara's loyalists were ready. The mutineers weren't.
 
-She flew through the corridors like an avenging angel, picking off confused mutineers who were still trying to orient themselves. Behind her, her small team followed, using walls and ceilings as springboards.
+She flew through the corridors, picking off disoriented mutineers who were still trying to orient themselves. Behind her, her small team followed, using walls and ceilings as springboards.
 
-They reached the armory just as Chen succeeded in cutting the backup power. The massive doors ground open, revealing McKenzie and his core supporters struggling with weapons in the zero-g environment.
+They reached the armory just as Chen succeeded in cutting the backup power. The massive doors ground open, revealing mutineers struggling with weapons in the zero-g environment.
 
-The firefight was brief and vicious. Without cover and caught off-guard, the mutineers were cut down in seconds. McKenzie himself died with a look of shock on his face, unable to believe his perfect plan had failed.
+The firefight was fast. Without cover and caught off-balance, most of the mutineers went down in the first ten seconds. But McKenzie wasn't there.
 
-"Bridge, this is Vega. Armory secured. Status?"
+"Bridge, this is Vega. Armory secured. Where's McKenzie?"
 
-"Holding firm, Captain," Jax replied. "The shutdown caught most of them flat-footed. We're mopping up now."
+Jax's voice was tight. "Shuttle bay two. He took five people and launched thirty seconds ago. We couldn't stop them — the bay doors were already open."
 
-It took another hour to secure the ship completely. When the emergency power was restored and gravity returned, seventeen mutineers lay dead, with another dozen wounded and under guard. Of Zara's loyalists, they'd lost six, with many more injured.
+Zara pulled herself to the nearest viewport. A shuttle was burning hard away from the *Crimson Revenge*, running dark, heading for the outer belt.
+
+"Can we pursue?"
+
+"With what? Engines are at forty percent after the scram. He's gone, Captain."
+
+McKenzie was gone. The man who'd rigged her ship with explosives and threatened to space her crew was out there, free, with five armed loyalists and a grudge.
+
+It took another hour to secure the ship. When gravity returned, fourteen mutineers lay dead, with a dozen wounded and under guard. Six of Zara's loyalists were dead, more injured.
 
 The survivors gathered in the cargo bay that served as their assembly area. The mood was grim. They'd won, but the cost had been high. Trust, once broken, could never be fully restored.
 
-"I know what you're all thinking," Zara said, standing before them. "How did we miss this? How did we let it get this far?" She paused, meeting eyes around the room. "The answer is simple. We got comfortable. We started believing our own legend. We forgot that in our world, comfort is death."
+Zara looked at the restrained mutineers. Twelve survivors, most of them wounded. People she'd eaten with, fought beside, trusted with her life.
 
-She gestured to the restrained mutineers. "These people were our shipmates. Some were our friends. But they chose the past over the future. They chose fear over adaptation. And now they'll face the consequences."
+"They'll be marked and put off at the next port," she said. "Enough credits to book passage out of the system. But they're done. Every pirate crew, every port authority will know what they are."
 
-"What consequences?" someone called out. "Spacing?"
+"Spacing would be simpler," someone muttered.
 
-"No." Zara's voice was firm. "We're not them. We don't murder prisoners. They'll be put off at the next port with enough credits to book passage out of the system. But they'll be marked. Every pirate crew, every port authority will know they're mutineers. They'll never sail the black again."
+"Spacing is what Morrison would have done. Anyone who wants to go with them, go now. Take your share. No judgment."
 
-It was harsh but fair. In their world, reputation was everything. Being marked as a mutineer was almost worse than death.
+Four crew members stepped forward and joined the mutineers. The rest stayed.
 
-"As for the rest of us," Zara continued, "we have decisions to make. Anyone who wants out, who can't follow where I'm leading, now's the time. Take your share and go with my blessing. But if you stay, you commit. No half measures, no looking back. We're building something new here, something that's never been tried before. Pirates with principles. Thieves with honour. It won't be easy, and today proved there will be those who'll try to stop us. But if we stand together, we can change what it means to sail the black."
+Zara counted. Forty-three people remaining, including the wounded. Six dead loyalists, seventeen dead mutineers. The *Crimson Revenge* had started the day with a crew of eighty-two. She was sailing with half that now.
 
-The silence stretched out. Then Jax stepped forward.
+Jax came up beside her. His arm was in a sling. "McKenzie. He'll link up with the Brotherhood holdouts in the outer belt. He's got the skills and the grudge."
 
-"I stand with Captain Vega," he declared. "Today, tomorrow, and until the stars burn cold."
+"I know."
 
-"And I," Kira added, moving to stand beside him.
+"That's going to come back on us."
 
-One by one, the remaining crew made their choice. Most stayed, some left, but all understood that things had changed. The *Crimson Revenge* had been baptized in the blood of betrayal and emerged stronger.
+"I know that too."
 
-Later, as the ship limped toward a repair dock, Zara stood on the bridge, staring out at the stars. Jax joined her, his arm in a sling from the fighting.
+Zara looked at the list of exiled names on her datapad. She didn't recognise all of them. She should have. That was the lesson — she'd stopped knowing her crew, and her crew had stopped knowing her.
 
-"Think we'll have more trouble?" he asked.
-
-"Count on it. Every traditionalist pirate in the black will see us as a threat now. We'll have to watch our backs constantly."
-
-"Nothing new there."
-
-"No," Zara agreed. "But now we're watching for enemies among our own kind. That's harder."
-
-"Maybe. But look at what we kept." Jax gestured to the bridge crew working diligently at their stations. "These people believe in what we're building. They fought for it, bled for it. That's worth something."
-
-"Everything," Zara corrected. "It's worth everything."
-
-As the *Crimson Revenge* disappeared into the darkness between stars, word of the attempted mutiny spread through the pirate network. Some saw it as proof that Vega's way was doomed to fail. Others saw it as evidence of her strength and the loyalty she inspired.
-
-But in the quiet corners of pirate havens, among the younger crews and those tired of the old ways, a different story was told. The story of a captain who faced betrayal from within and emerged victorious, who offered mercy to her enemies and loyalty to her friends.
-
-The story of a new kind of pirate, one who might just survive long enough to change the game entirely.
-
-The revolution had survived its first test. Now came the harder part—making it last.
+She closed the list and went to help with the repairs. The number four relay on Chen's console was blinking amber. Someone had to recalibrate it.

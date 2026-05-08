@@ -4,7 +4,7 @@ Twenty-five years ago...
 
 The cargo hold of the *Fortunate Dream* reeked of fear and recycled air. Zara Vega, barely nineteen and still more girl than woman, pressed herself against a crate of mining equipment, trying to make herself invisible. Around her, two dozen other crew members huddled in similar positions, their faces pale in the emergency lighting.
 
-"They're cutting through the outer airlock," whispered Tommy Chen, the ship's junior navigation officer and Zara's only friend aboard. His hands shook as he gripped an ancient pistol that probably hadn't been fired in years. "Captain Morrison's crew. We're dead. We're all dead."
+"They're cutting through the outer airlock," whispered Tommy, the ship's junior navigation officer and Zara's only friend aboard. His hands shook as he gripped an ancient pistol that probably hadn't been fired in years. "Captain Morrison's crew. We're dead. We're all dead."
 
 Zara's own hands were steady as she checked the charge on the plasma cutter she'd grabbed from the engineering bay. It wasn't much of a weapon, but it was better than nothing. "We're not dead yet."
 
@@ -18,7 +18,7 @@ Captain Holbrook's voice crackled over the intercom. "All hands, this is the Cap
 
 The inner airlock cycled, and they came pouring in. Pirates, armed to the teeth, their faces hidden behind combat masks. They moved with military precision, spreading out to cover all angles. One of them, larger than the rest, removed his helmet to reveal a face that would haunt Zara's nightmares for years to come.
 
-Rex Morrison was handsome in a cruel way, with dead eyes and scars that told stories of violence. He surveyed the cowering crew with the dispassionate gaze of a butcher examining cattle.
+Rex Morrison was handsome in a cruel way, with dead eyes and scars that told stories of violence. He looked at the crew the way a man looks at a parts list.
 
 "Well, well," he said, his voice cultured, almost pleasant. "What have we here? The brave crew of the *Fortunate Dream*, reduced to hiding behind crates like rats." He gestured to his men. "Search them. Take anything valuable. Kill anyone who resists."
 
@@ -38,7 +38,7 @@ A young pirate, probably not much older than Zara herself, was searching through
 
 "Hey, Captain," he called out. "Look at this."
 
-Morrison examined the device, and his cruel smile widened. "Bring her."
+Morrison examined the device and tossed it aside. It skidded across the deck, stopping near Zara's boot. "Bring her."
 
 The pirates dragged out Lisa Park, the ship's communications officer. She was maybe twenty-five, pretty in a wholesome way, with kind eyes that were now wide with terror.
 
@@ -46,7 +46,7 @@ The pirates dragged out Lisa Park, the ship's communications officer. She was ma
 
 Lisa nodded frantically. "My daughter. Please, she's only four. She needs me. Please don't—"
 
-"Don't what?" Morrison's voice was soft, almost gentle. "Don't take her mother away? Don't leave her an orphan?" He walked around Lisa slowly, like a predator circling prey. "Tell me, Lisa—may I call you Lisa?—what do you think your daughter would say if she knew mommy worked for the corporations that orphan thousands of children every year in their mining operations?"
+"Don't what?" Morrison's voice was soft, almost gentle. "Don't take her mother away? Don't leave her an orphan?" He walked around Lisa slowly, his boots deliberate on the deck. "Tell me, Lisa—may I call you Lisa?—what do you think your daughter would say if she knew mommy worked for the corporations that orphan thousands of children every year in their mining operations?"
 
 "I'm just a comm officer," Lisa sobbed. "I don't make those decisions. Please, I'll do anything—"
 
@@ -72,7 +72,7 @@ Every weapon in the room swung toward her. Morrison paused, his pistol still aim
 
 Morrison lowered his pistol slightly. "You'd die for her? Someone you probably barely know?"
 
-"She has a daughter," Zara said simply. "I have no one. If someone has to die today, it should be me."
+"She has a daughter," Zara said. "I have no one. If someone has to die today, it should be me."
 
 "Interesting." Morrison studied her like she was a particularly fascinating specimen. "How old are you, girl?"
 
@@ -88,7 +88,7 @@ Morrison lowered his pistol slightly. "You'd die for her? Someone you probably b
 
 "Would you? If I gave you a choice—kill Lisa here yourself, or watch me kill everyone in this room?"
 
-The cargo hold went deadly silent. Zara felt the weight of every eye upon her. Her mind raced, searching for the right answer, the magic words that would save them all. But there were no magic words with men like Morrison. There was only survival.
+The cargo hold went silent. Every eye on her. There were no right words with men like Morrison. There was only what you did next.
 
 "I'd kill you," she said finally.
 
@@ -100,7 +100,9 @@ Morrison's smile widened. "There it is. The honest answer." He holstered his pis
 
 It wasn't really a choice at all.
 
-As the pirates led her away, Zara caught Tommy's eye. He was crying, whether from fear or for her, she couldn't tell. Lisa Park was sobbing with relief, clutching her holo-projector like a lifeline.
+As the pirates led her away, Zara caught Tommy's eye. He was crying, whether from fear or for her, she couldn't tell. Lisa Park was on the deck, sobbing, her arms wrapped around herself.
+
+The holo-projector lay face-up by the crate where Zara had been hiding, still glowing — Lisa and her daughter, smiling, before everything. Zara bent as if adjusting her boot and slipped it into her jacket.
 
 The last thing Zara heard before the airlock sealed was Captain Holbrook's voice, broken and defeated: "May God forgive us all."
 
@@ -150,7 +152,7 @@ Zara didn't waste the opportunity. She kicked him hard in the knee, feeling some
 
 It wasn't enough to drop him, but it was enough to make him angry. And angry people made mistakes.
 
-"Two minutes," Morrison said, and was that approval in his voice?
+"Two minutes," Morrison said. His voice hadn't changed, but his posture had. He was leaning forward.
 
 Kroeger charged blind, relying on brute strength. Zara danced aside, letting momentum carry him into the ropes. She grabbed his hair, yanking his head back, and brought her knee up into his nose. Blood exploded across his face.
 
@@ -168,100 +170,192 @@ Her teeth sank into his forearm, tasting blood and sweat. Kroeger screamed, loos
 
 The room was silent. Kroeger stood there, blood streaming from his nose and arm, looking at Zara with something between rage and respect. She stood on shaky legs, bloodied but unbroken.
 
-Morrison stepped into the ring. "Interesting. Very interesting." He turned to address the room. "Let this be a lesson. Size and strength are advantages, but they're not everything. Determination, cunning, the will to survive by any means necessary—these are what make a true pirate."
+Morrison stepped into the ring. He didn't address the crowd. He looked at Zara the way he'd looked at Lisa Park's holo-projector — with a collector's interest.
 
-He looked back at Zara. "You've earned your life, girl. Whether you keep it depends on what you do next."
+"You've earned your life, girl. Whether you keep it is another question."
 
 "What do you want from me?"
 
-"I want to see what you become," Morrison said. "I've raided a hundred ships, killed more people than I can count. It all becomes routine after a while. But you... you interest me. A girl who would trade her life for a stranger's, then fight like a demon to keep it. There's potential there."
+"I want to know what you'll do next." He crouched so they were at eye level. Up close, his face was worse — not the scars, but the absence behind the eyes. "Anyone can fight when they're cornered. I want to know what you'll fight for when you have a choice."
 
-"Potential for what?"
+"And if I choose not to fight at all?"
 
-"To become like me, of course." His smile was cold. "Or to die trying."
+Morrison stood. "Then you're not interesting. And I don't keep uninteresting things."
 
-That night, in her cell, Zara examined her injuries. Split lip, bruised ribs, various cuts and contusions. But she was alive. More than that, she'd learned something important. Morrison might be a monster, but he was a monster with rules. With patterns. And patterns could be exploited.
+That night, in her cell, Zara examined her injuries by the glow of a chemical light stick. Split lip, bruised ribs, a loose tooth she'd have to deal with. She pressed the holo-projector — Lisa Park's — against the cold wall and turned it on. Lisa's face, her daughter's face. Two people who were alive because Zara had opened her mouth when she should have stayed quiet.
 
-Over the following weeks, her training began in earnest. Combat, weapons, tactics, ship operations—Morrison's crew taught her everything they knew. Some were cruel about it, taking pleasure in beating down the newcomer. Others, surprisingly, were almost kind, seeing in her a younger version of themselves.
+She turned it off and put it back in her jacket. She didn't sleep.
 
-She learned that many of Morrison's crew hadn't chosen this life. Some were pressed into service like her. Others were refugees from corporate wars, discharged soldiers, or simply people who'd fallen through the cracks of civilization. Morrison collected the desperate and the dangerous, forging them into an efficient killing machine.
+---
 
-But efficiency wasn't the same as loyalty. Zara saw the fear in their eyes when Morrison was near, the way conversations died when he entered a room. They followed him because he was strong, because he was successful, and because crossing him meant death.
+Six weeks in, Morrison took her to watch a raid's aftermath.
 
-Three months into her new life, Zara participated in her first raid. It was a small transport, barely worth the effort, but Morrison wanted to blood his newest recruit.
+The transport was already secured — a small hauler, crew of nine, cargo stripped. Morrison's people had lined the crew against the bulkhead. Nine faces, ranging from terrified to resigned.
 
-"Remember," he told her as they prepared to board. "Hesitation is death. Either theirs or yours. Choose."
+Morrison walked the line. "Tell me what you see," he said to Zara.
 
-The raid was a blur of violence and terror. Zara found herself moving on instinct, her training taking over. When a transport crewman raised a weapon toward her, she shot first, watching him fall with a detached sort of horror.
+"People."
 
-"Good," Morrison said afterward, examining the body. "Clean shot, centre mass. You're learning."
+"Try again."
 
-But that night, Zara couldn't sleep. The man's face haunted her—middle-aged, greying hair, wedding ring on his finger. Someone's husband. Someone's father. Gone because she'd been faster on the trigger.
+She looked harder. The captain — a woman in her fifties, jaw set, watching Morrison the way a fighter watches an opponent. Two engineers, young, both shaking. A medic with blood on her hands from treating a wounded crewmate. A cargo handler who was crying silently. The rest were faces she'd forget.
 
-"It gets easier," said a voice from her doorway. She looked up to see Marcus, one of the older pirates. He was one of the few who'd shown her any kindness. "The killing, I mean. After a while, you stop seeing faces. Just targets."
+"The captain's memorising us," Zara said. "She'll report everything."
 
-"Is that supposed to be comforting?"
+"Good. What else?"
 
-Marcus shrugged. "It's survival. Morrison's right about one thing—in this life, it's kill or be killed. The sooner you accept that, the longer you'll live."
+"The medic's dangerous. She's calm."
 
-"Did you have a choice?" Zara asked. "When you started?"
+"She's a medic. She's seen worse than us." Morrison stopped in front of the crying cargo handler. "And this one?"
 
-"We all have choices," Marcus said quietly. "Just not always good ones."
+"He's not a threat. Let him go."
 
-As the months passed, Zara threw herself into learning everything she could. Not just the skills Morrison's crew taught, but the man himself. She studied his patterns, his moods, his weaknesses. Morrison was brilliant, charismatic, and utterly ruthless—but he was also arrogant. He believed his own legend, thought himself invincible.
+"Let them all go?"
 
-That arrogance would eventually kill him. Zara just had to survive long enough to see it.
+"No." Zara hated the word as she said it. "The captain goes into a lifepod without a nav computer. She lands somewhere eventually, but she can't report for weeks. The rest walk."
 
-Her chance came almost two years after her capture. The *Blood Harvest* had been tracking a prize for weeks—a military supply convoy disguised as civilian transports. Morrison's sources insisted it was carrying experimental weapons worth a fortune on the black market.
+Morrison studied her. "Why not kill the captain?"
 
-"It's too well-guarded," argued Vance, Morrison's first mate. "Four ships, all armed. Even if they're pretending to be civilians, they'll have teeth."
+"Because you don't need to. A dead captain is a martyr. A lost captain is just paperwork."
 
-"All the more reason to take them," Morrison countered. "Think of the reputation we'll gain. The crew that took down a military convoy."
+Morrison didn't smile. He never smiled when he was genuinely pleased. He just nodded, once, and gave the order.
 
-Zara kept quiet during the planning sessions, but she noticed things. The convoy's route was too convenient, their security too obvious. It felt like a trap. But Morrison's ego wouldn't let him see it.
+Afterward, in the corridor, he said: "Most people think cruelty is about enjoying the pain. It's not. It's about being too lazy to find another way."
 
-The attack began like any other. The *Blood Harvest* dropped out of hyperspace, weapons hot, demanding surrender. The convoy scattered, just as expected. Morrison split his forces to pursue, just as expected.
+Zara didn't answer. She was thinking about the cargo handler, the one who'd been crying. He'd looked like Tommy.
 
-And then the trap was sprung.
+---
 
-What had appeared to be four transports revealed themselves as military corvettes, bristling with weapons. Hidden fighters launched from concealed bays. In seconds, the hunters became the hunted.
+Two months later, on a raid gone sloppy, Zara had a clear shot at a woman reaching for something under a console. Her finger was on the trigger.
 
-"It's an ambush!" Vance screamed. "All ships, evasive maneuvers!"
+The woman pulled out a photograph. Not a weapon. A photograph of a boy in a school uniform.
 
-But it was too late. Morrison had committed too fully, spread his forces too thin. The *Blood Harvest* shuddered under a barrage of missile impacts. Secondary explosions rocked the ship as systems overloaded.
+Zara didn't fire.
 
-"Abandon ship!" someone yelled, but Morrison shot them for cowardice.
+Morrison found out. He beat her in the corridor outside the mess hall — three hits to the ribs, methodical, not angry. "Hesitation is death," he said. "Yours or theirs. That woman had thirty seconds to pull a weapon. You gave them to her."
 
-"We fight!" he roared. "We're Rex Morrison's crew! We don't run!"
+"She didn't have a weapon."
 
-But bravado couldn't stop physics. A torpedo found the main reactor, and suddenly the ship was coming apart. Zara was thrown against a bulkhead as gravity failed. Emergency lighting bathed everything in hellish red.
+"This time." He walked away.
 
-She found herself at an escape pod, along with Marcus and a handful of others. Morrison was still on the bridge, still firing, still refusing to accept defeat.
+Zara lay on the deck for a while. Her ribs screamed. The woman was alive. She decided that was worth three broken ribs.
 
-"We have to go!" Marcus shouted, pulling her toward the pod.
+---
 
-"Wait!" But he was already shoving her inside, slamming the launch button.
+Osei found her in the mess hall that night, icing her side with a stolen cold pack. He was one of the oldest crew on the *Blood Harvest* — a navigator pressed into service a decade ago, kept alive because he could read stellar drift patterns better than anyone Morrison had ever met.
 
-The pod ejected just as the *Blood Harvest* exploded. Through the small viewport, Zara watched the ship that had been her prison and her school dissolve into superheated gas. Morrison's final transmission echoed through the pod's speakers—defiant to the end, cursing his enemies even as they burned.
+He sat across from her with two cups of the black tar the ship's galley called coffee and spread a grease-stained navigation chart between them.
 
-The military ships didn't pursue the escape pods. They'd accomplished their mission, eliminated a major pirate threat. The survivors were left to drift, hoping for rescue that might never come.
+"You're trying to learn Morrison," he said. "That's smart. But you're looking at the wrong thing."
 
-It was three days before a salvage crew found them. Three days of dwindling air and water, of deciding who would live and who would die if rescue didn't come. Marcus gave his ration to the younger crew members. He was dead when the salvagers cut open the pod.
+"What should I be looking at?"
 
-The salvage crew didn't ask questions. In the outer systems, survivors were survivors, and their money was as good as anyone's. Zara and the others used what little they had to buy passage to the nearest port, scattering to the four winds.
+"The crew." He traced a route on the chart with his thumb. "Morrison thinks fear is loyalty. Every captain I've served under was crazy in a different way, but that's Morrison's particular flavour. Fear makes people obey. It doesn't make them stay." He tapped the chart. "The void has patterns. So do people. Morrison's people stay because they're afraid to leave, not because they want to be here. That's a pattern. And patterns break."
 
-But Zara didn't run far. Morrison was dead, but his lessons lived on. She'd learned how to survive in the void, how to take what she needed. More importantly, she'd learned what not to do. Morrison's cruelty had made him enemies. His arrogance had made him predictable. His lack of mercy had ensured no one mourned his passing.
+"When?"
 
-She would be different. She would be better.
+"When something scares them more than he does."
 
-Standing in a dingy bar on a station whose name she'd already forgotten, Zara raised a glass of rotgut whiskey to the memory of Marcus, the man who'd saved her life. To Lisa Park and her daughter, who might never know a stranger had traded her life for theirs. To all the victims of Rex Morrison, herself included.
+Zara looked at the chart. "You're teaching me navigation."
 
-"Never again," she whispered, and drank.
+"I'm teaching you to read patterns." Osei drank his coffee. "Navigation's just the excuse."
 
-She was twenty-one years old, alone in the universe, with blood on her hands and hard-won skills in her head. She could try to return to civilian life, get a legitimate job, pretend the last two years hadn't happened.
+---
 
-Or she could take Morrison's lessons and forge them into something new. Piracy without cruelty. Theft without murder. A code that even criminals could follow.
+The *Blood Harvest* died eight months later.
 
-The choice, as Marcus had said, wasn't a good one. But it was hers to make.
+Morrison had been tracking a military supply convoy for weeks. Four ships, disguised as civilian transports. His sources said experimental weapons, worth a fortune.
 
-Zara "Bloodhawk" Vega finished her drink and went to find a ship. Her real education was about to begin.
+Zara saw the trap. The convoy's route was too clean — no deviations, no course corrections, as if someone wanted it found. She told Vance, Morrison's first mate. Vance told Morrison. Morrison called Zara to the bridge.
+
+"You think it's bait," he said.
+
+"The spacing between the ships is wrong. Military convoys hold tight formation. These are spread wide, like they want us to split our forces to pursue."
+
+"Or like they're civilian transports with bad captains."
+
+"Captain—"
+
+"I didn't ask for your assessment, girl. I asked if you think it's bait. You think it is. Noted." He turned back to the tactical display. "All ships, attack formation."
+
+The *Blood Harvest* dropped out of hyperspace, weapons hot. The convoy scattered. Morrison split his forces. Everything went exactly the way Zara had said it would.
+
+The four transports shed their civilian hulls and became military corvettes. Fighters launched from concealed bays. In fifteen seconds, the hunters were boxed in.
+
+"It's an ambush!" Vance screamed.
+
+Morrison didn't scream. He fought. He was still fighting when the torpedo found the main reactor and the ship started coming apart. The deck buckled under Zara's feet. Gravity failed. Emergency lighting went red.
+
+She found the escape pod by feel — hands on bulkheads, boots off the wall in zero-g, the muscle memory of two years aboard this ship. Osei was already there, holding the hatch for her and three others.
+
+"Go!" he shouted.
+
+"Morrison—"
+
+"Morrison is dead. Go."
+
+He shoved her inside and hit the launch. The pod kicked free. Through the small viewport, Zara watched the *Blood Harvest* break apart — not an explosion but a disassembly, the hull peeling back in layers as the reactor went critical. Morrison's last transmission came through the pod's speakers: a string of profanity, then static.
+
+The military ships let the pods drift. They'd killed Morrison. That was enough.
+
+Three days in the pod. Five people, air for four. Osei did the math before anyone else did. He gave his ration pack to the youngest — a boy named Patel who'd been a cargo loader six months ago.
+
+On the second day, Osei taught Zara one more navigation trick: how to calculate drift vectors from stellar position alone, no instruments. "In case you're ever in a pod with no nav computer," he said. "Which, at the moment..."
+
+On the third day, a salvage crew cut the pod open. Osei was sitting upright in his seat, eyes closed. He'd stopped breathing sometime in the night. The cold pack Zara had used on her ribs was in his lap. He'd been holding it for warmth.
+
+---
+
+The salvage crew dropped them at Meridian Hub, a station in the outer belt that survived on repair work and no questions. Zara used her share of the salvage payment to buy a bunk for a week. She had enough left for food or for one more thing.
+
+She chose the one more thing.
+
+It took her two days to find Lisa Park. Morrison's intelligence files — she'd copied a data chip from his ready room months ago, before she'd known why — had crew manifests for every ship he'd ever raided. The *Fortunate Dream*'s crew list included home addresses.
+
+Lisa Park lived on Meridian Hub. She'd transferred here after the raid, taken a comms job at the station's freight coordination office. Her daughter was in the station school.
+
+Zara found the apartment on C-deck, residential section, a corridor that smelled like recycled air and cooking oil. She stood outside the door for a long time. Her reflection in the polished metal wall was someone she barely recognised — thinner, harder, the scar above her ear still pink from Kroeger's ring.
+
+She knocked.
+
+The door opened. Lisa Park looked older than twenty-seven. Her eyes were careful, the way people's eyes get when they've learned that strangers at the door are never good news.
+
+Behind Lisa's legs, a girl — six, maybe seven — peered up at Zara through the gap.
+
+Lisa didn't recognise her. There was no reason she would. The last time they'd been in the same room, Zara had been a terrified nineteen-year-old crouching behind a crate.
+
+"I knew someone who served on the *Fortunate Dream*," Zara said. "He wanted me to give you this."
+
+She held out the credit chip. Everything she had from the salvage payment, minus the bunk.
+
+Lisa took it, confused. She turned it over, checked the balance. Her eyes widened. "This is... who are you? Who gave you this?"
+
+"Someone who owed a debt."
+
+"I don't understand."
+
+Zara looked at the daughter. The girl had Lisa's eyes — the same eyes from the holo-projector, two years older, watching Zara with the frank curiosity of a child who hasn't learned to be afraid yet.
+
+"You don't need to understand," Zara said. "Just — take care of her."
+
+Lisa looked at the chip, looked at Zara's face — the scar, the hard eyes, the way she stood with her weight on the balls of her feet, ready to move. Something crossed Lisa's expression. Not recognition, exactly. More like the shadow of a question she wasn't sure she wanted to ask.
+
+"Thank you," Lisa said.
+
+Zara nodded. She turned and walked down the corridor. Behind her, the door closed. The lock clicked.
+
+In her jacket pocket, the holo-projector sat against her ribs. She didn't take it out. She didn't need to see the image. She knew it by heart — Lisa and her daughter, before everything, smiling at a camera in a life that didn't exist anymore.
+
+She kept walking.
+
+---
+
+The hiring board on Meridian Hub was a wall of battered screens in the station's main concourse. Most of the postings were legitimate — cargo runs, repair contracts, survey crews. A few were less legitimate, written in the kind of careful language that meant *don't ask what we're hauling*.
+
+Zara found one that needed an engineer. The ship was a modified corsair, undermanned, running routes in the outer belt. The captain's name was someone she didn't know.
+
+She wrote her name on the sign-up sheet: *Z. Vega. Engineer. Available immediately.*
+
+She walked to the docking bay. The ship was ugly — scarred hull, patched plating, one engine nacelle running hotter than the other. She'd seen worse.
+
+She went aboard.

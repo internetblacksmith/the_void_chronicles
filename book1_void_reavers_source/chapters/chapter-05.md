@@ -14,7 +14,7 @@ Zara studied the sensor data. Five ships, moving in formation through the astero
 
 "Most likely. That's the Solar Wind Brotherhood's territory. Captain Rodriguez's crew."
 
-Zara knew Rodriguez by reputation. Unlike the late Marcus Kellerman, he wasn't a butcher. But he was ambitious, always looking to expand his territory and influence. The Solar Wind Brotherhood controlled the lucrative inner system routes, preying on the constant stream of traffic between Earth, Mars, and the belt colonies.
+Zara knew Rodriguez by reputation. She wasn't a butcher. But she was ambitious, always expanding her territory. The Solar Wind Brotherhood controlled the lucrative inner system routes, preying on the constant stream of traffic between Earth, Mars, and the belt colonies.
 
 "They've seen us," Kira noted. "Two ships breaking formation, moving to intercept."
 
@@ -68,25 +68,17 @@ Zara gave her an edited version of events, emphasizing the tactical elements whi
 
 It was a philosophy Zara could appreciate. "And it's worked for you."
 
-"For five years now. The Solar Wind Brotherhood controls the most profitable routes in human space, and we've done it without a single massacre. Oh, we've killed when necessary," she added, seeing Zara's expression. "But discriminate violence is bad for business. Dead crew can't haul cargo, destroyed ships can't be robbed again."
+"Five years now. We run the most profitable routes in human space, and we've done it without a massacre. We've killed when we had to," she added, seeing Zara's expression. "But dead crew can't haul cargo. Destroyed ships can't be robbed twice."
 
-"You sound like a businesswoman, not a pirate."
+"You sound like an accountant."
 
-"Is there a difference?" Rodriguez stood, moving to the viewport that showed her small fleet against the backdrop of the asteroid field. "The corporations would have you believe we're all bloodthirsty monsters. But most of us are just trying to survive in a system that's rigged against anyone not born into wealth or power."
-
-She turned back to Zara. "Take my crew, for instance. Former miners who got screwed when their company went bankrupt and left them stranded. Ex-military who couldn't adjust to civilian life. Refugees from the water wars on Mars. Good people who found themselves on the wrong side of legal."
-
-"And you gave them purpose."
-
-"I gave them a choice. Follow the rules, share the wealth, and everyone prospers. It's not complicated."
+"I used to be a miner. Same thing, different spreadsheet." Rodriguez stood and moved to the viewport. "Half my crew are ex-miners from companies that went bankrupt and left them stranded. The other half are people the system chewed up and spat out. I didn't give them a speech about purpose. I gave them a cut and some rules."
 
 Zara studied the other woman. Rodriguez was what Morrison could have been if he'd possessed vision beyond his own gratification. She'd built something sustainable, a criminal enterprise that functioned more like a business than a raiding party.
 
 "Why are you telling me this?" Zara asked.
 
-"Because I think we're more alike than different," Rodriguez said. "You killed Kellerman not because he was competition, but because he violated the unwritten rules. You leave crews alive, make repairs even as you rob them. You understand that fear is a tool, but terror is a weakness."
-
-She returned to her seat, refilling both their glasses. "I have a proposition for you, Captain Vega. An alliance of sorts."
+"Because you didn't kill Kellerman for the money," Rodriguez said. "You killed him because he was bad for business — ours, theirs, everyone's." She refilled both glasses. "I have a proposition."
 
 "I'm listening."
 
@@ -136,13 +128,11 @@ Rodriguez stared at her. "You'd risk your ship for my crew? Why?"
 
 "Agreed. And Captain Vega?" Rodriguez extended her hand. "Whatever happens, you've just made a friend."
 
-They shook, and Zara hurried back to her ship. As the *Crimson Revenge* unfurled her golden sails and leaped forward on the solar wind, she reflected on the irony. She'd spent years building a reputation as a lone wolf, and here she was racing to save strangers because it was the right thing to do.
-
-Morrison would have called her weak. But Morrison was dead, and Zara was very much alive.
+They shook, and Zara hurried back to her ship. As the *Crimson Revenge* unfurled her golden sails and leaped forward on the solar wind, she reflected on the irony. She'd spent years operating alone. Now she was racing to save another crew's people. She wasn't sure when the math had changed.
 
 "All hands," she announced over the intercom. "We're moving to assist friendly forces under corporate attack. I know this isn't our fight, but if we let the corporations pick us off one by one, none of us will survive. Battle stations in sixty minutes."
 
-The crew responded with practiced efficiency. Whatever their personal feelings about helping another pirate crew, they trusted their captain's judgment. That trust, Zara knew, was worth more than any treasure.
+The crew responded with practiced efficiency. Whatever their feelings about helping another crew, they moved.
 
 "Sensor update," Jax reported. "The *Windrunner* is running, but they're not fast enough. Corporate forces will overtake them in... mark, ninety-three minutes."
 
@@ -234,7 +224,9 @@ Harrington studied her for a moment. "Perhaps not. My orders were to eliminate t
 
 "I've got plenty of those already, Commander. One more won't keep me up at night."
 
-Harrington almost smiled. "No, I don't suppose it will. Until next time, Captain Vega."
+Harrington almost smiled. "No, I don't suppose it will." He paused, as if deciding whether to say something else. "One more thing, Captain. Our deep-space sensors have been picking up odd harmonic signatures near the Jupiter trojans. Quantum fluctuations that don't match any known drive system. If your people encounter anything... unusual out there, I'd be interested to hear about it. Professionally."
+
+"I'll keep that in mind, Commander."
 
 The transmission ended, and Zara watched as the corporate fleet began to withdraw, the two functional corvettes towing their disabled companion. It wasn't a victory, exactly, but it wasn't a defeat either.
 
@@ -248,20 +240,16 @@ Rodriguez's ships arrived twenty minutes later, forming a protective screen whil
 
 "They're pirates," Zara said, not looking up from the damaged launcher she was helping to repair. "We look after our own."
 
-"Not all of us do. But you're right, we should." Rodriguez was quiet for a moment. "That alliance I mentioned? Consider it signed and sealed. The Solar Wind Brotherhood stands with Captain Zara Vega."
+"Not all of us do." Rodriguez picked up a wrench and started on the next bolt without being asked. "That alliance I mentioned? We're past the negotiation phase. You just bought in."
 
-"And the *Crimson Revenge* stands with you."
+"I didn't agree to fifteen percent."
 
-They shook hands again, this time with the weight of shared combat behind it. In the lawless void between worlds, such bonds were rare and precious.
+"Twelve. Combat discount." Rodriguez torqued the bolt. "Don't push it."
 
-Later, as her ship limped toward a repair dock in the belt, Zara received another encrypted message. This one was from the young captain of the *Windrunner*, a girl who couldn't have been more than twenty-two.
+Later, as her ship limped toward a repair dock in the belt, a message came through from the *Windrunner*'s captain — a woman named Amara Iyer who couldn't have been more than twenty-two.
 
-"Captain Vega, I don't know how to thank you. They would have killed us all. I've heard the stories about you, about how you operate. If you ever need anything, anything at all, the *Windrunner* is yours to command. We owe you our lives."
+"Captain Vega, they would have killed us. If you ever need anything — anything — the *Windrunner* is yours to command."
 
-Zara saved the message. In their line of work, loyalty was more valuable than credits. Today, she'd invested in both.
+Zara saved the message. Then she pulled up the sensor logs from the battle and looked at the TDI cruiser's approach vector. Harrington's mention of harmonic signatures near the trojans. The gravity spike in the *Ravager*'s logs from Diana Marsh's data chip. Two anomalies, months apart, in different sectors. Probably nothing.
 
-The solar winds continued to blow, carrying ships and dreams across the vast emptiness. And somewhere in that cosmic hurricane, word spread of the battle, of pirates standing together against corporate might, of Captain Zara "Bloodhawk" Vega adding another chapter to her growing legend.
-
-In the depths of space, alliances were forming that would reshape the balance of power among the stars. The lone wolves were learning to hunt in packs, and the corporations were beginning to take notice.
-
-The game was changing, and Zara intended to help write the new rules.
+She closed the file and went to check on the sail repairs.
