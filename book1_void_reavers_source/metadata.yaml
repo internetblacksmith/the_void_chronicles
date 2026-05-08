@@ -9,7 +9,7 @@ license_url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 # Publishing metadata
 isbn: "YOUR-ISBN-HERE"
 publisher: "Self Published"
-publication_date: "2024"
+publication_date: "2026"
 
 # Book configuration
 chapters:
@@ -49,27 +49,3 @@ chapters:
   - number: 12
     title: "The Last Stand at Neptune's Edge"
     file: "chapters/chapter-12.md"
-  - number: 13
-    title: "The Ambassador's Gambit"
-    file: "chapters/chapter-13.md"
-  - number: 14
-    title: "Echoes of the Past"
-    file: "chapters/chapter-14.md"
-  - number: 15
-    title: "The Quantum Academy"
-    file: "chapters/chapter-15.md"
-  - number: 16
-    title: "Pirates' Honor"
-    file: "chapters/chapter-16.md"
-  - number: 17
-    title: "The Colonial Uprising"
-    file: "chapters/chapter-17.md"
-  - number: 18
-    title: "Shadows Return"
-    file: "chapters/chapter-18.md"
-  - number: 19
-    title: "The Price of Freedom"
-    file: "chapters/chapter-19.md"
-  - number: 20
-    title: "New Horizons"
-    file: "chapters/chapter-20.md"
