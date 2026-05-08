@@ -54,3 +54,6 @@ gosec-report.json
 
 # Bundler local config (Ruby/Kamal)
 .bundle/config
+
+# Generated EPUB output
+*.epub
